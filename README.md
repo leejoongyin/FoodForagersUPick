@@ -1,4 +1,8 @@
-<b> Introduction to UPick </b>
+# UPick
+## Setup
+`npm install` in the root directory. `expo start` or `npm start` to run the application.
+
+## Introduction to UPick
 
 You are hanging out with a group of friends and someone brings up the all-important question: “Where should we eat?” Several seconds of silence pass and no one has the slightest clue of what they want to eat. A unanimous “I don’t know, up to you.” The casual and friendly gathering quickly becomes rife with uncertainty and indecision. It is often easy for these situations to lead to large amounts of time and energy wasted, so to help alleviate the indecisiveness, we developed the mobile application UPick. UPick will recommend a restaurant in the area based on user-set food preferences, recommend a restaurant in the area based on user-set ideas, and recommend recipes  for those who want to cook their own tasty meals at home. 
 
