@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import './HomePage';
 import HomePage from './HomePage';
+import GroupAccomadationsPage from './GroupAccomadationsPage';
 import NextPage from './NextPage';
 import Navbar from './Navbar';
 import styles from './styles';
@@ -20,7 +21,7 @@ class App extends Component {
     super(props);
     
     this.state = {
-      isDarkmode: false 
+      isDarkmode: true 
     };
     var mode = (this.getIsDarkmode() ? styles.darkmode : styles.lightmode);
     console.log(mode);
@@ -44,6 +45,7 @@ class App extends Component {
         <Stack.Navigator initialRouteName="Home" options = {{isDarkmode: this.getIsDarkmode() }}>
           <Stack.Screen name="Home" component={HomePage} options={{headerShown: false}} initialParams={{ isDarkmode: this.getIsDarkmode(), toggleDarkmode: this.toggleDarkmode.bind(this), getIsDarkmode: this.getIsDarkmode.bind(this) }}/> 
           <Stack.Screen name="Next Page" component={NextPage} options={{headerShown: true, headerTransparent: true, headerTintColor: (this.getIsDarkmode()?'white':'black') }} initialParams={{ mode: this.mode}} />
+          <Stack.Screen name="Group Accomadations" component={GroupAccomadationsPage} options={{headerShown: true, headerTransparent: true, headerTintColor: (this.getIsDarkmode()?'white':'black') }} initialParams={{ mode: this.mode, isDarkmode: this.getIsDarkmode() }} />
         </Stack.Navigator>
       }</NavigationContainer>
     );

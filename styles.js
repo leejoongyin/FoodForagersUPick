@@ -1,8 +1,7 @@
-import { StyleSheet } from 'react-native';
-
+import { StyleSheet, Dimensions } from 'react-native';
 const darkBG = '#121212';
 const liteBG = 'white';
-const accentColorPrim = '#992929';
+const accentColorPrim = '#8CB4EF';
 const accentColorSec = '#441111';
 const isDarkmode = true;
 
@@ -13,6 +12,24 @@ const styles = StyleSheet.create({
       alignContent: 'center',
       flexDirection: 'column'
     },
+    containerModule: {
+      height: 200, 
+      width: 250,  
+      flex: -1,
+      alignItems: 'center',
+      borderColor: 'white',
+      alignContent: 'center',
+      flexDirection: 'column'
+    },
+    containerList: {
+      flex: 1,     
+      alignItems: 'center',
+      width: '100%',
+      padding: 5,
+      alignContent: 'center',
+      flexDirection: 'column'
+    },
+
     mainViewer: {
       flex: 1,
       flexDirection: 'column',
@@ -62,8 +79,7 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       fontSize: 25
     },
-    navbarText: {
-      
+    navbarText: {      
       fontSize: 25
     },
     default: {
@@ -83,9 +99,42 @@ const styles = StyleSheet.create({
       borderWidth: 0,
       borderColor: (isDarkmode?'white':'black')
     },
+    buttonEnabled: {
+      backgroundColor: accentColorPrim
+    },
     beginButtonText: {
       backgroundColor: '#999999',
       fontSize: 20
+    },
+    button: {
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+      backgroundColor: '#999999',
+      padding: 10,
+      height: 50,
+      width: '50%',
+      borderRadius: 10,
+      borderWidth: 0,
+      borderColor: (isDarkmode?'white':'black'),
+    },
+    buttonFocused: {
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+      backgroundColor: '#999999',
+      padding: 10,
+      height: 50,
+      width: 0.6*Dimensions.get('window').width,
+      borderRadius: 10,
+      borderWidth: 0,
+      borderColor: (isDarkmode?'white':'black'),
+    },
+    outline: {
+      borderWidth: 1,
+      borderColor: 'red',
     },
     padding: {
       height: 20

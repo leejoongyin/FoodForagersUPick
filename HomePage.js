@@ -14,7 +14,7 @@ class HomePage extends React.Component {
     this.state = {
       isDarkmode: this.props.route.params.isDarkmode
     }
-    mode = ( this.props.route.params.getIsDarkmode()? styles.darkmode : styles.lightmode );
+    var mode = ( this.props.route.params.getIsDarkmode()? styles.darkmode : styles.lightmode );
     const{ isDarkmode, getIsDarkmode, toggleDarkmode} = this.props.route.params;
     //this.toggleDarkmode = this.toggleDarkmode.bind(this);
     console.log("HomePage rendered: " + this.props.route.params.getIsDarkmode() + ": " + mode.color ); 
@@ -22,9 +22,8 @@ class HomePage extends React.Component {
 
   onBeginPressed = () => {
     //Alert.alert("Begin Pressed","Navigate to 'preferences'");  
-    this.props.navigation.setOptions({ headerTintColor: 'white' });
-
-    this.props.navigation.navigate('Next Page', {isDarkmode: this.props.route.params.getIsDarkmode()});
+    //this.props.navigation.setOptions({ headerTintColor: 'white' });
+    this.props.navigation.navigate('Group Accomadations', {isDarkmode: this.props.route.params.getIsDarkmode()});
   }
 
   
@@ -37,16 +36,16 @@ class HomePage extends React.Component {
   };
 
   render(){
-    mode = ( this.props.route.params.getIsDarkmode()? styles.darkmode : styles.lightmode );
+    this.mode = ( this.props.route.params.getIsDarkmode()? styles.darkmode : styles.lightmode );
 
     //mode = ( this.props.route.params.getIsDarkmode()? styles.darkmode : styles.lightmode );
     //console.log("HomePage rendered: " + this.props.route.params.getIsDarkmode()); 
     return (
       <View style = {styles.container}>
-        <View style = {[ mode, styles.statusBar]} />
-        <View style = {[ mode, styles.darkmodeToggleContainer ]}> 
+        <View style = {[ this.mode, styles.statusBar]} />
+        <View style = {[ this.mode, styles.darkmodeToggleContainer ]}> 
           <View style = {{flex:1}}/>
-          <Text style = {[ mode, {fontSize: 12} ]}> DARK MODE </Text>
+          <Text style = {[ this.mode, {fontSize: 12} ]}> DARK MODE </Text>
           <Switch 
             value={this.props.route.params.getIsDarkmode()} 
             onValueChange={this.toggleDarkmode} 
@@ -55,22 +54,22 @@ class HomePage extends React.Component {
           />
           <View style = {{width: 2}} />
         </View> 
-        <View style = {[ mode, styles.mainViewer ]}>
+        <View style = {[ this.mode, styles.mainViewer ]}>
           <View style = {{flex: 0.5}}/>
-            <Text style = {[{ fontSize: 20 }, mode ]}> WELCOME TO </Text>
-            <Text style = {[ styles.title, mode ]}> UPick </Text>
+            <Text style = {[{ fontSize: 20 }, this.mode ]}> WELCOME TO </Text>
+            <Text style = {[ styles.title, this.mode ]}> UPick </Text>
             <View style = {styles.padding}/>
             <Image style = {styles.logo} source = {require('./LogoNew.png')}/>
             <View style = {styles.padding}/>
-            <Text style = {[{ fontSize: 20, fontStyle: 'italic'}, mode ]}> Let us help you decide where </Text>
-            <Text style = {[{ fontSize: 20, fontStyle: 'italic'}, mode ]}> or what to eat </Text>
+            <Text style = {[{ fontSize: 20, fontStyle: 'italic'}, this.mode ]}> Let us help you decide where </Text>
+            <Text style = {[{ fontSize: 20, fontStyle: 'italic'}, this.mode ]}> or what to eat </Text>
             <View style = {styles.padding}/>
             <TouchableWithoutFeedback  title = 'BEGIN' onPress = {this.onBeginPressed}> 
-              <View style = {[ mode, styles.beginButton ]}><Text style = {[mode, styles.beginButtonText]}> BEGIN </Text></View>
+              <View style = {[ this.mode, styles.buttonFocused ]}><Text style = {[this.mode, styles.beginButtonText]}> BEGIN </Text></View>
             </TouchableWithoutFeedback>
           <View style = {{flex: 1}}/>
         </View>
-        <Navbar mode={mode} />
+        <Navbar mode={this.mode} />
       </View>
       
     );
@@ -83,3 +82,18 @@ const accentColorPrim = '#992929';
 const accentColorSec = '#441111';
 
 export default HomePage;
+
+/* 
+constructor 
+  render () {
+    return{
+      <View>
+        are you eating with a friend
+        button
+        function(state = 2 return qrcode component else return null)
+        button
+        function returns 
+      </>
+    }
+  }
+*/
