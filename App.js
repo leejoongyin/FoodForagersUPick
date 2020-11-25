@@ -1,14 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react'
+// Import the Slate editor factory.
+import { createEditor } from 'slate'
 
-export default function App() {
+// Import the Slate components and React plugin.
+import { Slate, Editable, withReact } from 'slate-react'
+
+import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+
+export default function App()  {
+  const editor = useMemo(() => withReact(createEditor()), [])
+  // Add the initial value when setting up our state.
+  const [value, setValue] = useState([
+    {
+      type: 'paragraph',
+      children: [{ text: 'A line of text in a paragraph.' }],
+    },
+  ])
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <Slate
+      editor={editor}
+      value={value}
+      onChange={newValue => setValue(newValue)}
+    >
+      <Editable />
+    </Slate>
+  )
 }
 
 const styles = StyleSheet.create({
