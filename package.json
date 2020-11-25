@@ -20,7 +20,9 @@
     "react-native-reanimated": "^1.13.2",
     "react-native-safe-area-context": "^3.1.4",
     "react-native-screens": "^2.10.1",
+    "react-native-selection-group": "^2.0.0",
     "react-native-selectmultiple-button": "^0.1.105",
+    "react-native-tag-select": "^2.0.0",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
