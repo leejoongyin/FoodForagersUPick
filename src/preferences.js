@@ -1,9 +1,11 @@
 import 'react-native-gesture-handler';
-import React, {Component} from 'react';
-import { Text, View, TextInput, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {Component, useState} from 'react';
+import { Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const MAX_SELECT = 10;
+
 
 export default class Preferences extends Component {
   
@@ -20,6 +22,9 @@ export default class Preferences extends Component {
 
   onItemSelected = (item, allSelectedItems) => {
     this.setState({ selectedItems: allSelectedItems });
+  }
+  savePreferences = () => {
+    alert('saved preferences');
   }
 
   renderButton = (data, index, isSelected, onPress) => {
@@ -41,7 +46,7 @@ export default class Preferences extends Component {
       { id: 3, optionText: '$$$' }
     ];
 
-    const dietaryRequirements = [
+    const dietData = [
       { id: 4, optionText: 'Lactose intolerant' },
       { id: 5, optionText: 'Nut allergy' },
       { id: 6, optionText: 'Shellfish allergy' },
@@ -51,7 +56,7 @@ export default class Preferences extends Component {
       { id: 10, optionText: 'Paleo' }
     ];
 
-    const cuisine = [
+    const cuisineData = [
       { id: 1, optionText: 'Chinese' },
       { id: 2, optionText: 'American' },
       { id: 3, optionText: 'Mexican' },
@@ -63,7 +68,7 @@ export default class Preferences extends Component {
       { id: 7, optionText: 'Indian' }
     ];
 
-    const restaurant = [
+    const restaurantData = [
       { id: 1, optionText: 'Breakfast' },
       { id: 2, optionText: 'Brunch' },
       { id: 3, optionText: 'Bar' },
@@ -76,7 +81,7 @@ export default class Preferences extends Component {
     ];
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '80%', margin: 'auto' }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '80%', margin: 'auto', marginTop: 50, marginBottom: 50 }}>
         <Text style={styles.centerHeader}>Where would you like to eat?*</Text>
         <TextInput
           placeholder="Enter zipcode"
@@ -100,7 +105,7 @@ export default class Preferences extends Component {
         <Text style={styles.header}>Dietary Requirements</Text>
         <SelectionGroup 
           renderContent={this.renderButton}
-          items={dietaryRequirements}
+          items={dietData}
           onPress={this.dietSelectionHandler.selectionHandler}
           isSelected={this.dietSelectionHandler.isSelected}
           containerStyle={styles.answers}
@@ -110,7 +115,7 @@ export default class Preferences extends Component {
         <Text style={styles.header}>Cuisine</Text>
         <SelectionGroup 
           renderContent={this.renderButton}
-          items={cuisine}
+          items={cuisineData}
           onPress={this.cuisineSelectionHandler.selectionHandler}
           isSelected={this.cuisineSelectionHandler.isSelected}
           containerStyle={styles.answers}
@@ -120,15 +125,18 @@ export default class Preferences extends Component {
         <Text style={styles.header}>Type of Restaurant</Text>
         <SelectionGroup 
           renderContent={this.renderButton}
-          items={restaurant}
+          items={restaurantData}
           onPress={this.restaurantSelectionHandler.selectionHandler}
           isSelected={this.restaurantSelectionHandler.isSelected}
           containerStyle={styles.answers}
           onItemSelected={(item) => this.setState({ selectedAnswer: item })}
           onItemDeselected={(item, selectedItems) => this.setState({selectedAnswer: null})}
         />
-        <Text style={styles.header}>Rating</Text>
-        <Button title="Go back" onPress={() => this.props.navigation.goBack()} />
+        <TouchableWithoutFeedback
+          title="Submit"
+          onPress={() => this.savePreferences}>
+            <View style={styles.submitBtn}><Text style={{color: '#FFF'}}>Submit</Text></View>
+        </TouchableWithoutFeedback>
       </View>
     );
   } 
@@ -143,6 +151,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 5,
     marginBottom: 5,
+  },
+  submitBtn: {
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    backgroundColor: '#6B222D',
+    color: '#FFF',
+    borderRadius: 5,
+    width: '80%',
+    height: 36
   },
   button: {
       padding: 5,

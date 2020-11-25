@@ -44,7 +44,7 @@ export default class App extends Component {
   render() {
     return (
       <NavigationContainer theme={LightTheme}>{
-        <Stack.Navigator initialRouteName="Home" options={{isDarkmode: this.getIsDarkmode()}} screenOptions={{headerStyle: {backgroundColor: '#E2D6C8'}, headerTintColor: '#442C1E', headerTitleStyle: {textAlign: 'center', marginLeft: -30}}}>
+        <Stack.Navigator initialRouteName="Home" options={{isDarkmode: this.getIsDarkmode()}} screenOptions={{headerStyle: {backgroundColor: '#E2D6C8', borderBottomWidth: 0}, headerTintColor: '#442C1E', headerTitleStyle: {textAlign: 'center', marginLeft: -30}}}>
           <Stack.Screen name="Home" component={Home} options={{headerShown: false}} initialParams={{ isDarkmode: this.getIsDarkmode(), toggleDarkmode: this.toggleDarkmode.bind(this), getIsDarkmode: this.getIsDarkmode.bind(this) }}/> 
           <Stack.Screen name="Preferences" component={Preferences} options={{title: 'Preferences'}} initialParams={{ isDarkmode: this.getIsDarkmode(), toggleDarkmode: this.toggleDarkmode.bind(this), getIsDarkmode: this.getIsDarkmode.bind(this) }}/> 
         </Stack.Navigator>
