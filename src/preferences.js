@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React, {Component, useState} from 'react';
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const MAX_SELECT = 10;
 
@@ -16,17 +16,18 @@ export default class Preferences extends Component {
     this.cuisineSelectionHandler = new SelectionHandler({ maxMultiSelect: MAX_SELECT, allowDeselect: true, defaultSelection: null });
     this.restaurantSelectionHandler = new SelectionHandler({ maxMultiSelect: MAX_SELECT, allowDeselect: true, defaultSelection: null });
     this.state = {
-        selectedItems: null
+        selectedItems: null,
+        budgetArray: [],
+        dietArray: [],
+        cuisineArray: [],
+        restaurantArray: []
     };
   }
 
-  onItemSelected = (item, allSelectedItems) => {
-    this.setState({ selectedItems: allSelectedItems });
-  }
   savePreferences = () => {
     alert('saved preferences');
   }
-
+  
   renderButton = (data, index, isSelected, onPress) => {
     return (
       <TouchableOpacity
@@ -83,15 +84,25 @@ export default class Preferences extends Component {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '80%', margin: 'auto', marginTop: 50, marginBottom: 50 }}>
         <Text style={styles.centerHeader}>Where would you like to eat?*</Text>
-        <TextInput
-          placeholder="Enter zipcode"
-          style={styles.inputBox}
-        />
+        <View style={styles.searchSection}>
+          <Icon name="place" size={30} color="#000" style={{padding: 10}}/>
+          <TextInput
+            style={styles.inputBox}
+            placeholder="Enter zipcode"
+            onChangeText={(zipcode) => {this.setState({zipcode})}}
+            underlineColorAndroid="transparent"
+          />
+        </View>
         <Text style={styles.centerHeader}>When would you like to eat?*</Text>
-        <TextInput
-          placeholder="Enter time"
-          style={styles.inputBox}
-        />
+        <View style={styles.searchSection}>
+          <Icon name="schedule" size={30} color="#000" style={{padding: 10}}/>
+          <TextInput
+            style={styles.inputBox}
+            placeholder="Enter time"
+            onChangeText={(zipcode) => {this.setState({zipcode})}}
+            underlineColorAndroid="transparent"
+          />
+        </View>
         <Text style={styles.header}>Budget</Text>
         <SelectionGroup 
           renderContent={this.renderButton}
@@ -99,8 +110,20 @@ export default class Preferences extends Component {
           onPress={this.budgetSelectionHandler.selectionHandler}
           isSelected={this.budgetSelectionHandler.isSelected}
           containerStyle={styles.answers}
-          onItemSelected={(item) => this.setState({ selectedAnswer: item })}
-          onItemDeselected={(item, selectedItems) => this.setState({selectedAnswer: null})}
+          onItemSelected={(item) => {
+            const joined = this.state.budgetArray.concat(item.optionText);
+            this.setState({ budgetArray: joined });
+            alert(this.state.budgetArray);
+          }}
+          onItemDeselected={(item) => {
+            const array = [...this.state.budgetArray];
+            var index = array.indexOf(item.optionText);
+            if (index !== -1) {
+              array.splice(index, 1);
+              this.setState({budgetArray: array});
+            }
+            alert(this.state.budgetArray);
+          }}
         />
         <Text style={styles.header}>Dietary Requirements</Text>
         <SelectionGroup 
@@ -109,8 +132,18 @@ export default class Preferences extends Component {
           onPress={this.dietSelectionHandler.selectionHandler}
           isSelected={this.dietSelectionHandler.isSelected}
           containerStyle={styles.answers}
-          onItemSelected={(item) => this.setState({ selectedAnswer: item })}
-          onItemDeselected={(item, selectedItems) => this.setState({selectedAnswer: null})}
+          onItemSelected={(item) => {
+            const joined = this.state.dietArray.concat(item.optionText);
+            this.setState({ dietArray: joined });
+          }}
+          onItemDeselected={(item) => {
+            const array = [...this.state.dietArray];
+            var index = array.indexOf(item.optionText);
+            if (index !== -1) {
+              array.splice(index, 1);
+              this.setState({dietArray: array});
+            }
+          }}
         />
         <Text style={styles.header}>Cuisine</Text>
         <SelectionGroup 
@@ -119,8 +152,18 @@ export default class Preferences extends Component {
           onPress={this.cuisineSelectionHandler.selectionHandler}
           isSelected={this.cuisineSelectionHandler.isSelected}
           containerStyle={styles.answers}
-          onItemSelected={(item) => this.setState({ selectedAnswer: item })}
-          onItemDeselected={(item, selectedItems) => this.setState({selectedAnswer: null})}
+          onItemSelected={(item) => {
+            const joined = this.state.cuisineArray.concat(item.optionText);
+            this.setState({ cuisineArray: joined });
+          }}
+          onItemDeselected={(item) => {
+            const array = [...this.state.cuisineArray];
+            var index = array.indexOf(item.optionText);
+            if (index !== -1) {
+              array.splice(index, 1);
+              this.setState({cuisineArray: array});
+            }
+          }}
         />
         <Text style={styles.header}>Type of Restaurant</Text>
         <SelectionGroup 
@@ -129,12 +172,22 @@ export default class Preferences extends Component {
           onPress={this.restaurantSelectionHandler.selectionHandler}
           isSelected={this.restaurantSelectionHandler.isSelected}
           containerStyle={styles.answers}
-          onItemSelected={(item) => this.setState({ selectedAnswer: item })}
-          onItemDeselected={(item, selectedItems) => this.setState({selectedAnswer: null})}
+          onItemSelected={(item) => {
+            const joined = this.state.restaurantArray.concat(item.optionText);
+            this.setState({ restaurantArray: joined });
+          }}
+          onItemDeselected={(item) => {
+            const array = [...this.state.restaurantArray];
+            var index = array.indexOf(item.optionText);
+            if (index !== -1) {
+              array.splice(index, 1);
+              this.setState({restaurantArray: array});
+            }
+          }}
         />
         <TouchableWithoutFeedback
           title="Submit"
-          onPress={() => this.savePreferences}>
+          onPress={this.savePreferences}>
             <View style={styles.submitBtn}><Text style={{color: '#FFF'}}>Submit</Text></View>
         </TouchableWithoutFeedback>
       </View>
@@ -143,9 +196,15 @@ export default class Preferences extends Component {
 };
 
 const styles = StyleSheet.create({
-  inputBox: {
+  searchSection: {
+    flexDirection: 'row',
     backgroundColor: '#FFF',
-    width: '80%',
+    borderRadius: 5,
+    width: '80%'
+  },
+  inputBox: {
+    flex: 1,
+    backgroundColor: '#FFF',
     height: 36,
     paddingLeft: 5,
     borderRadius: 5,
@@ -189,12 +248,15 @@ const styles = StyleSheet.create({
     width: '80%',
     textAlign: 'left',
     color: '#6B222D',
-    fontSize: 14
+    fontSize: 16,
+    marginTop: 10
   },
   centerHeader: {
     width: '80%',
     textAlign: 'center',
     color: '#6B222D',
-    fontSize: 14
+    fontSize: 16,
+    marginTop: 5,
+    marginBottom: 5
   }
 });
