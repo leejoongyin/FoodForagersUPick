@@ -24,7 +24,10 @@
     "react-native-selection-group": "^2.0.0",
     "react-native-selectmultiple-button": "^0.1.105",
     "react-native-tag-select": "^2.0.0",
+<<<<<<< HEAD
     "react-native-vector-icons": "^7.1.0",
+=======
+>>>>>>> f27cbe86b269dbd73445e2509dad6cc73c57a25a
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
