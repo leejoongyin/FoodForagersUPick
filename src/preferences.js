@@ -99,7 +99,7 @@ export default class Preferences extends Component {
           <TextInput
             style={styles.inputBox}
             placeholder="Enter time"
-            onChangeText={(zipcode) => {this.setState({zipcode})}}
+            onChangeText={(time) => {this.setState({time})}}
             underlineColorAndroid="transparent"
           />
         </View>
