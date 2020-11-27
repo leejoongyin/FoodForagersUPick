@@ -5,9 +5,9 @@ import { Text, View, TextInput, StyleSheet, ScrollView, TouchableOpacity} from '
 //import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default class RestaruantList extends Component {
-
   constructor(props) {
     super(props);
+    this.state = {isFocused: false};
   }
 
   getRestaurantList() {
@@ -26,8 +26,10 @@ export default class RestaruantList extends Component {
           {"Enter the restaurants you are deciding between:"}
         </Text>
         <TextInput
-          style={{height: 40, paddingLeft: 10, width: '85%', fontStyle: 'italic', backgroundColor: 'white', borderRadius: 5}}
-          placeholder="Type restaurants here and hit enter to add to list"
+          onFocus={() => this.setState({isFocused: true})}
+          style={{height: 40, paddingLeft: 10, width: '85%', backgroundColor: 'white', borderRadius: 5}}
+          fontStyle={this.state.isFocused ? 'normal' : 'italic'}
+          placeholder={this.state.isFocused ? "" : "Type restaurants here and hit enter to add to list"}
           onChangeText={text => this.setState({text})}
         />
         <View style={{width: '85%', height: '50%'}}>
