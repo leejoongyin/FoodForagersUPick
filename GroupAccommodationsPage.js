@@ -1,10 +1,12 @@
-import { View, Image, StyleSheet, Text, TouchableWithoutFeedback, Switch, Alert } from 'react-native';
-
 
 import React, {Component} from 'react';
+import { View, Image, StyleSheet, Text, TouchableWithoutFeedback, Switch, Alert } from 'react-native';
+import * as Permissions from 'expo-permissions';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 
 
 import './Navbar';
+import './CameraIcon.png'
 import Navbar from './Navbar';
 import styles from './styles';
 
@@ -48,23 +50,107 @@ class QRCode extends Component {
     render() {
         var mode = (this.props.isDarkmode ? styles.darkmode: styles.lightmode);
         return( 
-            <View style = {[ styles.containerModule, styles.outline ]}>
+            <View style = {[ styles.module, styles.outline ]}>
                 <Text style = {mode} > //Implement QRCode Component</ Text>
             </ View>
         );
 
     }
-}
+}    
 
 class QRScanner extends Component {
+
+    setGroupCode = (data) => {
+        this.props.setGroupCode(data);
+    }
+    getGroupCode = () => {
+        return this.props.getGroupCode();
+    }
     constructor(props){
         super(props);
+        this.state = {
+            showScanner: false,
+        }
+    }
+    qrCodeScanned = ({ type, data }) => {
+        console.log(data, " scanned")
+        if( this.props.setGroupCode(data) ) {
+            this.setState({
+                showScanner: false,
+            })
+            this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.isDarkmode});
+        } else {
+            alert('that code does not belong to a valid group');
+        }
+        
+    };
+    
+    async askPermission() {
+        const {status} = await Permissions.askAsync(Permissions.CAMERA);
+        
+    }
+
+    async getPermission() {
+        const {status} = await Permissions.getAsync(Permissions.CAMERA);
+        return status == 'granted';
+    }
+    showScanner = () => {
+        if( this.state.showScanner && this.getPermission() ) {
+            return(
+                <View style = {{flex:1, width: '100%', height: '100%'}}>
+                    <BarCodeScanner 
+                        onBarCodeScanned={this.qrCodeScanned}
+                        style={[ StyleSheet.absoluteFillObject, styles.BarCodeScanner]}
+                    />
+                </View>
+                
+            ) 
+        } else if ( !this.getPermission() ) {
+            return(
+                <TouchableWithoutFeedback onPress={this.askPermission}> 
+                    <View style={[styles.button, (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1 )]}>
+                        <Text style={[ (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1 )]}> 
+                            We need your permission to use the camera 
+                        </Text>
+                    </View>
+                </TouchableWithoutFeedback>
+            )
+            
+        } else {
+            return(
+                <TouchableWithoutFeedback onPress={()=>{this.setState({showScanner: true})}}> 
+                    <View style={[ styles.button, styles.buttonColor1Dark, { flex:1, width: '100%' } ]}>
+                        <Text> Start Scanner </Text>
+                    </View>
+                </TouchableWithoutFeedback>
+            )
+            
+        }
     }
     render() {
         var mode = (this.props.isDarkmode ? styles.darkmode: styles.lightmode);
         return( 
-            <View style = {[ styles.containerModule, styles.outline ]}>
-                <Text style = {mode} > // Implement QRScanner Component </ Text> 
+            <View style = {[ styles.module ]}>
+                <View style={[styles.moduleRow]}> 
+                    <View style={[styles.moduleCorner, {padding:1}]}>
+                        <Image style = {styles.icon} source = {require('./CameraIcon.png')}/>
+                    </View>
+                    
+                    <View style={styles.container}>
+                        <Text style={[styles.guidance, {fontSize: 15}]}>Scan your friend's code from </Text>
+                        <Text style={[styles.guidance, {fontSize: 15}]}> their device </Text>
+                    </View>
+                    <View style={[styles.moduleCorner, {padding:1}]}>
+                        
+                    </View>
+                </View>
+                <View style={[styles.module,{flex: 1}]}> 
+                    <this.showScanner/>
+                </View>
+                
+                <View style={[styles.moduleRow]}> 
+
+                </View>
             </View>
         );
 
@@ -82,12 +168,6 @@ class GroupsAccommodationsPage extends Component {
         console.log("Groups( isDarkmode: " + isDarkmode + ")");
         //Alert.alert( "Group Accomodations render, State: " + this.state.showState);
     };
-
-    static navigationOptions = {
-        headerTitleStyle: { alignSelf: 'center' },
-        title: 'Center Title',
-        headerRight: (<View />)
-    }
 
     showEatingAlone = () => {
         if( this.state.showState != 1 ) {
@@ -108,7 +188,7 @@ class GroupsAccommodationsPage extends Component {
         return ( 
             <View>
                 <View style = {styles.padding}/>
-                <QRScanner isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
+                <QRScanner isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation} setGroupCode={this.props.route.params.setGroupCode} getGroupCode={this.props.route.params.getGroupCode}/>
             </View>
             
         );
@@ -141,11 +221,11 @@ class GroupsAccommodationsPage extends Component {
     }
 
     onInvitePressed = () => {
-        this.props.navigation.navigate("Placeholder", {isDarkmode: this.props.route.params.isDarkmode});
+        this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.route.params.isDarkmode});
         //Alert.alert( "Group Accomodations render, State: " + this.state.showState);
         this.setState(prevState => ({
             showState: 1
-          }));
+        }));
     }
     render( props ) {
         this.mode  = (this.props.route.params.isDarkmode ? styles.darkmode: styles.lightmode);

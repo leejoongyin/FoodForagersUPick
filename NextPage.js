@@ -1,6 +1,7 @@
 import { View, Text } from 'react-native';
 
 import React, {Component} from 'react';
+import QRCode from 'react-native-qrcode-svg';
 
 
 import './Navbar';
@@ -21,7 +22,7 @@ class NextPage extends Component {
                 <View style = {[styles.mainViewer, styles.lightmode, this.mode]}>
                     <Text style={[ styles.lightmode, this.mode ]}>Placeholder</Text>
                 </View>
-                <Navbar mode={[styles.lightmode, this.mode]}/>
+                <Navbar isDarkmode={this.props.route.params.isDarkmode}/>
             </View>
         );
 

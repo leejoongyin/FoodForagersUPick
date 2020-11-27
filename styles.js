@@ -14,12 +14,27 @@ const liteBG = colors.liteBG;
 
 const headerTintColor = colors.headerTintColor;
 
+const buttonFocWidth = 0.75;
+
+const moduleUnit = '15%';
+
 const styles = StyleSheet.create({
+    barCodeScanner: {
+      height: 100,
+      width: 100,
+      flex: 1,
+    },  
     container: {
+      flex: 1,
+      alignItems: 'center',
+      alignContent: 'center',
+      flexDirection: 'column'
+    },
+    containerRow:{
       flex: 1,
       alignItems: 'stretch',
       alignContent: 'center',
-      flexDirection: 'column'
+      flexDirection: 'row'
     },
     containerModule: {
       height: 200, 
@@ -73,8 +88,13 @@ const styles = StyleSheet.create({
     },
     logo: {
       resizeMode: 'contain',
-      height: '40%',
+      height: '25%',
       width: '100%',
+    },
+    icon: {
+      resizeMode: 'contain',
+      height: '50%',
+      padding: 2
     },
     navbar: {
       alignSelf: 'center',
@@ -92,6 +112,9 @@ const styles = StyleSheet.create({
     default: {
       backgroundColor: (isDarkmode?darkBG:liteBG),
       color: (isDarkmode?liteBG:'black')  
+    },
+    barCodeScanner: {
+      flex:1,
     },
     beginButton: {
       alignContent: 'center',
@@ -159,7 +182,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#999999',
       padding: 10,
       height: 50,
-      width: 0.75*Dimensions.get('window').width,
+      width: buttonFocWidth*Dimensions.get('window').width,
       borderRadius: 10,
       borderWidth: 0,
       borderColor: (isDarkmode?'white':'black'),
@@ -168,6 +191,39 @@ const styles = StyleSheet.create({
       //textAlign:"center",
       alignSelf: 'center',
       backgroundColor: headerTintColor,
+    },
+    guidance: {
+      fontSize: 20, 
+      fontStyle: 'italic'
+    },
+    module: {
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+      backgroundColor: 'white',
+      height: buttonFocWidth*Dimensions.get('window').width,
+      width: buttonFocWidth*Dimensions.get('window').width,
+      flex:-1,
+      borderRadius: 10,
+    }, 
+    moduleRow: {
+      flexDirection: 'row',
+      height: moduleUnit,
+      alignContent: 'center',
+      alignItems: 'center',
+
+    },
+    moduleText:{
+      color: 'black',
+      backgroundColor: 'white',
+    },
+    moduleCorner: {
+      height: '100%',
+      width: moduleUnit,
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center'
     },
     outline: {
       borderWidth: 1,

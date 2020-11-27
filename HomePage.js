@@ -65,10 +65,11 @@ class HomePage extends React.Component {
             <Text style = {[ this.mode, { fontSize: 20, color: (this.props.route.params.getIsDarkmode()?colors.accentTerDark :colors.accentTer ) }]}> WELCOME TO </Text>
             <Text style = {[ styles.title, this.mode ]}> UPick </Text>
             <View style = {styles.padding}/>
-            <Image style = {styles.logo} source = {require((this.props.route.params.getIsDarkmode()?'./LogoDark.png': './Logo.png'))}/>
+            <Image style = {styles.logo} source = {(this.props.route.params.getIsDarkmode()?require('./LogoDark.png'): require('./Logo.png'))}/>
             <View style = {styles.padding}/>
-            <Text style = {[{ fontSize: 20, fontStyle: 'italic'}, this.mode ]}> Let us help you decide where </Text>
-            <Text style = {[{ fontSize: 20, fontStyle: 'italic'}, this.mode ]}> or what to eat </Text>
+            <View style = {styles.padding}/>
+            <Text style = {[ styles.guidance, this.mode ]}> Let us help you decide where </Text>
+            <Text style = {[ styles.guidance, this.mode ]}> or what to eat </Text>
             <View style = {styles.padding}/>
             <TouchableWithoutFeedback  title = 'BEGIN' onPress = {this.onBeginPressed}> 
               <View style = {[ this.mode, styles.buttonFocused, (this.props.route.params.getIsDarkmode()? styles.buttonColor1Dark: styles.buttonColor1) ]}>
