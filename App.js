@@ -8,7 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import './HomePage';
 import HomePage from './HomePage';
-import GroupAccomadationsPage from './GroupAccomadationsPage';
+import GroupAccommodationsPage from './GroupAccommodationsPage';
 import NextPage from './NextPage';
 import Navbar from './Navbar';
 import styles from './styles';
@@ -16,12 +16,18 @@ import { render } from 'react-dom';
 
 const Stack = createStackNavigator();
 
+const headerTintColor = '#E2D6C8';
+const navigationOptions = {
+  headerTitleStyle: styles.header,
+  headerRight: () =>(<View/>),
+  headerStyle: styles.header
+}
 class App extends Component {
   constructor(props) {
     super(props);
     
     this.state = {
-      isDarkmode: true 
+      isDarkmode: false 
     };
     var mode = (this.getIsDarkmode() ? styles.darkmode : styles.lightmode);
     console.log(mode);
@@ -42,10 +48,10 @@ class App extends Component {
   render() {
     return (
       <NavigationContainer>{
-        <Stack.Navigator initialRouteName="Home" options = {{isDarkmode: this.getIsDarkmode() }}>
+        <Stack.Navigator initialRouteName="Home" screenOptions = { navigationOptions}>
           <Stack.Screen name="Home" component={HomePage} options={{headerShown: false}} initialParams={{ isDarkmode: this.getIsDarkmode(), toggleDarkmode: this.toggleDarkmode.bind(this), getIsDarkmode: this.getIsDarkmode.bind(this) }}/> 
-          <Stack.Screen name="Next Page" component={NextPage} options={{headerShown: true, headerTransparent: true, headerTintColor: (this.getIsDarkmode()?'white':'black') }} initialParams={{ mode: this.mode}} />
-          <Stack.Screen name="Group Accomadations" component={GroupAccomadationsPage} options={{headerShown: true, headerTransparent: true, headerTintColor: (this.getIsDarkmode()?'white':'black') }} initialParams={{ mode: this.mode, isDarkmode: this.getIsDarkmode() }} />
+          <Stack.Screen name="Placeholder" component={NextPage} initialParams={{ mode: this.mode}} />
+          <Stack.Screen name="Group Accommodations" component={GroupAccommodationsPage} initialParams={{ mode: this.mode, isDarkmode: this.getIsDarkmode() }} />
         </Stack.Navigator>
       }</NavigationContainer>
     );

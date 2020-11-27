@@ -3,10 +3,12 @@ import { View, Image, StyleSheet, Text, TouchableWithoutFeedback, Switch, Alert 
 
 const { Component } = require("react");
 
-import './LogoNew.png';
+import './LogoDark.png';
+import './Logo.png'
 import './Navbar';
 import Navbar from './Navbar';
 import styles from './styles' ;
+import colors from './colors';
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -23,7 +25,7 @@ class HomePage extends React.Component {
   onBeginPressed = () => {
     //Alert.alert("Begin Pressed","Navigate to 'preferences'");  
     //this.props.navigation.setOptions({ headerTintColor: 'white' });
-    this.props.navigation.navigate('Group Accomadations', {isDarkmode: this.props.route.params.getIsDarkmode()});
+    this.props.navigation.navigate('Group Accommodations', {isDarkmode: this.props.route.params.getIsDarkmode()});
   }
 
   
@@ -34,6 +36,10 @@ class HomePage extends React.Component {
       isDarkmode: this.props.route.params.getIsDarkmode()
     }));
   };
+
+  static navigationOptions = {
+    headerShown: 'false',
+  }
 
   render(){
     this.mode = ( this.props.route.params.getIsDarkmode()? styles.darkmode : styles.lightmode );
@@ -49,27 +55,29 @@ class HomePage extends React.Component {
           <Switch 
             value={this.props.route.params.getIsDarkmode()} 
             onValueChange={this.toggleDarkmode} 
-            trackColor={{ false: "#999999", true: accentColorSec }}
-            thumbColor={this.props.route.params.getIsDarkmode() ? accentColorPrim : "#f4f3f4"}
+            trackColor={{ false: "white", true: '#A6433F' }}
+            thumbColor={'white'}
           />
           <View style = {{width: 2}} />
         </View> 
         <View style = {[ this.mode, styles.mainViewer ]}>
           <View style = {{flex: 0.5}}/>
-            <Text style = {[{ fontSize: 20 }, this.mode ]}> WELCOME TO </Text>
+            <Text style = {[ this.mode, { fontSize: 20, color: (this.props.route.params.getIsDarkmode()?colors.accentTerDark :colors.accentTer ) }]}> WELCOME TO </Text>
             <Text style = {[ styles.title, this.mode ]}> UPick </Text>
             <View style = {styles.padding}/>
-            <Image style = {styles.logo} source = {require('./LogoNew.png')}/>
+            <Image style = {styles.logo} source = {require((this.props.route.params.getIsDarkmode()?'./LogoDark.png': './Logo.png'))}/>
             <View style = {styles.padding}/>
             <Text style = {[{ fontSize: 20, fontStyle: 'italic'}, this.mode ]}> Let us help you decide where </Text>
             <Text style = {[{ fontSize: 20, fontStyle: 'italic'}, this.mode ]}> or what to eat </Text>
             <View style = {styles.padding}/>
             <TouchableWithoutFeedback  title = 'BEGIN' onPress = {this.onBeginPressed}> 
-              <View style = {[ this.mode, styles.buttonFocused ]}><Text style = {[this.mode, styles.beginButtonText]}> BEGIN </Text></View>
+              <View style = {[ this.mode, styles.buttonFocused, (this.props.route.params.getIsDarkmode()? styles.buttonColor1Dark: styles.buttonColor1) ]}>
+                <Text style = {[this.mode, styles.beginButtonText, (this.props.route.params.getIsDarkmode()? styles.buttonColor1Dark: styles.buttonColor1)]}> BEGIN </Text>
+              </View>
             </TouchableWithoutFeedback>
           <View style = {{flex: 1}}/>
         </View>
-        <Navbar mode={this.mode} />
+        <Navbar isDarkmode={this.props.route.params.isDarkmode} />
       </View>
       
     );

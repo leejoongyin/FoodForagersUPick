@@ -19,7 +19,7 @@ class NextPage extends Component {
         return(
             <View style = {[styles.container, this.mode]}>
                 <View style = {[styles.mainViewer, styles.lightmode, this.mode]}>
-                    <Text style={[ styles.lightmode, this.mode ]}>Preferences</Text>
+                    <Text style={[ styles.lightmode, this.mode ]}>Placeholder</Text>
                 </View>
                 <Navbar mode={[styles.lightmode, this.mode]}/>
             </View>

@@ -1,9 +1,18 @@
 import { StyleSheet, Dimensions } from 'react-native';
-const darkBG = '#121212';
-const liteBG = 'white';
-const accentColorPrim = '#8CB4EF';
-const accentColorSec = '#441111';
+import colors from './colors';
+
+const accentColorPrim = colors.accentPrim;
+const accentColorSec = colors.accentSec;
+const accentColorTer = colors.accentTer;
+const accentColorPrimDark = colors.accentPrimDark;
+const accentColorSecDark = colors.accentSecDark;
+const accentColorTerDark = colors.accentTerDark;
 const isDarkmode = true;
+
+const darkBG = colors.darkBG;
+const liteBG = colors.liteBG;
+
+const headerTintColor = colors.headerTintColor;
 
 const styles = StyleSheet.create({
     container: {
@@ -14,7 +23,6 @@ const styles = StyleSheet.create({
     },
     containerModule: {
       height: 200, 
-      width: 250,  
       flex: -1,
       alignItems: 'center',
       borderColor: 'white',
@@ -60,7 +68,7 @@ const styles = StyleSheet.create({
     },
     lightmode: {
       backgroundColor: liteBG,
-      color: 'black',
+      color: accentColorPrim,
       borderColor: '#555555'
     },
     logo: {
@@ -73,7 +81,6 @@ const styles = StyleSheet.create({
       height: 75,
       flex:0,
       width: '100%',
-      backgroundColor: '#ff0000',
       alignItems: 'center',
       alignContent: 'center',
       flexDirection: 'column',
@@ -104,7 +111,8 @@ const styles = StyleSheet.create({
     },
     beginButtonText: {
       backgroundColor: '#999999',
-      fontSize: 20
+      fontSize: 20,
+      fontWeight: "bold"
     },
     button: {
       alignContent: 'center',
@@ -119,6 +127,30 @@ const styles = StyleSheet.create({
       borderWidth: 0,
       borderColor: (isDarkmode?'white':'black'),
     },
+    buttonColor1: {
+      backgroundColor: accentColorPrim,  
+      color: 'white',
+    },
+    buttonColor2:{
+      backgroundColor: accentColorSec,
+      color: 'white',
+    }, 
+    buttonColor3: {
+      backgroundColor: accentColorTer,
+      color: 'white',
+    },
+    buttonColor1Dark: {
+      backgroundColor: accentColorPrimDark, 
+      color: accentColorPrim, 
+    },
+    buttonColor2Dark:{
+      backgroundColor: accentColorSecDark,
+      color: accentColorPrim,
+    }, 
+    buttonColor3Dark: {
+      backgroundColor: accentColorTerDark,
+      color: accentColorPrim,
+    },
     buttonFocused: {
       alignContent: 'center',
       alignItems: 'center',
@@ -127,10 +159,15 @@ const styles = StyleSheet.create({
       backgroundColor: '#999999',
       padding: 10,
       height: 50,
-      width: 0.6*Dimensions.get('window').width,
+      width: 0.75*Dimensions.get('window').width,
       borderRadius: 10,
       borderWidth: 0,
       borderColor: (isDarkmode?'white':'black'),
+    }, 
+    header: {
+      //textAlign:"center",
+      alignSelf: 'center',
+      backgroundColor: headerTintColor,
     },
     outline: {
       borderWidth: 1,
@@ -145,6 +182,9 @@ const styles = StyleSheet.create({
     title: {
       fontWeight: 'bold',
       fontSize: 50
+    },
+    text: {
+      fontSize: 18
     }
   });
 

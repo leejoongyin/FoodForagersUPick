@@ -23,14 +23,14 @@ class EatingAlone extends Component {
                 <View style = {styles.padding}/>
 
                 <View style = {styles.padding}/>
-                <Text style = {mode} > or get a recomendation just for you: </ Text>
+                <Text style = {[mode, styles.text]} > or get a recomendation just for you: </ Text>
                 <View style = {styles.padding}/>
-                <TouchableWithoutFeedback  title = 'Generate' onPress={()=>{this.props.navigation.navigate("Next Page", {isDarkmode: this.props.isDarkmode})}}> 
-                    <View style = {[ mode, styles.buttonFocused, styles.buttonEnabled, {height: 75, width: '100%'}  ]}>
-                        <Text style = {[mode, styles.beginButtonText,  styles.buttonEnabled ]}> 
+                <TouchableWithoutFeedback  title = 'Generate' onPress={()=>{this.props.navigation.navigate("Placeholder", {isDarkmode: this.props.isDarkmode})}}> 
+                    <View style = {[ mode, styles.buttonFocused, (this.props.isDarkmode? styles.buttonColor2Dark: styles.buttonColor1), {height: 75}  ]}>
+                        <Text style = {[mode, styles.beginButtonText,  (this.props.isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}> 
                             Generate restaurant 
                         </Text>
-                        <Text style = {[mode, styles.beginButtonText, styles.buttonEnabled ]}> 
+                        <Text style = {[mode, styles.beginButtonText, (this.props.isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}> 
                             recomendation 
                         </Text>
                     </View>
@@ -70,7 +70,7 @@ class QRScanner extends Component {
 
     }
 }
-class GroupsAccomadationsPage extends Component {
+class GroupsAccommodationsPage extends Component {
     constructor(props) {
         super(props);
         const {isDarkmode = false} = this.props.route.params;
@@ -80,8 +80,15 @@ class GroupsAccomadationsPage extends Component {
             showState: 1
         }
         console.log("Groups( isDarkmode: " + isDarkmode + ")");
-        //Alert.alert( "Group Accomadations render, State: " + this.state.showState);
+        //Alert.alert( "Group Accomodations render, State: " + this.state.showState);
     };
+
+    static navigationOptions = {
+        headerTitleStyle: { alignSelf: 'center' },
+        title: 'Center Title',
+        headerRight: (<View />)
+    }
+
     showEatingAlone = () => {
         if( this.state.showState != 1 ) {
             return null;
@@ -130,21 +137,15 @@ class GroupsAccomadationsPage extends Component {
                 showState: 2
             }));
         }
-        //Alert.alert( "Group Accomadations render, State: " + this.state.showState);
+        //Alert.alert( "Group Accomodations render, State: " + this.state.showState);
     }
 
     onInvitePressed = () => {
-        console.log( "Invite Pressed");
-        if( this.state.showState == 3) {
-            this.setState(prevState => ({
-                showState: 1
-              }));
-        } else {
-            this.setState(prevState => ({
-                showState: 3
-            }));
-        }
-        //Alert.alert( "Group Accomadations render, State: " + this.state.showState);
+        this.props.navigation.navigate("Placeholder", {isDarkmode: this.props.route.params.isDarkmode});
+        //Alert.alert( "Group Accomodations render, State: " + this.state.showState);
+        this.setState(prevState => ({
+            showState: 1
+          }));
     }
     render( props ) {
         this.mode  = (this.props.route.params.isDarkmode ? styles.darkmode: styles.lightmode);
@@ -152,13 +153,23 @@ class GroupsAccomadationsPage extends Component {
         console.log(this.state.showState);
         return(
             <View style = {[styles.container, this.mode]}>
-                <View style = {[ this.mode, styles.padding, {flex: 0.3}]} />
+                <View style = {[ this.mode, styles.padding ]} />
                 <View style = {[styles.containerList, styles.lightmode, this.mode]}>
-                    <Text style={[ styles.lightmode, this.mode ]}>Are you eating with friends?</Text>
+                    <Text style={[ styles.lightmode, this.mode, styles.text ]}>Are you eating with friends?</Text>
                     <View style = {styles.padding}/>
                     <TouchableWithoutFeedback  title = 'Join' onPress={this.onJoinPressed}> 
-                        <View style = {[ this.mode, styles.buttonFocused, (this.state.showState == 2? styles.buttonEnabled: null ) ]}>
-                            <Text style = {[this.mode, styles.beginButtonText, (this.state.showState == 2? styles.buttonEnabled: null )]}> 
+                        <View 
+                            style = {[ 
+                                this.mode, styles.buttonFocused, 
+                                (this.props.route.params.isDarkmode? styles.buttonColor2Dark: styles.buttonColor2 ) 
+                            ]}
+                        >
+                            <Text 
+                                style = {[
+                                    this.mode, styles.beginButtonText, 
+                                    (this.props.route.params.isDarkmode? styles.buttonColor2Dark: styles.buttonColor2 )
+                                ]}
+                            > 
                                 Join a Group 
                             </Text>
                         </View>
@@ -166,8 +177,14 @@ class GroupsAccomadationsPage extends Component {
                     <this.showQRScanner/>
                     <View style = {styles.padding}/>
                     <TouchableWithoutFeedback  title = 'Invite' onPress={this.onInvitePressed}> 
-                        <View style = {[ this.mode, styles.buttonFocused, (this.state.showState == 3? styles.buttonEnabled: null ) ]}>
-                            <Text style = {[this.mode, styles.beginButtonText, (this.state.showState == 3? styles.buttonEnabled: null )]}> 
+                        <View style = {[ 
+                            this.mode, styles.buttonFocused, 
+                            (this.props.route.params.isDarkmode? styles.buttonColor3Dark: styles.buttonColor3 ) 
+                        ]}>
+                            <Text style = {[
+                                this.mode, styles.beginButtonText, 
+                                (this.props.route.params.isDarkmode? styles.buttonColor3Dark: styles.buttonColor3 )
+                            ]}> 
                                 Invite to a Group 
                             </Text>
                         </View>
@@ -177,10 +194,10 @@ class GroupsAccomadationsPage extends Component {
                     <this.showEatingAlone/>
                 </View>
                 <View style = {[ this.mode, styles.padding, {flex: 0.7}]} />
-                <Navbar mode={[styles.lightmode, this.mode]}/>
+                <Navbar isDarkmode={this.props.route.params.isDarkmode}/>
             </View>
         );
 
     }
   }
-  export default GroupsAccomadationsPage;
+  export default GroupsAccommodationsPage;
