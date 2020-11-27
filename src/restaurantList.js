@@ -7,9 +7,17 @@ import { Text, View, TextInput, StyleSheet, ScrollView, TouchableOpacity} from '
 export default class RestaruantList extends Component {
   constructor(props) {
     super(props);
-    this.state = {isFocused: false};
+    this.state = {
+      isFocused: false,
+      restaurantListArray: []
+    };
   }
 
+  handleKeyEnter = (e) => {
+    if (e.key === 'Enter') {
+      alert('enter pressed!');
+    }
+  }
   getRestaurantList() {
     // Hard coded example
     var list = ["McDonald's", "Burger King", "Popeyes", "Wendy's", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "Wangmin Restaurant"];
@@ -30,7 +38,11 @@ export default class RestaruantList extends Component {
           style={{height: 40, paddingLeft: 10, width: '85%', backgroundColor: 'white', borderRadius: 5}}
           fontStyle={this.state.isFocused ? 'normal' : 'italic'}
           placeholder={this.state.isFocused ? "" : "Type restaurants here and hit enter to add to list"}
-          onChangeText={text => this.setState({text})}
+          onKeyPress={this.handleKeyEnter()}
+          onChangeText={text => {
+            const joined = this.state.restaurantListArray.concat(text);
+            this.setState({ restaurantListArray: joined });
+          }}
         />
         <View style={{width: '85%', height: '50%'}}>
           <ScrollView style={{ marginTop: 10, marginBottom: 10,  backgroundColor: 'white', borderRadius: 5}}>
