@@ -16,11 +16,13 @@ class Home extends Component {
   }
 
   onBeginPressed = () => {
-    this.props.navigation.navigate('Preferences', {isDarkmode: this.props.route.params.getIsDarkmode()});
+    // Switched for debugging purposes
+    // this.props.navigation.navigate('Preferences', {isDarkmode: this.props.route.params.getIsDarkmode()});
+    this.props.navigation.navigate('RestaurantList', {isDarkmode: this.props.route.params.getIsDarkmode()});
   }
 
-  
-  
+
+
   toggleDarkmode = () => {
     this.props.route.params.toggleDarkmode();
     this.setState(prevState => ({
@@ -34,17 +36,17 @@ class Home extends Component {
     return (
       <View style = {styles.container}>
         <View style = {[ this.mode, styles.statusBar]} />
-        <View style = {[ this.mode, styles.darkmodeToggleContainer ]}> 
+        <View style = {[ this.mode, styles.darkmodeToggleContainer ]}>
           <View style = {{flex:1}}/>
           <Text style = {[ this.mode, {fontSize: 12} ]}> DARK MODE </Text>
-          <Switch 
-            value={this.props.route.params.getIsDarkmode()} 
-            onValueChange={this.toggleDarkmode} 
+          <Switch
+            value={this.props.route.params.getIsDarkmode()}
+            onValueChange={this.toggleDarkmode}
             trackColor={{ false: "#999999", true: accentColorSec }}
             thumbColor={this.props.route.params.getIsDarkmode() ? accentColorPrim : "#f4f3f4"}
           />
           <View style = {{width: 2}} />
-        </View> 
+        </View>
         <View style = {[ this.mode, styles.mainViewer ]}>
           <View style = {{flex: 0.5}}/>
             <Text style = {[{ fontSize: 20 }, this.mode ]}> WELCOME TO </Text>
@@ -54,17 +56,17 @@ class Home extends Component {
             <Text style = {[{ fontSize: 20, fontStyle: 'italic'}, this.mode ]}> Let us help you decide where </Text>
             <Text style = {[{ fontSize: 20, fontStyle: 'italic'}, this.mode ]}> or what to eat </Text>
             <View style = {styles.padding}/>
-            <TouchableWithoutFeedback  title = 'BEGIN' onPress = {this.onBeginPressed}> 
+            <TouchableWithoutFeedback  title = 'BEGIN' onPress = {this.onBeginPressed}>
               <View style = {[ this.mode, styles.buttonFocused ]}><Text style = {[this.mode, styles.beginButtonText]}> BEGIN </Text></View>
             </TouchableWithoutFeedback>
           <View style = {{flex: 1}}/>
         </View>
       </View>
-      
+
     );
   }
-    
-  
+
+
 }
 
 const accentColorPrim = '#992929';
