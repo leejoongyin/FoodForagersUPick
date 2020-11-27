@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     logo: {
       resizeMode: 'contain',
       height: '25%',
-      width: '100%',
+      width: '25%',
     },
     icon: {
       resizeMode: 'contain',
