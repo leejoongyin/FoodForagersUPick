@@ -1,11 +1,8 @@
 //import 'react-native-gesture-handler';
 import React, {Component, useState} from 'react';
-import { Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
+import { Text, View, TextInput, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 //import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 //import Icon from 'react-native-vector-icons/MaterialIcons';
-
-const MAX_SELECT = 10;
-
 
 export default class RestaruantList extends Component {
 
@@ -15,8 +12,11 @@ export default class RestaruantList extends Component {
 
   getRestaurantList() {
     // Hard coded example
-    var list = ["McDonald's", "Burger King", "Popeyes", "Wendy's"];
+    var list = ["McDonald's", "Burger King", "Popeyes", "Wendy's", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "Wangmin Restaurant"];
     return list.join('\n');
+  }
+  submit() {
+    console.log('Submit button pressed!');
   }
   // TODO: Replace hardcoded colors with light mode/dark mode
   render() {
@@ -26,13 +26,22 @@ export default class RestaruantList extends Component {
           {"Enter the restaurants you are deciding between:"}
         </Text>
         <TextInput
-          style={{height: 40, paddingLeft: 10, width: '85%', fontStyle: 'italic', backgroundColor: 'white'}}
+          style={{height: 40, paddingLeft: 10, width: '85%', fontStyle: 'italic', backgroundColor: 'white', borderRadius: 5}}
           placeholder="Type restaurants here and hit enter to add to list"
           onChangeText={text => this.setState({text})}
         />
-        <Text style={{padding: 15, marginTop: 10, marginBottom: 10, width: '85%', height: '30%', fontSize: 22, color: '#6b222d', backgroundColor: 'white'}}>
-          {this.getRestaurantList()}
-        </Text>
+        <View style={{width: '85%', height: '50%'}}>
+          <ScrollView style={{ marginTop: 10, marginBottom: 10,  backgroundColor: 'white', borderRadius: 5}}>
+            <Text style={{padding: 15, fontSize: 22, color: '#6b222d'}}>
+              {this.getRestaurantList()}
+            </Text>
+          </ScrollView>
+        </View>
+        <TouchableOpacity style={{backgroundColor: '#6b222d', width: '85%', borderRadius: 5}} onPress={this.submit}>
+          <View style = {{borderRadius: 10, marginTop: 10, marginBottom: 10 }}>
+            <Text style={{ fontSize: 20, textAlign: 'center', color: '#ffffff'}}>Submit</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }
