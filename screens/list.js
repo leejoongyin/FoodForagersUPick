@@ -1,6 +1,6 @@
 import React from 'react';
 import { ImageBackground, View, Text, TouchableOpacity, Image } from 'react-native';
-import styles from "../styles/generateRestaurantStyles.js";
+import styles from "../styles/generateRestaurantStylesLight.js";
 
 const { Component } = require('react');
 

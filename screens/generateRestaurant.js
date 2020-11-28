@@ -1,6 +1,6 @@
 import React from 'react';
 import { ImageBackground, View, Text, TouchableOpacity, Image } from 'react-native';
-import styles from "../styles/generateRestaurantStyles.js";
+import styles from "../styles/generateRestaurantStylesLight.js";
 
 const { Component } = require('react');
 
@@ -84,8 +84,7 @@ class generateRestaurantScreen extends Component {
                         ></Image>
                         <Text style={styles.navFont}>Budget</Text>
                     </TouchableOpacity>
-
-                    <View style={styles.hideExtensionLight}></View>
+                    
                 </View>
             </ImageBackground>
         );

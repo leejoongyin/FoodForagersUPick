@@ -8,7 +8,7 @@ import generateRestaurantScreen from './screens/generateRestaurant';
 import listScreen from './screens/list';
 import prefScreen from './screens/preferences';
 
-import styles from './styles/generateRestaurantStyles';
+import styles from './styles/generateRestaurantStylesLight';
 
 const appCream = "#E2D6C8"; // LIGHT and DARK mode: top margin bg
 
