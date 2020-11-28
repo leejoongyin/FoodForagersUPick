@@ -5,7 +5,8 @@ const appCream = "#E2D6C8"; // LIGHT and DARK mode: top margin bg
 const appBrown = "#6B222D"; // LIGHT and DARK mode: navbar text colors 
                                       // DARK mode: bg and yes/no text
                                      // LIGHT mode: question text 
-                                     // NOTE: unselected buttons have 37% opacity
+
+const appBrownUnselected = "#6B222D37";                                    
 
 /* DARK mode: yes/no button colors */
 const appYes = "#CAA892";
@@ -59,9 +60,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     titleFont: {
-        fontSize: "250%",
+        fontSize: 17,
         color: appTitle,
-        fontWeight: "bold",
         alignSelf: "center",
     },
     backButton: {
@@ -83,11 +83,11 @@ const styles = StyleSheet.create({
     
     /* dark mode body elements */
     questionFont: {
-        fontSize: "250%",
+        fontSize: 40,
         color: appNo,
     },
     yesNoFont: { // text for yes/no buttons
-        fontSize: "250%",
+        fontSize: 40,
         color: appBrown,
         fontWeight: "bold",
     },
@@ -112,20 +112,22 @@ const styles = StyleSheet.create({
     
     /* light mode body elements */
     questionFontLight: {
-        fontSize: "250%",
+        fontSize: 20,
         color: appBrown,
     },
     yesNoFontLight: { // text for yes/no buttons
-        fontSize: "250%",
+        fontSize: 20,
         color: appWhite,
         fontWeight: "bold",
+        alignSelf: "center",
+        fontFamily: "",
     },
     yesButtonLight: {
         elevation: 8,
         backgroundColor: appYesLight,
         borderRadius: 6,
-        width: 320,
-        height: 70,
+        width: 180,
+        height: 40,
         justifyContent: "center",
         alignItems: "center",
     },
@@ -133,8 +135,8 @@ const styles = StyleSheet.create({
         elevation: 8,
         backgroundColor: appNoLight,
         borderRadius: 6,
-        width: 320,
-        height: 70,
+        width: 180,
+        height: 40,
         justifyContent: "center",
         alignItems: "center",
     },
@@ -144,11 +146,11 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         alignItems: "center",
-        top: "15%", 
+        top: "30%", 
     },
     buttonContainer: { // container for yes and no buttons
         width: "100%",
-        height: "20%",
+        height: "13%",
         alignItems: "center",
         top: "8%",
         justifyContent: "space-between",
@@ -175,8 +177,8 @@ const styles = StyleSheet.create({
         width: "100%", 
         height: "180%", 
         position: "absolute", 
-        borderTopEndRadius: "180%",
-        borderTopLeftRadius: "180%",
+        borderTopEndRadius: 90,
+        borderTopLeftRadius: 90,
         backgroundColor: appNo,
         top: "-80%",
     },
@@ -184,8 +186,8 @@ const styles = StyleSheet.create({
         width: "28%",
         height: "180%",
         position: "absolute", 
-        borderTopEndRadius: "180%",
-        borderTopLeftRadius: "180%",
+        borderTopEndRadius: 90,
+        borderTopLeftRadius: 90,
         backgroundColor: appNo,
         top: "-80%",
         position: "absolute",
@@ -222,26 +224,36 @@ const styles = StyleSheet.create({
         width: "100%", 
         height: "180%", 
         position: "absolute", 
-        borderTopEndRadius: "180%",
-        borderTopLeftRadius: "180%",
+        borderTopEndRadius: 90,
+        borderTopLeftRadius: 90,
         backgroundColor: appWhite,
-        top: "-80%",
+        top: "-60%",
     },
     centerExtCoverLight: { // extends the nav bar to cover the empty space behind the center extension
         width: "28%",
         height: "180%",
         position: "absolute", 
-        borderTopEndRadius: "180%",
-        borderTopLeftRadius: "180%",
+        borderTopEndRadius: 90,
+        borderTopLeftRadius: 90,
         backgroundColor: appWhite,
-        top: "-80%",
+        top: "-60%",
         position: "absolute",
         left: "36%",
     },
     navBarLight: {
         backgroundColor: appWhite,
+
+        marginTop: 10,
+        shadowRadius: 10,
+        shadowOffset: {
+            width: 0,
+            height: -10,
+        },
+        shadowColor: "#000",
+        elevation: 10,
+
         width: "100%",
-        height: "15%",
+        height: "10%",
         position: "absolute",
         bottom: 0,
         flexDirection: "row",
@@ -250,34 +262,34 @@ const styles = StyleSheet.create({
     
     /* light and dark nav bar elements */
     navFont: { // non-center button text (non-selected)
-        fontSize: "125%",
+        fontSize: 10,
         position: "absolute",
         bottom: 6,
-        color: appBrown,
-        opacity: "37%", // non-selected
+        color: appBrownUnselected,
+        opacity: 37, // non-selected
     },
     centerFont: {
-        fontSize: "125%",
+        fontSize: 10,
         position: "absolute",
         bottom: 6,
         color: appBrown,
     },
     centerTopFont: { // style for 'Generate' text in center button (selected)
-        fontSize: "125%",
+        fontSize: 10,
         position: "absolute",
-        bottom: 30,
+        bottom: 20,
         color: appBrown,
     },
     centerButtonImage: {
-        width: 90,
-        height: 90,
+        width: 40,
+        height: 40,
         resizeMode: "contain",
         position: "absolute",
-        bottom: "70%",
+        bottom: "60%",
     },
     buttonImage: { // non-center button images
-        width: 90,
-        height: 90,
+        width: 40,
+        height: 40,
         resizeMode: "contain",
         position: "absolute",
         bottom: "25%",
