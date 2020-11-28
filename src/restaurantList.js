@@ -4,17 +4,39 @@ import { Text, View, TextInput, StyleSheet, ScrollView, TouchableOpacity} from '
 //import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 //import Icon from 'react-native-vector-icons/MaterialIcons';
 
-export default class RestaruantList extends Component {
+
+export default class RestaurantList extends Component {
   constructor(props) {
     super(props);
-    this.state = {isFocused: false};
+    this.state = {
+      isFocused: false,
+      restaurantListArray: ["Liuli Pavilion", "Cat's Tail Tavern", "Wanmin Restaurant", "Dawn Winery", "Yansheng Teahouse"],
+      userInput: '',
+    };
   }
 
+
+  handleText = (text) =>{
+    this.setState({userInput: text})
+    /*alert(this.state.userInput)*/
+  }
+
+  handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      /* e.preventDefault(); */
+      if(this.state.userInput != '') {
+        const joined = this.state.restaurantListArray.concat(this.state.userInput);
+        this.setState({restaurantListArray: joined }); 
+        this.setState({userInput: ''});
+      }
+    }
+  }
+  
   getRestaurantList() {
-    // Hard coded example
-    var list = ["McDonald's", "Burger King", "Popeyes", "Wendy's", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "Wangmin Restaurant"];
+    var list = this.state.restaurantListArray;
     return list.join('\n');
   }
+
   submit() {
     console.log('Submit button pressed!');
   }
@@ -25,12 +47,15 @@ export default class RestaruantList extends Component {
         <Text style={{padding: 10, fontSize: 20, color: '#6b222d', textAlign: 'center'}}>
           {"Enter the restaurants you are deciding between:"}
         </Text>
-        <TextInput
+        <TextInput value={this.state.userInput} 
+          /*defaultValue = {this.state.restaurantListArray}*/
           onFocus={() => this.setState({isFocused: true})}
           style={{height: 40, paddingLeft: 10, width: '85%', backgroundColor: 'white', borderRadius: 5}}
           fontStyle={this.state.isFocused ? 'normal' : 'italic'}
-          placeholder={this.state.isFocused ? "" : "Type restaurants here and hit enter to add to list"}
-          onChangeText={text => this.setState({text})}
+          placeholder={this.state.isFocused ? "" : "Type restaurants here and hit enter to add to list"}   
+          onChangeText={this.handleText}
+          onKeyPress={this.handleKeyPress} 
+          
         />
         <View style={{width: '85%', height: '50%'}}>
           <ScrollView style={{ marginTop: 10, marginBottom: 10,  backgroundColor: 'white', borderRadius: 5}}>
