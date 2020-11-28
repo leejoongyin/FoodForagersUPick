@@ -1,8 +1,8 @@
 import 'react-native-gesture-handler';
 import React, {Component, useState} from 'react';
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
-import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
-import DateTimePicker from '@react-native-community/datetimepicker';
+// import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
+
 
 const MAX_SELECT = 10;
 
@@ -11,18 +11,24 @@ export default class RecipeSearch extends Component {
 
   constructor(props) {
     super(props);
-    this.budgetSelectionHandler = new SelectionHandler({ maxMultiSelect: MAX_SELECT, allowDeselect: true, defaultSelection: null });
-    this.dietSelectionHandler = new SelectionHandler({ maxMultiSelect: MAX_SELECT, allowDeselect: true, defaultSelection: null });
-    this.cuisineSelectionHandler = new SelectionHandler({ maxMultiSelect: MAX_SELECT, allowDeselect: true, defaultSelection: null });
-    this.restaurantSelectionHandler = new SelectionHandler({ maxMultiSelect: MAX_SELECT, allowDeselect: true, defaultSelection: null });
-    this.state = {
-        selectedItems: null
-    };
+    // this.budgetSelectionHandler = new SelectionHandler({ maxMultiSelect: MAX_SELECT, allowDeselect: true, defaultSelection: null });
   }
 
-  onItemSelected = (item, allSelectedItems) => {
-    this.setState({ selectedItems: allSelectedItems });
-  }
+  // renderButton = (data, index, isSelected, onPress) => {
+  //   return (
+  //     <TouchableOpacity
+  //       onPress={onPress}
+  //       key={index}
+  //       style={[styles.button,
+  //       { backgroundColor: isSelected ? '#A6433F' : '#FFF'}]}>
+  //       <Text style={[styles.buttonText, {color: isSelected ? '#FFF' : '#000'}]}>{data.optionText}</Text>
+  //     </TouchableOpacity>
+  //   );
+  // }
+
+  // onItemSelected = (item, allSelectedItems) => {
+  //   this.setState({ selectedItems: allSelectedItems });
+  // }
   savePreferences = () => {
     alert('saved preferences');
   }
@@ -47,11 +53,22 @@ export default class RecipeSearch extends Component {
           placeholder="Enter a Recipe"
           style={styles.inputBox}
         />
-        <Text style={styles.centerHeader}>When would you like to eat?*</Text>
-        <TextInput
-          placeholder="Enter time"
-          style={styles.inputBox}
-        />
+        <TouchableWithoutFeedback 
+          title="foodSuggestion1"
+          onPress={() => this.savePreferences}>
+            <View style={styles.suggestBtn}><Text style={{color: '#6B222D'}}>Reverse-Seared Steak with a Red Wine Pan Sauce</Text></View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          title="foodSuggestion2"
+          onPress={() => this.savePreferences}>
+            <View style={styles.suggestBtn}><Text style={{color: '#6B222D'}}>Mediterranean Cous-Cous Bowl</Text></View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          title="foodSuggestion3"
+          onPress={() => this.savePreferences}> 
+            <View style={styles.suggestBtn}><Text style={{color: '#6B222D'}}>Southern Homestyle Pecan Pie</Text></View>
+        </TouchableWithoutFeedback>
+
         <TouchableWithoutFeedback
           title="Submit"
           onPress={() => this.savePreferences}>
@@ -81,6 +98,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     backgroundColor: '#6B222D',
     color: '#FFF',
+    borderRadius: 5,
+    width: '80%',
+    height: 36
+  },
+  suggestBtn: {
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    backgroundColor: '#FFF',
+    color: '#6B222D',
     borderRadius: 5,
     width: '80%',
     height: 36
