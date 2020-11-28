@@ -1,6 +1,6 @@
 # UPick
 ## Setup
-Install `expo-cli` with `npm install -g expo-cli``.
+Install `expo-cli` with `npm install -g expo-cli`.
 `npm install` in the project root directory. `expo start` or `npm start` to run the application.
 
 ## Introduction to UPick
