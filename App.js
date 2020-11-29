@@ -9,11 +9,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as Permissions from 'expo-permissions';
 
 import './src/HomePage';
+import generateRestaurantScreen from './src/GenerateRestaurant';
 import GroupAccommodationsPage from './src/GroupAccommodationsPage';
 import HomePage from './src/HomePage';
 import InvitePage from './src/InvitePage';
-import Navbar from './src/Navbar';
-import NextPage from './src/NextPage';
 import Preferences from './src/preferences';
 import RestaurantList from './src/restaurantList'
 
@@ -85,11 +84,14 @@ class App extends Component {
               }}
           />
           <Stack.Screen
-              name="Placeholder"
-              component={NextPage}
-              initialParams={{
-                  isDarkmode: this.getIsDarkmode()
+              name="Generate"
+              component={generateRestaurantScreen}
+              options={{ 
+                title: "Generate Restaurant Recommendation"
               }}
+              initialParams={{
+                isDarkmode: this.getIsDarkmode()
+            }}
           />
           <Stack.Screen
               name="Group Accommodations"

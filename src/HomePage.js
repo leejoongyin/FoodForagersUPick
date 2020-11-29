@@ -5,7 +5,6 @@ const { Component } = require("react");
 
 import '../assets/LogoDark.png';
 import '../assets/Logo.png'
-import './Navbar';
 import Navbar from './Navbar';
 import styles from '../style/styles' ;
 import colors from '../style/colors';
@@ -17,20 +16,13 @@ class HomePage extends React.Component {
       isDarkmode: this.props.route.params.isDarkmode
     }
     var mode = ( this.props.route.params.getIsDarkmode()? styles.darkmode : styles.lightmode );
-    const{ isDarkmode, getIsDarkmode, toggleDarkmode} = this.props.route.params;
     //this.toggleDarkmode = this.toggleDarkmode.bind(this);
     console.log("HomePage rendered: " + this.props.route.params.getIsDarkmode() + ": " + mode.color );
   }
 
   onBeginPressed = () => {
-    //Alert.alert("Begin Pressed","Navigate to 'preferences'");
-    //this.props.navigation.setOptions({ headerTintColor: 'white' });
-    // this.props.navigation.navigate('Group Accommodations', {isDarkmode: this.props.route.params.getIsDarkmode()});
-    this.props.navigation.navigate('Restaurant List', {isDarkmode: this.props.route.params.getIsDarkmode()});
-    // this.props.navigation.navigate('Preferences', {isDarkmode: this.props.route.params.getIsDarkmode()});
+    this.props.navigation.navigate('Generate', {isDarkmode: this.props.route.params.getIsDarkmode()});
   }
-
-
 
   toggleDarkmode = () => {
     this.props.route.params.toggleDarkmode();
@@ -85,26 +77,9 @@ class HomePage extends React.Component {
 
     );
   }
-
-
 }
 
 const accentColorPrim = '#992929';
 const accentColorSec = '#441111';
 
 export default HomePage;
-
-/*
-constructor
-  render () {
-    return{
-      <View>
-        are you eating with a friend
-        button
-        function(state = 2 return qrcode component else return null)
-        button
-        function returns
-      </>
-    }
-  }
-*/

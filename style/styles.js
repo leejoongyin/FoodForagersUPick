@@ -28,7 +28,9 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       alignContent: 'center',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      justifyContent: 'center',
+      width: '100%'
     },
     containerRow:{
       flex: 1,
@@ -241,6 +243,67 @@ const styles = StyleSheet.create({
     },
     text: {
       fontSize: 18
+    },
+    darkmode: {
+      backgroundColor: darkBG,
+      color: accentColorPrimDark,
+      borderColor: '#cccccc'
+    },
+    lightmode: {
+      backgroundColor: liteBG,
+      color: accentColorPrim,
+      borderColor: '#555555'
+    },
+    darkmodeIcon: {
+      backgroundColor: 'transparent',
+      color: accentColorPrimDark,
+    },
+    lightmodeIcon: {
+      backgroundColor: 'transparent',
+      color: accentColorPrim,
+    },
+    navContainer: {
+      position: 'absolute',
+      height: 75,
+      width: '100%',
+      bottom: 0,
+    },
+    navbar: {
+      display: 'flex',
+      position: 'relative',
+      height: '100%',
+      alignItems: 'flex-end',
+      justifyContent: 'space-around',
+      flexDirection: 'row',
+      elevation: 10
+    },
+    navbarText: {      
+      fontSize: 13,
+      fontWeight: 'bold',
+      flexWrap: 'wrap',
+      textAlign: 'center',
+      marginBottom: 2
+    },
+    navButton: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 5
+    },
+    navButtonCenter: {
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: 5,
+      backgroundColor: 'transparent'
+    },
+    navCircle: {
+      position: 'absolute',
+      height: 120,
+      width: 125,
+      alignSelf: 'center',
+      borderRadius: 90,
+      bottom: 0,
+      elevation: 10
     }
   });
 

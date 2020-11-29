@@ -3,6 +3,7 @@ import React, {Component, useState} from 'react';
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Navbar from './Navbar';
 
 const MAX_SELECT = 10;
 
@@ -25,7 +26,7 @@ export default class Preferences extends Component {
   }
 
   savePreferences = () => {
-    alert('saved preferences');
+    this.props.navigation.navigate('Group Accommodations');
   }
   
   renderButton = (data, index, isSelected, onPress) => {
@@ -82,7 +83,7 @@ export default class Preferences extends Component {
     ];
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '80%', margin: 'auto', marginTop: 50, marginBottom: 50 }}>
+      <View style={[styles.container, { flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', margin: 'auto', marginTop: 50}]}>
         <Text style={styles.centerHeader}>Where would you like to eat?*</Text>
         <View style={styles.searchSection}>
           <Icon name="place" size={30} color="#000" style={{padding: 10}}/>
@@ -190,6 +191,7 @@ export default class Preferences extends Component {
           onPress={this.savePreferences}>
             <View style={styles.submitBtn}><Text style={{color: '#FFF'}}>Submit</Text></View>
         </TouchableWithoutFeedback>
+        <Navbar isDarkmode={this.props.route.params.isDarkmode} />
       </View>
     );
   } 
@@ -220,7 +222,8 @@ const styles = StyleSheet.create({
     color: '#FFF',
     borderRadius: 5,
     width: '80%',
-    height: 36
+    height: 36,
+    marginBottom: 100
   },
   button: {
       padding: 5,

@@ -1,36 +1,64 @@
-//import 'react-native-gesture-handler';
 import React, {Component, useState} from 'react';
 import { Text, View, TextInput, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
-//import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
-//import Icon from 'react-native-vector-icons/MaterialIcons';
+import Navbar from './Navbar';
+import styles from '../style/styles' ;
 
-export default class RestaruantList extends Component {
+
+export default class RestaurantList extends Component {
   constructor(props) {
     super(props);
-    this.state = {isFocused: false};
+    this.state = {
+      isDarkmode: this.props.route.params.isDarkmode,
+      isFocused: false,
+      restaurantListArray: ["Liuli Pavilion", "Cat's Tail Tavern", "Wanmin Restaurant", "Dawn Winery", "Yansheng Teahouse"],
+      userInput: '',
+    };
+    var mode = ( this.state.isDarkmode? styles.darkmode : styles.lightmode );
+    const{ isDarkmode, getIsDarkmode, toggleDarkmode} = this.props.route.params;
   }
 
+  handleText = (text) =>{
+    this.setState({userInput: text})
+  }
+
+  handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      /* e.preventDefault(); */
+      if(this.state.userInput != '') {
+        const joined = this.state.restaurantListArray.concat(this.state.userInput);
+        this.setState({restaurantListArray: joined }); 
+        this.setState({userInput: ''});
+      }
+    }
+  }
+  
   getRestaurantList() {
-    // Hard coded example
-    var list = ["McDonald's", "Burger King", "Popeyes", "Wendy's", "a", "a", "a", "a", "a", "a", "a", "a", "a", "a", "Wangmin Restaurant"];
+    var list = this.state.restaurantListArray;
     return list.join('\n');
   }
-  submit() {
+
+  submit = () => {
     console.log('Submit button pressed!');
+    this.props.navigation.navigate('Group Accommodations');
   }
   // TODO: Replace hardcoded colors with light mode/dark mode
   render() {
+    this.mode = ( this.state.isDarkmode? styles.darkmode : styles.lightmode );
+
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', margin: 'auto', paddingLeft: 10, paddingRight: 10}}>
+      <View style={[styles.container, {flex: 1, alignItems: 'center', justifyContent: 'center', margin: 'auto', width: '100%'}]}>
         <Text style={{padding: 10, fontSize: 20, color: '#6b222d', textAlign: 'center'}}>
           {"Enter the restaurants you are deciding between:"}
         </Text>
-        <TextInput
+        <TextInput value={this.state.userInput} 
+          /*defaultValue = {this.state.restaurantListArray}*/
           onFocus={() => this.setState({isFocused: true})}
           style={{height: 40, paddingLeft: 10, width: '85%', backgroundColor: 'white', borderRadius: 5}}
           fontStyle={this.state.isFocused ? 'normal' : 'italic'}
-          placeholder={this.state.isFocused ? "" : "Type restaurants here and hit enter to add to list"}
-          onChangeText={text => this.setState({text})}
+          placeholder={this.state.isFocused ? "" : "Type restaurants here and hit enter to add to list"}   
+          onChangeText={this.handleText}
+          onKeyPress={this.handleKeyPress} 
+          
         />
         <View style={{width: '85%', height: '50%'}}>
           <ScrollView style={{ marginTop: 10, marginBottom: 10,  backgroundColor: 'white', borderRadius: 5}}>
@@ -44,6 +72,7 @@ export default class RestaruantList extends Component {
             <Text style={{ fontSize: 20, textAlign: 'center', color: '#ffffff'}}>Submit</Text>
           </View>
         </TouchableOpacity>
+        <Navbar isDarkmode={this.props.route.params.isDarkmode} />
       </View>
     );
   }
