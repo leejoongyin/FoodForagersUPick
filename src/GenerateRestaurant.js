@@ -36,7 +36,7 @@ class generateRestaurantScreen extends Component {
                         <Text style={generateRestaurantStyle.yesNoFontLight}>No</Text>
                     </TouchableOpacity>
                 </View>
-                <Navbar isDarkmode={this.props.route.params.isDarkmode} />
+                <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
                 {/*<View style={styles.navBarLight}>
                     <View style={styles.centerExtCoverLight}></View> 
                     

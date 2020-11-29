@@ -274,7 +274,7 @@ class GroupsAccommodationsPage extends Component {
                     <this.showEatingAlone/>
                 </View>
                 <View style = {[ this.mode, styles.padding, {flex: 0.7}]} />
-                <Navbar isDarkmode={this.props.route.params.isDarkmode}/>
+                <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
             </View>
         );
 

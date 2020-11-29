@@ -72,7 +72,7 @@ export default class RestaurantList extends Component {
             <Text style={{ fontSize: 20, textAlign: 'center', color: '#ffffff'}}>Submit</Text>
           </View>
         </TouchableOpacity>
-        <Navbar isDarkmode={this.props.route.params.isDarkmode} />
+        <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation} />
       </View>
     );
   }

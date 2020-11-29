@@ -72,7 +72,7 @@ class HomePage extends React.Component {
             </TouchableWithoutFeedback>
           <View style = {{flex: 1}}/>
         </View>
-        <Navbar isDarkmode={this.props.route.params.isDarkmode} />
+        <Navbar isDarkmode={this.props.route.params.getIsDarkmode()} navigation={this.props.navigation}/>
       </View>
 
     );

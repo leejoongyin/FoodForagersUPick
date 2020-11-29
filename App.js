@@ -5,6 +5,7 @@ import React,  {Component, useState} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import * as Permissions from 'expo-permissions';
 
@@ -20,6 +21,7 @@ import styles from './style/styles';
 import { render } from 'react-dom';
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const headerTintColor = '#E2D6C8';
 
@@ -72,7 +74,7 @@ class App extends Component {
   render() {
     return (
       <NavigationContainer>{
-        <Stack.Navigator initialRouteName="Home" screenOptions = { navigationOptions}>
+        <Stack.Navigator initialRouteName="Home" screenOptions = { navigationOptions }>
           <Stack.Screen
               name="Home"
               component={HomePage}

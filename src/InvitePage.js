@@ -55,7 +55,7 @@ class InvitePage extends Component {
                 </TouchableWithoutFeedback>
 
                 </View>
-                <Navbar isDarkmode={isDarkmode} />
+                <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
             </View>
         )
 

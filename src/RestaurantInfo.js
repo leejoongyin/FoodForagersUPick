@@ -46,7 +46,7 @@ export default function App() {
           </TouchableOpacity>
         </View>       
     </View>
-    
+    <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
   </View>
            
   );

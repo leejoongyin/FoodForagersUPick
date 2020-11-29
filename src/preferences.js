@@ -191,7 +191,7 @@ export default class Preferences extends Component {
           onPress={this.savePreferences}>
             <View style={styles.submitBtn}><Text style={{color: '#FFF'}}>Submit</Text></View>
         </TouchableWithoutFeedback>
-        <Navbar isDarkmode={this.props.route.params.isDarkmode} />
+        <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
       </View>
     );
   } 
