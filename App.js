@@ -15,7 +15,8 @@ import GroupAccommodationsPage from './src/GroupAccommodationsPage';
 import HomePage from './src/HomePage';
 import InvitePage from './src/InvitePage';
 import Preferences from './src/preferences';
-import RestaurantList from './src/restaurantList'
+import RestaurantList from './src/restaurantList';
+import EditPreferences from './src/EditPreferences';
 
 import styles from './style/styles';
 import { render } from 'react-dom';
@@ -119,6 +120,16 @@ class App extends Component {
           <Stack.Screen
               name = "Preferences"
               component={Preferences}
+              options={{
+                  title: "Preferences"
+              }}
+              initialParams = {{
+                  isDarkmode: this.getIsDarkmode()
+              }}
+          />
+          <Stack.Screen
+              name = "Edit Preferences"
+              component={EditPreferences}
               options={{
                   title: "Preferences"
               }}
