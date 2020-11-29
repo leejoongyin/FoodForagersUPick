@@ -1,96 +1,21 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { View, Text, TouchableWithoutFeedback } from 'react-native';
 import styles from '../style/styles.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-// const { Component } = require("react");  
 
-// import HomeS from './App.js';
-// import RecipeS from './dummies/recipeDummy.js';
-// import BudgetS from './dummies/budgetDummy.js';
-// import EditS from './dummies/editDummy.js';
-// import GroupS from './dummies/groupDummy.js';
-
-// import { createAppContainer } from 'react-navigation';
-// import { createStackNavigator } from 'react-navigation-stack';
-// import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
-
-// class HomeScreen extends React.Component {  
-//     render() {  
-//         return ( 
-//             // <View>
-//                 <HomeS />
-//             // {/* </View> */}
-//         );  
-//     }  
-// }  
-// class BudgetScreen extends React.Component {  
-//     render() {  
-//         return ( 
-//             // <View>
-//                 <BudgetS />
-//             // {/* </View>  */}
-//         );  
-//     }  
-// }
-// class EditScreen extends React.Component {  
-//     render() {  
-//         return (  
-//             // <View>
-//                 <EditS />
-//             // {/* </View> */}
-//         );  
-//     }  
-// }
-// class GroupScreen extends React.Component {  
-//     render() {  
-//         return (  
-//             // <View>
-//                 <GroupS />
-//             // {/* </View> */}
-//         );  
-//     }  
-// }
-// class RecipeScreen extends React.Component {  
-//     render() {  
-//         return (
-//             // <View>
-//                 <RecipeS />
-//             // {/* </View> */}
-//         );  
-//     }  
-// }
-
-// const TabNavi = createMaterialTopTabNavigator({
-//     Home: {
-//         screen: HomeScreen
-//       },
-//       Budget: {
-//         screen: BudgetScreen
-//       },
-//       Recipe: {
-//         screen: RecipeScreen
-//       },
-//       Group: {
-//         screen: GroupScreen
-//       },
-//       Edit: {
-//         screen: EditScreen
-//       }
-// });
-
-
-// const AppContainer = createAppContainer(AppNavigator);
-// const Navbar = ({ isDarkmode, navigation: navigate }) => {
-export default class Navbar extends Component {
+class Navbar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          isDarkmode: this.isDarkmode
-        };
+          isDarkmode: this.props.isDarkmode
+        }
     }
+
     render() {
-        var mode = ( this.state.isDarkmode? styles.darkmode : styles.lightmode );
-        const iconMode = (this.state.isDarkmode?styles.darkmodeIcon: styles.lightmodeIcon);
+
+        var mode = ( this.props.isDarkmode? styles.darkmodeB : styles.lightmodeB );
+        var iconMode = (this.props.isDarkmode? styles.darkmodeIcon: styles.lightmodeIcon );
+        
         return (
             <View style = {[ styles.navContainer, mode ]}>
                 <View style = {[ styles.navCircle, mode ]}></View>
@@ -120,7 +45,6 @@ export default class Navbar extends Component {
                             <Text style = {[ styles.navbarText, mode]}> Recipe </Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    {/* <TouchableWithoutFeedback onPress={() => navigation.navigate('Budget')}></TouchableWithoutFeedback> */}
                     <TouchableWithoutFeedback onPress={() => alert('Pressed')}>
                         <View style = {[ styles.navButton, iconMode ]}>
                             <Icon name="currency-usd" size={35} style = {[ mode ]} />
@@ -132,3 +56,5 @@ export default class Navbar extends Component {
         );
     } 
 }
+
+export default Navbar;

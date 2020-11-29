@@ -262,6 +262,16 @@ const styles = StyleSheet.create({
       backgroundColor: 'transparent',
       color: accentColorPrim,
     },
+    darkmodeB: {
+      backgroundColor: liteBG,
+      color: accentColorPrim,
+      borderColor: '#cccccc'
+    },
+    lightmodeB: {
+      backgroundColor: '#ffffff',
+      color: accentColorPrim,
+      borderColor: '#555555'
+    },
     navContainer: {
       position: 'absolute',
       height: 75,
