@@ -4,6 +4,7 @@ import { Text, View, TextInput, StyleSheet, ScrollView, TouchableOpacity} from '
 //import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 //import Icon from 'react-native-vector-icons/MaterialIcons';
 import { AntDesign } from '@expo/vector-icons';
+import Navbar from './Navbar';
 
 export default class RestaurantList extends Component {
   constructor(props) {
@@ -41,13 +42,13 @@ export default class RestaurantList extends Component {
     this.setState({restaurantListArray: filter});
   }
 
-  submit() {
-    console.log('Submit button pressed!');
+  submit = () => {
+    this.props.navigation.navigate('Group Accommodations');
   }
   // TODO: Replace hardcoded colors with light mode/dark mode
   render() {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', margin: 'auto', paddingLeft: 10, paddingRight: 10}}>
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', margin: 'auto', width: '100%', paddingLeft: 10, paddingRight: 10}}>
         <Text style={{padding: 10, fontSize: 20, color: '#6b222d', textAlign: 'center'}}>
           {"Enter the restaurants you are deciding between:"}
         </Text>
@@ -77,11 +78,12 @@ export default class RestaurantList extends Component {
             })}                  
           </ScrollView>
         </View>
-        <TouchableOpacity style={{backgroundColor: '#6b222d', width: '85%', borderRadius: 5}} onPress={this.submit}>
+        <TouchableOpacity style={{backgroundColor: '#6b222d', width: '85%', borderRadius: 5, marginBottom: 100}} onPress={this.submit}>
           <View style = {{borderRadius: 10, marginTop: 10, marginBottom: 10 }}>
             <Text style={{ fontSize: 20, textAlign: 'center', color: '#ffffff'}}>Submit</Text>
           </View>
         </TouchableOpacity>
+        <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
       </View>
     );
   }
