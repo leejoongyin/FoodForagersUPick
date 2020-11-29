@@ -31,7 +31,7 @@
     "react-native-svg": "^12.1.0",
     "react-native-tag-select": "^2.0.0",
     "react-native-vector-icons": "^7.1.0",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.11.7"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
