@@ -1,24 +1,23 @@
+//import 'react-native-gesture-handler';
 import React, {Component, useState} from 'react';
 import { Text, View, TextInput, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
-import Navbar from './Navbar';
-import styles from '../style/styles' ;
-
+//import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
+//import Icon from 'react-native-vector-icons/MaterialIcons';
+import { AntDesign } from '@expo/vector-icons';
 
 export default class RestaurantList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isDarkmode: this.props.route.params.isDarkmode,
       isFocused: false,
       restaurantListArray: ["Liuli Pavilion", "Cat's Tail Tavern", "Wanmin Restaurant", "Dawn Winery", "Yansheng Teahouse"],
       userInput: '',
     };
-    var mode = ( this.state.isDarkmode? styles.darkmode : styles.lightmode );
-    const{ isDarkmode, getIsDarkmode, toggleDarkmode} = this.props.route.params;
   }
 
   handleText = (text) =>{
     this.setState({userInput: text})
+    /*alert(this.state.userInput)*/
   }
 
   handleKeyPress = (e) => {
@@ -37,16 +36,18 @@ export default class RestaurantList extends Component {
     return list.join('\n');
   }
 
-  submit = () => {
+  pressHandler = (item) => {
+    const filter = this.state.restaurantListArray.filter(index => index != item)
+    this.setState({restaurantListArray: filter});
+  }
+
+  submit() {
     console.log('Submit button pressed!');
-    this.props.navigation.navigate('Group Accommodations');
   }
   // TODO: Replace hardcoded colors with light mode/dark mode
   render() {
-    this.mode = ( this.state.isDarkmode? styles.darkmode : styles.lightmode );
-
     return (
-      <View style={[styles.container, {flex: 1, alignItems: 'center', justifyContent: 'center', margin: 'auto', width: '100%'}]}>
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', margin: 'auto', paddingLeft: 10, paddingRight: 10}}>
         <Text style={{padding: 10, fontSize: 20, color: '#6b222d', textAlign: 'center'}}>
           {"Enter the restaurants you are deciding between:"}
         </Text>
@@ -61,10 +62,19 @@ export default class RestaurantList extends Component {
           
         />
         <View style={{width: '85%', height: '50%'}}>
-          <ScrollView style={{ marginTop: 10, marginBottom: 10,  backgroundColor: 'white', borderRadius: 5}}>
-            <Text style={{padding: 15, fontSize: 22, color: '#6b222d'}}>
-              {this.getRestaurantList()}
-            </Text>
+          <ScrollView style={{ marginTop: 10, marginBottom: 10,  backgroundColor: 'white', borderRadius: 5}}>           
+            {this.state.restaurantListArray.map((item) => {
+              return(
+                /*<TouchableOpacity onPress={() => this.pressHandler(item)}>*/
+                  <View style={styles.viewItem}> 
+                    <Text style={styles.textItem}>{item}</Text>  
+                    <TouchableOpacity onPress={() => this.pressHandler(item)}>                               
+                      <AntDesign name='delete' size={20}/>
+                    </TouchableOpacity>
+                  </View>
+                /*</TouchableOpacity>*/
+              )            
+            })}                  
           </ScrollView>
         </View>
         <TouchableOpacity style={{backgroundColor: '#6b222d', width: '85%', borderRadius: 5}} onPress={this.submit}>
@@ -72,8 +82,23 @@ export default class RestaurantList extends Component {
             <Text style={{ fontSize: 20, textAlign: 'center', color: '#ffffff'}}>Submit</Text>
           </View>
         </TouchableOpacity>
-        <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation} />
       </View>
     );
   }
 };
+
+const styles = StyleSheet.create({
+  textItem: {
+    padding: 10,
+    fontSize: 22, 
+  },
+
+  viewItem:{
+    backgroundColor:'#E2D6C8',
+    margin:5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
+});
