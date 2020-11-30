@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 import styles from '../style/styles.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import colors from '../style/colors.js';
 
 export default class Navbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          isDarkmode: this.isDarkmode
+          isDarkmode: this.props.isDarkmode
         };
     }
     render() {
-        var mode = ( this.state.isDarkmode? styles.darkmode : styles.lightmode );
-        const iconMode = (this.state.isDarkmode?styles.darkmodeIcon: styles.lightmodeIcon);
+        var mode = ( this.props.isDarkmode? styles.navDarkmode : styles.navLightmode );
+        const iconMode = (this.props.isDarkmode ? styles.darkmodeIcon: styles.lightmodeIcon);
         return (
             <View style = {[ styles.navContainer, mode ]}>
                 <View style = {[ styles.navCircle, mode ]}></View>

@@ -41,7 +41,7 @@ class HomePage extends React.Component {
     //mode = ( this.props.route.params.getIsDarkmode()? styles.darkmode : styles.lightmode );
     //console.log("HomePage rendered: " + this.props.route.params.getIsDarkmode());
     return (
-      <View style = {styles.container}>
+      <View style = {[styles.container,this.mode]}>
         <View style = {[ this.mode, styles.statusBar]} />
         <View style = {[ this.mode, styles.darkmodeToggleContainer ]}>
           <View style = {{flex:1}}/>

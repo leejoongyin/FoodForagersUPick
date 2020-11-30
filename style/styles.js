@@ -111,6 +111,14 @@ const styles = StyleSheet.create({
     navbarText: {
       fontSize: 25
     },
+    navDarkmode: {
+      backgroundColor: colors.liteBG,
+      color: colors.accentPrim
+    },
+    navLightmode: {
+      backgroundColor: 'white',
+      color: colors.accentPrim
+    },
     default: {
       backgroundColor: (isDarkmode?darkBG:liteBG),
       color: (isDarkmode?liteBG:'black')
@@ -191,8 +199,11 @@ const styles = StyleSheet.create({
     },
     header: {
       //textAlign:"center",
-      alignSelf: 'center',
+      //alignSelf: 'center',
       backgroundColor: headerTintColor,
+    },
+    headerText: {
+      alignSelf: 'center',    
     },
     guidance: {
       fontSize: 20,
