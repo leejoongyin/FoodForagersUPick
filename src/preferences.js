@@ -140,7 +140,7 @@ export default class Preferences extends Component {
           items={dietData}
           onPress={this.dietSelectionHandler.selectionHandler}
           isSelected={this.dietSelectionHandler.isSelected}
-          containerStyle={[styles.answers,mode]}
+          containerStyle={styles.answers}
           onItemSelected={(item) => {
             const joined = this.state.dietArray.concat(item.optionText);
             this.setState({ dietArray: joined });
@@ -180,7 +180,7 @@ export default class Preferences extends Component {
           items={restaurantData}
           onPress={this.restaurantSelectionHandler.selectionHandler}
           isSelected={this.restaurantSelectionHandler.isSelected}
-          containerStyle={[styles.answers,mode]}
+          containerStyle={styles.answers}
           onItemSelected={(item) => {
             const joined = this.state.restaurantArray.concat(item.optionText);
             this.setState({ restaurantArray: joined });
