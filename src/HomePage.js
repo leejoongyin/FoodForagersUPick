@@ -33,11 +33,10 @@ class HomePage extends React.Component {
 
   static navigationOptions = {
     headerShown: 'false',
-  }
+  };
 
   render(){
     this.mode = ( this.props.route.params.getIsDarkmode()? styles.darkmode : styles.lightmode );
-
     //mode = ( this.props.route.params.getIsDarkmode()? styles.darkmode : styles.lightmode );
     //console.log("HomePage rendered: " + this.props.route.params.getIsDarkmode());
     return (
@@ -52,7 +51,7 @@ class HomePage extends React.Component {
             trackColor={{ false: "white", true: '#A6433F' }}
             thumbColor={'white'}
           />
-          <View style = {{width: 2}} />
+          <View style = {{width: 5}} />
         </View>
         <View style = {[ this.mode, styles.mainViewer ]}>
           <View style = {{flex: 0.5}}/>
