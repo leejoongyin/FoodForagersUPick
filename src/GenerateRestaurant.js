@@ -20,20 +20,44 @@ class generateRestaurantScreen extends Component {
     }
 
     render() {
+        var isDarkmode = this.props.route.params.isDarkmode;
+        var mode = (isDarkmode?styles.darkmode:styles.lightmode);
         return (
-            <View style={styles.container}>   
-                <Text style={generateRestaurantStyle.questionFontLight}>Do you have any restaurants in mind?</Text>
-                <View style={generateRestaurantStyle.buttonContainer}>
-                    <TouchableOpacity style={generateRestaurantStyle.yesButtonLight}
-                                        onPress={this.yesPressed}                
+            <View style={[styles.container,mode]}>   
+                <Text style={[generateRestaurantStyle.questionFontLight,mode]}>Do you have any restaurants in mind?</Text>
+                <View style={[styles.padding]}/>
+
+                <View style={[generateRestaurantStyle.buttonContainer,mode]}>
+                    <TouchableOpacity 
+                        style={[
+                            generateRestaurantStyle.yesButtonLight,
+                            (isDarkmode?styles.buttonColor1Dark:styles.buttonColor2)
+                        ]}
+                        onPress={this.yesPressed}                
                     >
-                        <Text style={generateRestaurantStyle.yesNoFontLight}>Yes</Text>
+                        <Text 
+                            style={[
+                                generateRestaurantStyle.yesNoFontLight,
+                                (isDarkmode?styles.buttonColor1Dark:styles.buttonColor2)
+                        ]}>
+                            Yes
+                        </Text>
                     </TouchableOpacity>
                     
-                    <TouchableOpacity style={generateRestaurantStyle.noButtonLight}
-                                        onPress={this.noPressed}
+                    <TouchableOpacity 
+                        style={[
+                            generateRestaurantStyle.yesButtonLight,
+                            (isDarkmode?styles.buttonColor2Dark:styles.buttonColor3)
+                        ]}
+                        onPress={this.noPressed}
                     >
-                        <Text style={generateRestaurantStyle.yesNoFontLight}>No</Text>
+                        <Text 
+                            style={[
+                                generateRestaurantStyle.yesNoFontLight,
+                                (isDarkmode?styles.buttonColor2Dark:styles.buttonColor3)
+                        ]}>
+                            No
+                        </Text>
                     </TouchableOpacity>
                 </View>
                 <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>

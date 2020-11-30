@@ -5,7 +5,7 @@ import { Text, View, TextInput, StyleSheet, ScrollView, TouchableOpacity} from '
 //import Icon from 'react-native-vector-icons/MaterialIcons';
 import { AntDesign } from '@expo/vector-icons';
 import Navbar from './Navbar';
-
+import colors from '../style/colors';
 export default class RestaurantList extends Component {
   constructor(props) {
     super(props);
@@ -47,9 +47,13 @@ export default class RestaurantList extends Component {
   }
   // TODO: Replace hardcoded colors with light mode/dark mode
   render() {
+    
+    var isDarkmode = this.props.route.params.isDarkmode;
+    var mode = (isDarkmode ? styles.darkmode: styles.lightmode );
+
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', margin: 'auto', width: '100%', paddingLeft: 10, paddingRight: 10}}>
-        <Text style={{padding: 10, fontSize: 20, color: '#6b222d', textAlign: 'center'}}>
+      <View style={[{flex: 1, alignItems: 'center', justifyContent: 'center', margin: 'auto', width: '100%', paddingLeft: 10, paddingRight: 10},mode]}>
+        <Text style={[{padding: 10, fontSize: 20, color: '#6b222d', textAlign: 'center'},mode]}>
           {"Enter the restaurants you are deciding between:"}
         </Text>
         <TextInput value={this.state.userInput} 
@@ -62,25 +66,28 @@ export default class RestaurantList extends Component {
           onKeyPress={this.handleKeyPress} 
           
         />
-        <View style={{width: '85%', height: '50%'}}>
+        <View style={[{width: '85%', height: '50%'},mode]}>
           <ScrollView style={{ marginTop: 10, marginBottom: 10,  backgroundColor: 'white', borderRadius: 5}}>           
             {this.state.restaurantListArray.map((item) => {
               return(
                 /*<TouchableOpacity onPress={() => this.pressHandler(item)}>*/
                   <View style={styles.viewItem}> 
-                    <Text style={styles.textItem}>{item}</Text>  
-                    <TouchableOpacity onPress={() => this.pressHandler(item)}>                               
-                      <AntDesign name='delete' size={20}/>
-                    </TouchableOpacity>
+                    <Text style={styles.textItem}>{item}</Text> 
+                    <View style = {{flexDirection: 'row-reverse'}}> 
+                      <View style={{width: 15}}/>  
+                      <TouchableOpacity onPress={() => this.pressHandler(item)}>                               
+                        <AntDesign name='delete' size={20}/>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 /*</TouchableOpacity>*/
               )            
             })}                  
           </ScrollView>
         </View>
-        <TouchableOpacity style={{backgroundColor: '#6b222d', width: '85%', borderRadius: 5, marginBottom: 100}} onPress={this.submit}>
+        <TouchableOpacity style={[{backgroundColor: '#6b222d', width: '85%', borderRadius: 5, marginBottom: 100}, (isDarkmode?styles.buttonColor1Dark:styles.buttonColor1)]} onPress={this.submit}>
           <View style = {{borderRadius: 10, marginTop: 10, marginBottom: 10 }}>
-            <Text style={{ fontSize: 20, textAlign: 'center', color: '#ffffff'}}>Submit</Text>
+            <Text style={[{ fontSize: 20, textAlign: 'center', color: '#ffffff'},(isDarkmode?styles.buttonColor1Dark:styles.buttonColor1)]}>Submit</Text>
           </View>
         </TouchableOpacity>
         <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
@@ -90,13 +97,32 @@ export default class RestaurantList extends Component {
 };
 
 const styles = StyleSheet.create({
+  lightmode: {
+    backgroundColor: colors.liteBG,
+    color: colors.accentPrim,
+    borderColor: '#555555'
+  },
+  darkmode: {
+    backgroundColor: colors.darkBG,
+    color: 'white',
+    borderColor: '#cccccc'
+  },
+  buttonColor1: {
+    backgroundColor: colors.accentPrim,
+    color: 'white',
+  },
+  buttonColor1Dark: {
+    backgroundColor: colors.accentPrimDark,
+    color: colors.accentPrim,
+  },
+
   textItem: {
     padding: 10,
     fontSize: 22, 
   },
 
   viewItem:{
-    backgroundColor:'#E2D6C8',
+    //backgroundColor:'#E2D6C8',
     margin:5,
     flexDirection: 'row',
     justifyContent: 'space-between',

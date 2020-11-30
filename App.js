@@ -27,7 +27,7 @@ const Tab = createBottomTabNavigator();
 const headerTintColor = '#E2D6C8';
 
 const navigationOptions = {
-  headerTitleStyle: styles.header,
+  headerTitleStyle: styles.headerText,
   headerRight: () =>(<View/>),
   headerStyle: styles.header
 }

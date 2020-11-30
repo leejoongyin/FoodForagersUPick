@@ -3,10 +3,13 @@ import React, {Component, useState} from 'react';
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import Navbar from './Navbar';
+import colors from '../style/colors';
+
+import { ThemeProvider } from '@react-navigation/native';
 
 const MAX_SELECT = 10;
-
 
 export default class Preferences extends Component {
   
@@ -23,6 +26,7 @@ export default class Preferences extends Component {
         cuisineArray: [],
         restaurantArray: []
     };
+    this.isDarkmode = this.props.isDarkmode;
   }
 
   savePreferences = () => {
@@ -42,6 +46,9 @@ export default class Preferences extends Component {
   }
 
   render() {
+    var isDarkmode = this.props.route.params.isDarkmode;
+    var mode = (isDarkmode ? styles.darkmode: styles.lightmode );
+
     const budgetData = [
       { id: 1, optionText: '$' },
       { id: 2, optionText: '$$' },
@@ -83,28 +90,29 @@ export default class Preferences extends Component {
     ];
 
     return (
-      <View style={[styles.container, { flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', margin: 'auto', marginTop: 50}]}>
-        <Text style={styles.centerHeader}>Where would you like to eat?*</Text>
-        <View style={styles.searchSection}>
-          <Icon name="place" size={30} color="#000" style={{padding: 10}}/>
+      <View style={[styles.container, mode, { flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', margin: 'auto', }]}>
+        <View style = {{height: 50}}/>
+        <Text style={[ styles.centerHeader, mode ]}>Where would you like to eat?*</Text>
+        <View style={[ styles.searchSection,mode ]}>
+          <Icon name="place" size={30} color={(isDarkmode?"white":"black")} style={{padding: 10}}/>
           <TextInput
             style={styles.inputBox}
-            placeholder="Enter zipcode"
+            placeholder=" Enter zipcode"
             onChangeText={(zipcode) => {this.setState({zipcode})}}
             underlineColorAndroid="transparent"
           />
         </View>
-        <Text style={styles.centerHeader}>When would you like to eat?*</Text>
-        <View style={styles.searchSection}>
-          <Icon name="schedule" size={30} color="#000" style={{padding: 10}}/>
+        <Text style={[styles.centerHeader, mode]}>When would you like to eat?*</Text>
+        <View style={[styles.searchSection, mode]}>
+          <Icon name="schedule" size={30} color={(isDarkmode?"white":"black")} style={{padding: 10}}/>
           <TextInput
             style={styles.inputBox}
-            placeholder="Enter time"
+            placeholder=" Enter time"
             onChangeText={(time) => {this.setState({time})}}
             underlineColorAndroid="transparent"
           />
         </View>
-        <Text style={styles.header}>Budget</Text>
+        <Text style={[styles.header,mode ]}>Budget</Text>
         <SelectionGroup 
           renderContent={this.renderButton}
           items={budgetData}
@@ -126,13 +134,13 @@ export default class Preferences extends Component {
             alert(this.state.budgetArray);
           }}
         />
-        <Text style={styles.header}>Dietary Requirements</Text>
+        <Text style={[styles.header,mode]}>Dietary Requirements</Text>
         <SelectionGroup 
           renderContent={this.renderButton}
           items={dietData}
           onPress={this.dietSelectionHandler.selectionHandler}
           isSelected={this.dietSelectionHandler.isSelected}
-          containerStyle={styles.answers}
+          containerStyle={[styles.answers,mode]}
           onItemSelected={(item) => {
             const joined = this.state.dietArray.concat(item.optionText);
             this.setState({ dietArray: joined });
@@ -146,7 +154,7 @@ export default class Preferences extends Component {
             }
           }}
         />
-        <Text style={styles.header}>Cuisine</Text>
+        <Text style={[styles.header,mode]}>Cuisine</Text>
         <SelectionGroup 
           renderContent={this.renderButton}
           items={cuisineData}
@@ -166,13 +174,13 @@ export default class Preferences extends Component {
             }
           }}
         />
-        <Text style={styles.header}>Type of Restaurant</Text>
+        <Text style={[styles.header,mode]}>Type of Restaurant</Text>
         <SelectionGroup 
           renderContent={this.renderButton}
           items={restaurantData}
           onPress={this.restaurantSelectionHandler.selectionHandler}
           isSelected={this.restaurantSelectionHandler.isSelected}
-          containerStyle={styles.answers}
+          containerStyle={[styles.answers,mode]}
           onItemSelected={(item) => {
             const joined = this.state.restaurantArray.concat(item.optionText);
             this.setState({ restaurantArray: joined });
@@ -189,7 +197,7 @@ export default class Preferences extends Component {
         <TouchableWithoutFeedback
           title="Submit"
           onPress={this.savePreferences}>
-            <View style={styles.submitBtn}><Text style={{color: '#FFF'}}>Submit</Text></View>
+            <View style={[styles.submitBtn,(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)]}><Text style={(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)}>Submit</Text></View>
         </TouchableWithoutFeedback>
         <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
       </View>
@@ -198,11 +206,29 @@ export default class Preferences extends Component {
 };
 
 const styles = StyleSheet.create({
+  lightmode: {
+    backgroundColor: colors.liteBG,
+    color: colors.accentPrim,
+    borderColor: '#555555'
+  },
+  darkmode: {
+    backgroundColor: colors.darkBG,
+    color: 'white',
+    borderColor: '#cccccc'
+  },
+  buttonColor1: {
+    backgroundColor: colors.accentPrim,
+    color: 'white',
+  },
+  buttonColor1Dark: {
+    backgroundColor: colors.accentPrimDark,
+    color: colors.accentPrim,
+  },
   searchSection: {
     flexDirection: 'row',
     backgroundColor: '#FFF',
     borderRadius: 5,
-    width: '80%'
+    width: '80%',
   },
   inputBox: {
     flex: 1,

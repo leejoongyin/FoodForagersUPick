@@ -20,20 +20,24 @@ export default class EditPreferences extends Component {
     }
 
     render() {
+        var isDarkmode = this.props.route.params.isDarkmode;
+        var mode = (isDarkmode ? styles.darkmode: styles.lightmode );
+
         return (
-            <View style={styles.container}>   
-                <Text style={generateRestaurantStyle.questionFontLight}>Which would you like to edit?</Text>
-                <View style={generateRestaurantStyle.buttonContainer}>
-                    <TouchableOpacity style={generateRestaurantStyle.yesButtonLight}
+            <View style={[styles.container,mode]}>   
+                <Text style={[generateRestaurantStyle.questionFontLight,mode]}>Which would you like to edit?</Text>
+                <View style={[styles.padding]}/>
+                <View style={[generateRestaurantStyle.buttonContainer,mode]}>
+                    <TouchableOpacity style={[generateRestaurantStyle.yesButtonLight,(isDarkmode?styles.buttonColor1Dark:styles.buttonColor2)]}
                                         onPress={this.yesPressed}                
                     >
-                        <Text style={generateRestaurantStyle.yesNoFontLight}>Restaurant List</Text>
+                        <Text style={[generateRestaurantStyle.yesNoFontLight,(isDarkmode?styles.buttonColor1Dark:styles.buttonColor2)]}>Restaurant List</Text>
                     </TouchableOpacity>
                     
-                    <TouchableOpacity style={generateRestaurantStyle.noButtonLight}
+                    <TouchableOpacity style={[generateRestaurantStyle.yesButtonLight,(isDarkmode?styles.buttonColor2Dark:styles.buttonColor3)]}
                                         onPress={this.noPressed}
                     >
-                        <Text style={generateRestaurantStyle.yesNoFontLight}>Preferences</Text>
+                        <Text style={[generateRestaurantStyle.yesNoFontLight,(isDarkmode?styles.buttonColor2Dark:styles.buttonColor3)]}>Preferences</Text>
                     </TouchableOpacity>
                 </View>
                 <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
