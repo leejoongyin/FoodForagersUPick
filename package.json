@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
-    "@react-native-community/datetimepicker": "^3.0.6",
+    "@react-native-community/datetimepicker": "^3.0.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.2",
     "@react-navigation/native": "^5.8.10",
@@ -18,6 +18,7 @@
     "expo-barcode-scanner": "~9.0.0",
     "expo-permissions": "~9.3.0",
     "expo-status-bar": "~1.0.2",
+    "firebase": "^8.1.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.4.tar.gz",

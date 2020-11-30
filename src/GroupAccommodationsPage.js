@@ -9,6 +9,7 @@ import './Navbar';
 import '../assets/CameraIcon.png'
 import Navbar from './Navbar';
 import styles from '../style/styles';
+import db from './base';
 
 class EatingAlone extends Component {
     constructor(props){
@@ -25,7 +26,7 @@ class EatingAlone extends Component {
                 <View style = {styles.padding}/>
 
                 <View style = {styles.padding}/>
-                <Text style = {[mode, styles.text]} > or get a recomendation just for you: </ Text>
+                <Text style = {[mode, styles.text]} > or get a recommendation just for you: </ Text>
                 <View style = {styles.padding}/>
                 <TouchableWithoutFeedback  title = 'Generate' onPress={()=>{this.props.navigation.navigate("Placeholder", {isDarkmode: this.props.isDarkmode})}}>
                     <View style = {[ mode, styles.buttonFocused, (this.props.isDarkmode? styles.buttonColor2Dark: styles.buttonColor1), {height: 75}  ]}>
@@ -33,7 +34,7 @@ class EatingAlone extends Component {
                             Generate restaurant
                         </Text>
                         <Text style = {[mode, styles.beginButtonText, (this.props.isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}>
-                            recomendation
+                            recommendation
                         </Text>
                     </View>
                 </TouchableWithoutFeedback>
@@ -162,12 +163,17 @@ class GroupsAccommodationsPage extends Component {
         const {isDarkmode = false} = this.props.route.params;
         var { mode } = (this.props.route.params.isDarkmode ? styles.darkmode: styles.lightmode);
         const { navigation } = this.props;
+        this.firebaseRef = db.database().ref(this.props.route.params.getGroupCode());
         this.state = {
             showState: 1
         }
         console.log("Groups( isDarkmode: " + isDarkmode + ")");
         //Alert.alert( "Group Accomodations render, State: " + this.state.showState);
     };
+
+    componentWillUnmount() {
+        this.firebaseRef.off();
+    }
 
     showEatingAlone = () => {
         if( this.state.showState != 1 ) {
@@ -221,6 +227,20 @@ class GroupsAccommodationsPage extends Component {
     }
 
     onInvitePressed = () => {
+
+        this.firebaseRef.set({
+            Members:1,
+            Budget: {m:0, mm:0, mmm:0},
+            Diet: {Lactose:0,Nut:0,Shellfish:0,Vegan:0,Vegetarian:0,Kosher:0,Paleo:0},
+            Cuisine: {Chinese:0, American:0, Mexican:0, Italian:0, Japanese:0, 
+                Korean:0, Thai:0, Vietnamese:0, Indian:0},
+            Restaurant: {Breakfast:0, Brunch:0, Bar:0, FastFood:0, Dessert:0, 
+                Drink:0, CoffeeShop:0, BBQ:0, Dinner:0}
+        });
+
+        // temporarily here so i dont get 1000000 instances in my db when u guys test
+        this.firebaseRef.remove();
+
         this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.route.params.isDarkmode});
         //Alert.alert( "Group Accomodations render, State: " + this.state.showState);
         this.setState(prevState => ({
