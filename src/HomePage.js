@@ -54,21 +54,23 @@ class HomePage extends React.Component {
           <View style = {{width: 5}} />
         </View>
         <View style = {[ this.mode, styles.mainViewer ]}>
-          <View style = {{flex: 0.5}}/>
-            <Text style = {[ this.mode, { fontSize: 20, color: (this.props.route.params.getIsDarkmode()?colors.accentTerDark :colors.accentTer ) }]}> WELCOME TO </Text>
-            <Text style = {[ styles.title, this.mode ]}> UPick </Text>
-            <View style = {styles.padding}/>
-            <Image style = {styles.logo} source = {(this.props.route.params.getIsDarkmode()?require('../assets/LogoDark.png'): require('../assets/Logo.png'))}/>
-            <View style = {styles.padding}/>
-            <View style = {styles.padding}/>
-            <Text style = {[ styles.guidance, this.mode ]}> Let us help you decide where </Text>
-            <Text style = {[ styles.guidance, this.mode ]}> or what to eat </Text>
-            <View style = {styles.padding}/>
-            <TouchableWithoutFeedback  title = 'BEGIN' onPress = {this.onBeginPressed}>
-              <View style = {[ this.mode, styles.buttonFocused, (this.props.route.params.getIsDarkmode()? styles.buttonColor1Dark: styles.buttonColor1) ]}>
-                <Text style = {[this.mode, styles.beginButtonText, (this.props.route.params.getIsDarkmode()? styles.buttonColor1Dark: styles.buttonColor1)]}> BEGIN </Text>
-              </View>
-            </TouchableWithoutFeedback>
+          <View style = {{flex: 0.15}}/>
+          <Text style = {[ this.mode, { fontSize: 20, color: (this.props.route.params.getIsDarkmode()?colors.accentTerDark :colors.accentTer ) }]}> WELCOME TO </Text>
+          <Text style = {[ styles.title, this.mode ]}> UPick </Text>
+          <View style = {styles.padding}/>
+          <Image style = {styles.logo} source = {(this.props.route.params.getIsDarkmode()?require('../assets/LogoDark.png'): require('../assets/Logo.png'))}/>
+          <View style = {styles.padding}/>
+          <View style = {styles.padding}/>
+          <View style = {{flex: 0.2}}/>
+          <Text style = {[ styles.guidance, this.mode ]}> Let us help you decide where </Text>
+          <Text style = {[ styles.guidance, this.mode ]}> or what to eat </Text>
+          <View style = {styles.padding}/>
+          <View style = {{flex: 0.1}}/>
+          <TouchableWithoutFeedback  title = 'BEGIN' onPress = {this.onBeginPressed}>
+            <View style = {[ this.mode, styles.buttonFocused, (this.props.route.params.getIsDarkmode()? styles.buttonColor1Dark: styles.buttonColor1) ]}>
+              <Text style = {[this.mode, styles.beginButtonText, (this.props.route.params.getIsDarkmode()? styles.buttonColor1Dark: styles.buttonColor1)]}> BEGIN </Text>
+            </View>
+          </TouchableWithoutFeedback>
           <View style = {{flex: 1}}/>
         </View>
         <Navbar isDarkmode={this.props.route.params.getIsDarkmode()} navigation={this.props.navigation}/>
@@ -77,8 +79,5 @@ class HomePage extends React.Component {
     );
   }
 }
-
-const accentColorPrim = '#992929';
-const accentColorSec = '#441111';
 
 export default HomePage;

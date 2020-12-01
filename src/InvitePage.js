@@ -46,14 +46,14 @@ class InvitePage extends Component {
                     </Text>
                     <View style={[styles.padding]}/>
                     <View style={[styles.padding]}/>
-                    <TouchableWithoutFeedback  title = 'Generate' onPress={()=>{this.props.navigation.navigate("Placeholder", {isDarkmode: isDarkmode})}}>
-                    <View style = {[ mode, styles.buttonFocused, (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1)  ]}>
-                        <Text style = {[mode, styles.beginButtonText,  (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}>
-                            Generate recomendation
-                        </Text>
-                    </View>
-                </TouchableWithoutFeedback>
-
+                    <TouchableWithoutFeedback  title = 'Generate' onPress={()=>{this.props.navigation.navigate("Restaurant Info", {isDarkmode: isDarkmode})}}>
+                        <View style = {[ mode, styles.buttonFocused, (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1)  ]}>
+                            <Text style = {[mode, styles.beginButtonText,  (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}>
+                                Generate recomendation
+                            </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <View style={{height: '15%', flex: -1}}/>
                 </View>
                 <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
             </View>

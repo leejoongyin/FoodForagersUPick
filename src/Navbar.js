@@ -18,19 +18,19 @@ export default class Navbar extends Component {
             <View style = {[ styles.navContainer, mode ]}>
                 <View style = {[ styles.navCircle, mode ]}></View>
                 <View style = {[ styles.navbar, mode ]}>
-                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Edit Preferences')}>
+                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Edit Preferences', {isDarkmode: this.props.isDarkmode})}>
                         <View style = {[ styles.navButton, iconMode ]}>
                             <Icon name="circle-edit-outline" size={35} style = {[ mode ]} />
                             <Text style = {[ styles.navbarText, mode]}> Edit </Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Group Accommodations')}>
+                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Group Accommodations', {isDarkmode: this.props.isDarkmode})}>
                         <View style = {[ styles.navButton, iconMode ]}>
                             <Icon name="account-group" size={40} style = {[ mode ]} />
                             <Text style = {[ styles.navbarText, mode]}> Join Group </Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Home')}>
+                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Home', {isDarkmode: this.props.isDarkmode})}>
                         <View style = {[ styles.navButtonCenter, iconMode ]}>
                             <Icon name="silverware-fork-knife" size={45} style = {[ mode ]} />
                             <Text style = {[ styles.navbarText, mode]}> Generate </Text>

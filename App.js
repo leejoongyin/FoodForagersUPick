@@ -16,6 +16,7 @@ import HomePage from './src/HomePage';
 import InvitePage from './src/InvitePage';
 import Preferences from './src/preferences';
 import RestaurantList from './src/restaurantList';
+import RestaurantInfo from './src/RestaurantInfo';
 import EditPreferences from './src/EditPreferences';
 
 import styles from './style/styles';
@@ -151,6 +152,16 @@ class App extends Component {
               component={RestaurantList}
               options={{
                   title: "Restaurant List"
+              }}
+              initialParams = {{
+                  isDarkmode: this.getIsDarkmode()
+              }}
+          />
+          <Stack.Screen
+              name = "Restaurant Info"
+              component={RestaurantInfo}
+              options={{
+                  title: "Recommendation"
               }}
               initialParams = {{
                   isDarkmode: this.getIsDarkmode()

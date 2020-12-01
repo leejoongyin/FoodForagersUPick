@@ -52,7 +52,7 @@ export default class RestaurantList extends Component {
     var mode = (isDarkmode ? styles.darkmode: styles.lightmode );
 
     return (
-      <View style={[{flex: 1, alignItems: 'center', justifyContent: 'center', margin: 'auto', width: '100%', paddingLeft: 10, paddingRight: 10},mode]}>
+      <View style={[{flex: 1, alignItems: 'center', justifyContent: 'center', margin: 'auto', width: '100%'},mode]}>
         <Text style={[{padding: 10, fontSize: 20, color: '#6b222d', textAlign: 'center'},mode]}>
           {"Enter the restaurants you are deciding between:"}
         </Text>

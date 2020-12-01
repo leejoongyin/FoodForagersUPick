@@ -28,7 +28,7 @@ class EatingAlone extends Component {
                 <View style = {styles.padding}/>
                 <Text style = {[mode, styles.text]} > or get a recommendation just for you: </ Text>
                 <View style = {styles.padding}/>
-                <TouchableWithoutFeedback  title = 'Generate' onPress={()=>{this.props.navigation.navigate("Placeholder", {isDarkmode: this.props.isDarkmode})}}>
+                <TouchableWithoutFeedback  title = 'Generate' onPress={()=>{this.props.navigation.navigate("Restaurant Info", {isDarkmode: this.props.isDarkmode})}}>
                     <View style = {[ mode, styles.buttonFocused, (this.props.isDarkmode? styles.buttonColor2Dark: styles.buttonColor1), {height: 75}  ]}>
                         <Text style = {[mode, styles.beginButtonText,  (this.props.isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}>
                             Generate restaurant
@@ -167,7 +167,7 @@ class GroupsAccommodationsPage extends Component {
         this.state = {
             showState: 1
         }
-        console.log("Groups( isDarkmode: " + isDarkmode + ")");
+        //console.log("Groups( isDarkmode: " + isDarkmode + ")");
         //Alert.alert( "Group Accomodations render, State: " + this.state.showState);
     };
 

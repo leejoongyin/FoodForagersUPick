@@ -316,6 +316,6 @@ const styles = StyleSheet.create({
       bottom: 0,
       elevation: 10
     }
-  });
+});
 
-  export default styles;
+export default styles;
