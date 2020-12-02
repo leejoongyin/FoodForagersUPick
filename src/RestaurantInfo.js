@@ -29,54 +29,52 @@ export default function App(props) {
       </View>
     </View>*/}
     
-    <View style={[styles.mainViewer, mode ]}>
-      <View style={styles.padding2}/>
+    <View style={[ styles.mainViewer, mode ]}>
+      <View style={[styles.padding2]}/>
       <Text style={[{color: '#EEEEEE', fontSize: 25}, mode2]}>Let's go to:</Text>
       <Text style={[{color:'white', fontSize: 50, fontWeight: 'bold'}, mode]}>McDonald's</Text>
       <View style={styles.padding2}/>
       <Image source={require('../assets/McDonalds.png')} style={[styles.restaurauntImage]} /> 
       {/*<StatusBar style="auto" />*/}
-      <View style={[styles.infoContainer]}>
-        <View style={[styles.infoRow ]}>
-          <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Hours: </Text>
-          <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold", fontStyle: 'italic'}]}>Open Now </Text>
-          <Text style={[styles.textStyle_2, mode2]}>until 7pm </Text>
-        </View>
-        <View style={[styles.infoRow]}>
-          <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Location: </Text>
-          <Text style={[styles.textStyle_2, mode2 ]}>1234 Street Ave. City, ST 91234</Text>
-        </View>
-        <View style={[styles.infoRow]}>
-          <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Phone Number: </Text>
-          <Text style={[styles.textStyle_2, mode2 ]}>123-123-1234</Text>
-        </View>
-        
-        
-        <View style={styles.padding2}/>
-        <View style={[styles.infoRow]}>
-            <View>
-              <TouchableOpacity
-                onPress={() => alert('Hello, world!')}
-                style={[styles.button, buttonColor1]}
-              >
-                <Text style={[styles.textStyle_3,buttonColor1]}>View Menu</Text>
-                
-              </TouchableOpacity>
-            </View>
-            <View style={[styles.buttonGap]}/>
-            <View>
-              <TouchableOpacity
-                onPress={() => alert('Hello, world!')}
-                style={[styles.button, buttonColor1]}
-              >
-                <Text style={[styles.textStyle_3,buttonColor1]}>Call Now</Text>
-              </TouchableOpacity>
-            </View>  
-             
-        </View>
+      <View style={[styles.padding2]}/>
+      
+      <View style={[styles.infoRow ]}>
+        <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Hours: </Text>
+        <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold", fontStyle: 'italic'}]}>Open Now </Text>
+        <Text style={[styles.textStyle_2, mode2]}>until 7pm </Text>
       </View>
-      <View style = {styles.padding2}/>
-      <View style={{height: '10%', flex: -1}}/>
+      <View style={[styles.infoRow]}>
+        <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Location: </Text>
+        <Text style={[styles.textStyle_2, mode2 ]}>1234 Street Ave. City, ST 91234</Text>
+      </View>
+      <View style={[styles.infoRow]}>
+        <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Phone Number: </Text>
+        <Text style={[styles.textStyle_2, mode2 ]}>123-123-1234</Text>
+      </View>
+      
+      
+      <View style={[styles.padding2]}/>
+      <View style={[styles.infoRow]}>
+          <View>
+            <TouchableOpacity
+              onPress={() => alert('Hello, world!')}
+              style={[styles.button, buttonColor1]}
+            >
+              <Text style={[styles.textStyle_3,buttonColor1]}>View Menu</Text>
+              
+            </TouchableOpacity>
+          </View>
+          <View style={[styles.buttonGap]}/>
+          <View>
+            <TouchableOpacity
+              onPress={() => alert('Hello, world!')}
+              style={[styles.button, buttonColor1]}
+            >
+              <Text style={[styles.textStyle_3,buttonColor1]}>Call Now</Text>
+            </TouchableOpacity>
+          </View> 
+      </View>
+      <View style={[styles.padding2], {height: '25%'}}/>
     </View>
     
     <Navbar isDarkmode={props.route.params.isDarkmode} navigation={props.navigation}/>
@@ -85,7 +83,8 @@ export default function App(props) {
   );
 }
 
-const infoRowWidth = 0.85 * Dimensions.get('window').width;
+const windowWidth = (Dimensions.get('window').width < Dimensions.get('window').height?Dimensions.get('window').width : Dimensions.get('window').height);
+const infoRowWidth = 0.85 * windowWidth;
 
 const styles = StyleSheet.create({
   lightmode: {
@@ -120,9 +119,9 @@ const styles = StyleSheet.create({
     height: 20,
   }, 
   padding2: {
-    flex: 0.2,
-    width: 40,
-    height: 40,
+    flex: -2,
+    width: '5%',
+    height: '5%',
   },  
   navBar: {
     backgroundColor: '#404040',
@@ -216,11 +215,11 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     borderWidth: 0,
-    width: 0.40*Dimensions.get('window').width,
+    width: 0.40*windowWidth,
   },
 
   buttonGap: {
-    width: 0.05*Dimensions.get('window').width,
+    width: 0.05*windowWidth,
     flex: 1,
   }, 
 
@@ -230,14 +229,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue',
   },
   restaurauntImage: {
-    width: 0.85*Dimensions.get('window').width, 
-    height: 0.30*Dimensions.get('window').height, 
+    width: infoRowWidth, 
+    height: '30%', 
     borderRadius: 2,
     resizeMode: 'contain'
   },
 
   screen: {
-    width: Dimensions.get('window').width,
+    width: '100%',
     flex: 1,
     alignContent: 'flex-start',
     flexDirection: 'column'
