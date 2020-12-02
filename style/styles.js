@@ -18,11 +18,12 @@ const buttonFocWidth = 0.75;
 
 const moduleUnit = '15%';
 
+export const INNER_MODULE_WIDTH = 0.75*0.7*Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
     barCodeScanner: {
       height: 100,
       width: 100,
-      flex: 1,
     },
     container: {
       flex: 1,
@@ -205,6 +206,15 @@ const styles = StyleSheet.create({
     headerText: {
       alignSelf: 'center',    
     },
+    inputBox: {
+      flex: 1,
+      backgroundColor: '#FFF',
+      height: 50,
+      paddingHorizontal: 10,
+      borderRadius: 5,
+      marginTop: 5,
+      marginBottom: 5,
+    },
     guidance: {
       fontSize: 20,
       fontStyle: 'italic'
@@ -239,11 +249,16 @@ const styles = StyleSheet.create({
       justifyContent: 'center'
     },
     outline: {
-      borderWidth: 1,
-      borderColor: 'red',
+      borderWidth: 2,
+      borderColor: colors.accentPrim,
     },
     padding: {
       height: 20
+    },
+    paddedView: {
+      padding: 5,
+      height: '100%',
+      width: '100%'
     },
     statusBar: {
         height: 25

@@ -33,13 +33,15 @@ const navigationOptions = {
   headerStyle: styles.header
 }
 
+const groupCodeLength = 4;
+
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       isDarkmode: true,
-      groupCode: this.roomCodeGenerator(4)
+      groupCode: this.roomCodeGenerator(groupCodeLength)
     };
     var mode = (this.getIsDarkmode() ? styles.darkmode : styles.lightmode);
     console.log(mode);
@@ -71,7 +73,7 @@ class App extends Component {
   }
 
   setGroupCode( e ) {
-    if ( !e ) {
+    if ( !e || e.length != groupCodeLength ) {
       return false;
     }
 

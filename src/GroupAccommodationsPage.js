@@ -1,14 +1,15 @@
 
 import React, {Component} from 'react';
-import { View, Image, StyleSheet, Text, TouchableWithoutFeedback, Switch, Alert } from 'react-native';
+import { View, Image, StyleSheet, Text, TouchableWithoutFeedback, TextInput, Switch, Alert } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Camera } from 'expo-camera';
 
 
 import './Navbar';
 import '../assets/CameraIcon.png'
 import Navbar from './Navbar';
-import styles from '../style/styles';
+import styles, {INNER_MODULE_WIDTH} from '../style/styles';
 import db from './base';
 
 class EatingAlone extends Component {
@@ -59,6 +60,8 @@ class QRCode extends Component {
     }
 }
 
+
+
 class QRScanner extends Component {
 
     setGroupCode = (data) => {
@@ -71,9 +74,17 @@ class QRScanner extends Component {
         super(props);
         this.state = {
             showScanner: false,
+            isVerifying: false,
+            groupCode: '',
+            hasCameraPermission: null,
         }
     }
     qrCodeScanned = ({ type, data }) => {
+        if( this.state.isVerifying ) {
+            return;
+        } else {
+
+        }
         console.log(data, " scanned")
         if( this.props.setGroupCode(data) ) {
             this.setState({
@@ -81,36 +92,73 @@ class QRScanner extends Component {
             })
             this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.isDarkmode});
         } else {
-            alert('that code does not belong to a valid group');
+            this.setState({
+                isVerifying: true,
+            });
+            Alert.alert(
+                'Invalid Code Scanned',
+                "The code that was scanned is not a group code", 
+                [{text: "ok", onPress: ()=>{this.codeWarningDismissed()}}], 
+                {onDismiss: this.codeWarningDismissed }
+            );
         }
 
     };
+    groupCodeEntered = (groupCode) => {
+        if( this.props.setGroupCode( groupCode ) ) {
+            this.setState({
+                showScanner: false,
+                isVerifying: false,
+
+            })
+            this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.isDarkmode});
+        }
+    }
+
+    codeWarningDismissed = () => {
+        this.setState({
+            isVerifying: false,
+        });
+    }
+
+    onShowPressed = () => {
+        this.setState({
+            showScanner: true,
+        });
+    }
 
     async askPermission() {
         const {status} = await Permissions.askAsync(Permissions.CAMERA);
+        this.setState({
+            hasCameraPermission: status === 'granted'
+        });
+        console.log(this.state.hasCameraPermission);
 
     }
 
     async getPermission() {
-        const {status} = await Permissions.getAsync(Permissions.CAMERA);
-        return status == 'granted';
+        const {status, granted} = await Permissions.getAsync(Permissions.CAMERA);
+        //console.log("Camera Permission: " + status + ": " + granted );
+        this.setState({
+            hasCameraPermission: status === 'granted'
+        });
+        return false;
+        return status === 'granted';
     }
     showScanner = () => {
-        if( this.state.showScanner && this.getPermission() ) {
+        if( !this.state.showScanner ) {
             return(
-                <View style = {{flex:1, width: '100%', height: '100%'}}>
-                    <BarCodeScanner
-                        onBarCodeScanned={this.qrCodeScanned}
-                        style={[ StyleSheet.absoluteFillObject, styles.BarCodeScanner]}
-                    />
-                </View>
-
+                <TouchableWithoutFeedback onPress={this.onShowPressed}>
+                    <View style={[ styles.button, styles.buttonColor1Dark, { flex:1, width: '90%' } ]}>
+                        <Text style={[styles.beginButtonText, styles.buttonColor1Dark]}> Start Scanner </Text>
+                    </View>
+                </TouchableWithoutFeedback>
             )
-        } else if ( !this.getPermission() ) {
+        } else if ( !this.state.hasCameraPermission ) {
             return(
                 <TouchableWithoutFeedback onPress={this.askPermission}>
-                    <View style={[styles.button, (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1 )]}>
-                        <Text style={[ (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1 )]}>
+                    <View style={[styles.button, (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1 ), { flex:1, width: '90%' }]}>
+                        <Text style={[ styles.beginButtonText, (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1 )]}>
                             We need your permission to use the camera
                         </Text>
                     </View>
@@ -118,18 +166,29 @@ class QRScanner extends Component {
             )
 
         } else {
+            //console.log("Camera is shown");
             return(
-                <TouchableWithoutFeedback onPress={()=>{this.setState({showScanner: true})}}>
-                    <View style={[ styles.button, styles.buttonColor1Dark, { flex:1, width: '100%' } ]}>
-                        <Text> Start Scanner </Text>
-                    </View>
-                </TouchableWithoutFeedback>
+                <View style = {{flex:1, width: INNER_MODULE_WIDTH, height: '100%', borderRadius: 10}}>
+                    <Camera 
+                        type={Camera.Constants.Type.back}
+                        style={[ {flex:0, height: INNER_MODULE_WIDTH, width: INNER_MODULE_WIDTH} ]}
+                        onBarCodeScanned={this.qrCodeScanned}
+                        barCodeScannerSettings={{
+                            barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+                        }}
+                        useCamera2Api={true}
+                        onMountError={(message)=>{Alert.alert("Camera error", JSON.stringify(message) + this.getPermission())}}
+                        ratio={"1:1"}
+                    />
+                </View>
+
             )
 
         }
     }
     render() {
         var mode = (this.props.isDarkmode ? styles.darkmode: styles.lightmode);
+        this.getPermission();
         return(
             <View style = {[ styles.module ]}>
                 <View style={[styles.moduleRow]}>
@@ -138,8 +197,8 @@ class QRScanner extends Component {
                     </View>
 
                     <View style={styles.container}>
-                        <Text style={[styles.guidance, {fontSize: 15}]}>Scan your friend's code from </Text>
-                        <Text style={[styles.guidance, {fontSize: 15}]}> their device </Text>
+                        <Text style={[styles.guidance, {fontSize: 15}]}>Scan your friend's code from</Text>
+                        <Text style={[styles.guidance, {fontSize: 15}]}>their device</Text>
                     </View>
                     <View style={[styles.moduleCorner, {padding:1}]}>
 
@@ -150,7 +209,14 @@ class QRScanner extends Component {
                 </View>
 
                 <View style={[styles.moduleRow]}>
-
+                    <View style={[styles.paddedView]}>
+                        <TextInput
+                            style={[styles.inputBox, styles.outline]}
+                            placeholder=" Or enter Group Code here"
+                            onChangeText={(groupCodeIn)=>{this.groupCodeEntered(groupCodeIn)}}
+                            underlineColorAndroid="transparent"
+                        />
+                    </View>
                 </View>
             </View>
         );
