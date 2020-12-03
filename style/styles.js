@@ -14,18 +14,21 @@ const liteBG = colors.liteBG;
 
 const headerTintColor = colors.headerTintColor;
 
-const buttonFocWidth = 0.75;
 
-const moduleUnit = '15%';
+export const FOCUS_MODULE_SCALE = 0.85;
+export const SCALING_WIDTH = (Dimensions.get('window').width < Dimensions.get('window').height?Dimensions.get('window').width : Dimensions.get('window').height);
 
-export const MODULE_WIDTH = 0.75 * Dimensions.get('window').width;
 
-export const INNER_MODULE_WIDTH = 0.7*MODULE_WIDTH;
+
+
+export const MODULE_WIDTH = FOCUS_MODULE_SCALE * SCALING_WIDTH;
+export const MODULE_FRAME = 0.15 * MODULE_WIDTH;
+export const INNER_MODULE_WIDTH = MODULE_WIDTH - (2* MODULE_FRAME);
 
 const styles = StyleSheet.create({
     barCodeScanner: {
-      height: 100,
-      width: 100,
+      height: INNER_MODULE_WIDTH, 
+      width: INNER_MODULE_WIDTH,
     },
     container: {
       flex: 1,
@@ -62,6 +65,10 @@ const styles = StyleSheet.create({
       color: 'white',
       borderColor: '#cccccc'
     },
+    darkmode2: {
+      backgroundColor: colors.darkBG,
+      color: colors.liteBG,
+    },
     darkmodeToggleContainer: {
       alignSelf: 'flex-start',
       flexDirection: 'row',
@@ -78,9 +85,13 @@ const styles = StyleSheet.create({
         borderWidth: 1
     },
     lightmode: {
-      backgroundColor: liteBG,
+      backgroundColor: colors.liteBG,
       color: accentColorPrim,
       borderColor: '#555555'
+    },
+    lightmode2: {
+      backgroundColor: colors.liteBG,
+      color: 'black',
     },
     logo: {
       resizeMode: 'contain',
@@ -129,24 +140,10 @@ const styles = StyleSheet.create({
     barCodeScanner: {
       flex:1,
     },
-    beginButton: {
-      alignContent: 'center',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
-      backgroundColor: '#999999',
-      padding: 10,
-      height: 50,
-      width: '50%',
-      borderRadius: 10,
-      borderWidth: 0,
-      borderColor: (isDarkmode?'white':'black')
-    },
     buttonEnabled: {
       backgroundColor: accentColorPrim
     },
-    beginButtonText: {
-      backgroundColor: '#999999',
+    buttonText: {
       fontSize: 20,
       fontWeight: "bold"
     },
@@ -158,7 +155,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#999999',
       padding: 10,
       height: 50,
-      width: '50%',
+      width: 0.5*SCALING_WIDTH,
       borderRadius: 10,
       borderWidth: 0,
       borderColor: (isDarkmode?'white':'black'),
@@ -195,14 +192,12 @@ const styles = StyleSheet.create({
       backgroundColor: '#999999',
       padding: 10,
       height: 50,
-      width: buttonFocWidth*Dimensions.get('window').width,
+      width: MODULE_WIDTH,
       borderRadius: 10,
       borderWidth: 0,
       borderColor: (isDarkmode?'white':'black'),
     },
     header: {
-      //textAlign:"center",
-      //alignSelf: 'center',
       backgroundColor: headerTintColor,
     },
     headerText: {
@@ -212,7 +207,7 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#FFF',
       height: 50,
-      padding: 15,
+      padding: 5,
       borderRadius: 5,
     },
     guidance: {
@@ -225,14 +220,14 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       textAlign: 'center',
       backgroundColor: 'white',
-      height: buttonFocWidth*Dimensions.get('window').width,
-      width: buttonFocWidth*Dimensions.get('window').width,
+      height: MODULE_WIDTH,
+      width: MODULE_WIDTH,
       flex:-1,
       borderRadius: 10,
     },
     moduleRow: {
       flexDirection: 'row',
-      height: moduleUnit,
+      height: MODULE_FRAME,
       alignContent: 'center',
       alignItems: 'center',
       width: '100%',
@@ -245,7 +240,7 @@ const styles = StyleSheet.create({
     },
     moduleCorner: {
       height: '100%',
-      width: moduleUnit,
+      width: MODULE_FRAME,
       alignContent: 'center',
       alignItems: 'center',
       justifyContent: 'center'
@@ -258,7 +253,7 @@ const styles = StyleSheet.create({
       height: 20
     },
     paddedView: {
-      padding: 5,
+      padding: 8,
       height: '100%',
       width: '100%'
     },

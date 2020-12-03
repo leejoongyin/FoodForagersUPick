@@ -16,13 +16,14 @@ class InvitePage extends Component {
         return 4;
     }
     render() {
-        var mode  = (this.props.route.params.isDarkmode ? styles.darkmode: styles.lightmode);
         var isDarkmode = this.props.route.params.isDarkmode
+        var mode  = (isDarkmode ? styles.darkmode: styles.lightmode);
+        var mode2  = (isDarkmode ? styles.darkmode2: styles.lightmode2);
         return (
             <View style={[ styles.container, mode ]}>
                 <View style={[ styles.mainViewer, mode ]}>
-                    <Text style={[mode, {fontSize: 20, color: 'black'}]}> Session </Text>
-                    <Text style={[mode, {color: 'black', fontSize: 50, fontWeight: 'bold', letterSpacing: 10}]}>
+                    <Text style={[ mode2, { fontSize: 20 } ]}> Group Code: </Text>
+                    <Text style={[ mode, { fontSize: 50, fontWeight: 'bold', letterSpacing: 10 }]}>
                         {this.props.route.params.getGroupCode()}
                     </Text>
                     <View style={[styles.padding]}/>
@@ -40,15 +41,15 @@ class InvitePage extends Component {
                     <View styles={[styles.padding]}/>
                     <Text> </Text>
                     <View styles={[styles.padding]}/>
-                    <Text style={[mode, {color: 'black', fontSize: 20 }]}> Total Group Members: </Text>
-                    <Text style={[mode, {color: 'black', fontSize: 50, fontWeight: 'bold'}]}>
+                    <Text style={[mode2, { fontSize: 20 }]}> Total Group Members: </Text>
+                    <Text style={[mode, { fontSize: 50, fontWeight: 'bold'}]}>
                         {this.getGroupCount()}
                     </Text>
                     <View style={[styles.padding]}/>
                     <View style={[styles.padding]}/>
                     <TouchableWithoutFeedback  title = 'Generate' onPress={()=>{this.props.navigation.navigate("Restaurant Info", {isDarkmode: isDarkmode})}}>
                         <View style = {[ mode, styles.buttonFocused, (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1)  ]}>
-                            <Text style = {[mode, styles.beginButtonText,  (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}>
+                            <Text style = {[mode, styles.buttonText,  (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}>
                                 Generate recomendation
                             </Text>
                         </View>

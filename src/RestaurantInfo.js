@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'rea
 import '../assets/McDonalds.png'//logo from './assets/mcds.jpg'
 import colors from '../style/colors';
 import Navbar from '../src/Navbar';
-import {buttonStyles} from '../style/styles';
+import {SCALING_WIDTH, MODULE_WIDTH} from '../style/styles';
 
 const restaurauntImage = '../assets/splash.png';
 
@@ -15,27 +15,16 @@ export default function App(props) {
   var buttonColor1= (isDarkmode?styles.buttonColor1Dark:styles.buttonColor1);
 
   return (
-  <View style = {[styles.screen]}>
-    {/*
-    <View style ={styles.navBar}>
-      <View style={styles.box1}>
-        <Text style={{color: '#99CCFF', fontSize: 60, textAlign:'center'}}>{'<'}</Text>
-      </View>
-      <View style={styles.box2}>
-        <Text style={[styles.textStyle]}>Recommendation:</Text>
-      </View>
-      <View style={styles.box3}>
-        <Text style={[styles.textStyle]}></Text>
-      </View>
-    </View>*/}
-    
+  <View style = {[styles.screen]}>    
     <View style={[ styles.mainViewer, mode ]}>
       <View style={[styles.padding2]}/>
-      <Text style={[{color: '#EEEEEE', fontSize: 25}, mode2]}>Let's go to:</Text>
-      <Text style={[{color:'white', fontSize: 50, fontWeight: 'bold'}, mode]}>McDonald's</Text>
+      <Text style={[ mode2, { fontSize: 25 }]}>Let's go to:</Text>
+      <Text style={[ mode, { fontSize: 45, fontWeight: 'bold'} ]}>McDonald's</Text>
       <View style={styles.padding2}/>
-      <Image source={require('../assets/McDonalds.png')} style={[styles.restaurauntImage]} /> 
-      {/*<StatusBar style="auto" />*/}
+      <Image 
+        source={require('../assets/McDonalds.png')} 
+        style={[styles.restaurauntImage]} 
+      /> 
       <View style={[styles.padding2]}/>
       
       <View style={[styles.infoRow ]}>
@@ -60,7 +49,7 @@ export default function App(props) {
               onPress={() => alert('Hello, world!')}
               style={[styles.button, buttonColor1]}
             >
-              <Text style={[styles.textStyle_3,buttonColor1]}>View Menu</Text>
+              <Text style={[styles.buttonText, buttonColor1]}>View Menu</Text>
               
             </TouchableOpacity>
           </View>
@@ -70,7 +59,7 @@ export default function App(props) {
               onPress={() => alert('Hello, world!')}
               style={[styles.button, buttonColor1]}
             >
-              <Text style={[styles.textStyle_3,buttonColor1]}>Call Now</Text>
+              <Text style={[styles.buttonText,buttonColor1]}>Call Now</Text>
             </TouchableOpacity>
           </View> 
       </View>
@@ -82,9 +71,6 @@ export default function App(props) {
            
   );
 }
-
-const windowWidth = (Dimensions.get('window').width < Dimensions.get('window').height?Dimensions.get('window').width : Dimensions.get('window').height);
-const infoRowWidth = 0.85 * windowWidth;
 
 const styles = StyleSheet.create({
   lightmode: {
@@ -112,6 +98,10 @@ const styles = StyleSheet.create({
   buttonColor1Dark: {
     backgroundColor: colors.accentPrimDark,
     color: colors.accentPrim,
+  },
+  buttonText: {
+    fontSize: 20,
+    fontWeight: "bold"
   },
   padding: {
     flex: 0.1,
@@ -164,7 +154,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#477979',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    width: Dimensions.get('window').width,
+    width: '100%',
     flex: 1,
     borderWidth: 0
   },
@@ -195,7 +185,7 @@ const styles = StyleSheet.create({
   },
   infoRow: {
     flexDirection: 'row',
-    width: infoRowWidth,
+    width: MODULE_WIDTH,
     alignContent: 'center',
     justifyContent: 'flex-start'
   },
@@ -215,11 +205,11 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     borderWidth: 0,
-    width: 0.40*windowWidth,
+    width: 0.40*SCALING_WIDTH,
   },
 
   buttonGap: {
-    width: 0.05*windowWidth,
+    width: 0.05*SCALING_WIDTH,
     flex: 1,
   }, 
 
@@ -229,7 +219,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue',
   },
   restaurauntImage: {
-    width: infoRowWidth, 
+    width: MODULE_WIDTH, 
     height: '30%', 
     borderRadius: 2,
     resizeMode: 'contain'

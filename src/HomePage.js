@@ -36,7 +36,8 @@ class HomePage extends React.Component {
   };
 
   render(){
-    this.mode = ( this.props.route.params.getIsDarkmode()? styles.darkmode : styles.lightmode );
+    var isDarkmode = this.props.route.params.getIsDarkmode()
+    this.mode = ( isDarkmode? styles.darkmode : styles.lightmode );
     //mode = ( this.props.route.params.getIsDarkmode()? styles.darkmode : styles.lightmode );
     //console.log("HomePage rendered: " + this.props.route.params.getIsDarkmode());
     return (
@@ -55,10 +56,17 @@ class HomePage extends React.Component {
         </View>
         <View style = {[ this.mode, styles.mainViewer ]}>
           <View style = {{flex: 0.15}}/>
-          <Text style = {[ this.mode, { fontSize: 20, color: (this.props.route.params.getIsDarkmode()?colors.accentTerDark :colors.accentTer ) }]}> WELCOME TO </Text>
+          <Text 
+            style = {[ this.mode, { fontSize: 20, color: (isDarkmode?colors.accentTerDark :colors.accentTer ) }]}
+          > 
+            WELCOME TO 
+          </Text>
           <Text style = {[ styles.title, this.mode ]}> UPick </Text>
           <View style = {styles.padding}/>
-          <Image style = {styles.logo} source = {(this.props.route.params.getIsDarkmode()?require('../assets/LogoDark.png'): require('../assets/Logo.png'))}/>
+          <Image 
+            style = {styles.logo} 
+            source = {(isDarkmode?require('../assets/LogoDark.png'): require('../assets/Logo.png'))}
+          />
           <View style = {styles.padding}/>
           <View style = {styles.padding}/>
           <View style = {{flex: 0.2}}/>
@@ -67,13 +75,13 @@ class HomePage extends React.Component {
           <View style = {styles.padding}/>
           <View style = {{flex: 0.1}}/>
           <TouchableWithoutFeedback  title = 'BEGIN' onPress = {this.onBeginPressed}>
-            <View style = {[ this.mode, styles.buttonFocused, (this.props.route.params.getIsDarkmode()? styles.buttonColor1Dark: styles.buttonColor1) ]}>
-              <Text style = {[this.mode, styles.beginButtonText, (this.props.route.params.getIsDarkmode()? styles.buttonColor1Dark: styles.buttonColor1)]}> BEGIN </Text>
+            <View style = {[ this.mode, styles.buttonFocused, (isDarkmode? styles.buttonColor1Dark: styles.buttonColor1), {width:'70%'} ]}>
+              <Text style = {[this.mode, styles.buttonText, (isDarkmode? styles.buttonColor1Dark: styles.buttonColor1)]}> BEGIN </Text>
             </View>
           </TouchableWithoutFeedback>
           <View style = {{flex: 1}}/>
         </View>
-        <Navbar isDarkmode={this.props.route.params.getIsDarkmode()} navigation={this.props.navigation}/>
+        <Navbar isDarkmode={isDarkmode} navigation={this.props.navigation}/>
       </View>
 
     );

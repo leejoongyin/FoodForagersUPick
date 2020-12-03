@@ -16,23 +16,35 @@ class EatingAlone extends Component {
     constructor(props){
         super(props);
         const {navigation, isDarkmode}= this.props;
-        const mode = (this.props.isDarkmode ? styles.darkmode: styles.lightmode);
     }
     render(props) {
-        var mode = (this.props.isDarkmode ? styles.darkmode: styles.lightmode);
+        var mode = (this.props.isDarkmode ? styles.darkmode : styles.lightmode);
+        var buttonColor1 = (this.props.isDarkmode ? styles.buttonColor2Dark : styles.buttonColor1);
         return(
             <View style={styles.outline, styles.containerModule}>
                 <View style = {styles.padding}/>
 
                 <View style = {styles.padding}/>
-                <Text style = {[mode, styles.text]} > or get a recommendation just for you: </ Text>
+                <Text style = {[mode, styles.text]} > 
+                    or get a recommendation just for you: 
+                </Text>
                 <View style = {styles.padding}/>
-                <TouchableWithoutFeedback  title = 'Generate' onPress={()=>{this.props.navigation.navigate("Restaurant Info", {isDarkmode: this.props.isDarkmode})}}>
-                    <View style = {[ mode, styles.buttonFocused, (this.props.isDarkmode? styles.buttonColor2Dark: styles.buttonColor1), {height: 75}  ]}>
-                        <Text style = {[mode, styles.beginButtonText,  (this.props.isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}>
+                <TouchableWithoutFeedback  
+                    title = 'Generate' 
+                    onPress={
+                        ()=>{
+                            this.props.navigation.navigate(
+                                "Restaurant Info", 
+                                {isDarkmode: this.props.isDarkmode}
+                            )
+                        }
+                    }
+                >
+                    <View style = {[ styles.buttonFocused, buttonColor1, {height: 75} ]}>
+                        <Text style = {[ styles.buttonText, buttonColor1 ]}>
                             Generate restaurant
                         </Text>
-                        <Text style = {[mode, styles.beginButtonText, (this.props.isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}>
+                        <Text style = {[ styles.buttonText, buttonColor1 ]}>
                             recommendation
                         </Text>
                     </View>
@@ -42,23 +54,6 @@ class EatingAlone extends Component {
 
     }
 }
-
-class QRCode extends Component {
-    constructor(props){
-        super(props);
-    }
-    render() {
-        var mode = (this.props.isDarkmode ? styles.darkmode: styles.lightmode);
-        return(
-            <View style = {[ styles.module, styles.outline ]}>
-                <Text style = {mode} > //Implement QRCode Component</ Text>
-            </ View>
-        );
-
-    }
-}
-
-
 
 class QRScanner extends Component {
 
@@ -96,8 +91,7 @@ class QRScanner extends Component {
             Alert.alert(
                 'Invalid Code Scanned',
                 "The code that was scanned is not a group code", 
-                [{text: "ok", onPress: ()=>{this.codeWarningDismissed()}}], 
-                {onDismiss: this.codeWarningDismissed }
+                [{text: "ok", onPress: ()=>{this.codeWarningDismissed()}}]
             );
         }
 
@@ -147,15 +141,26 @@ class QRScanner extends Component {
             return(
                 <TouchableWithoutFeedback onPress={this.onShowPressed}>
                     <View style={[ styles.button, styles.buttonColor1Dark, { flex:1, width: '90%' } ]}>
-                        <Text style={[styles.beginButtonText, styles.buttonColor1Dark]}> Start Scanner </Text>
+                        <Text style={[styles.buttonText, styles.buttonColor1Dark]}> Start Scanner </Text>
                     </View>
                 </TouchableWithoutFeedback>
             )
         } else if ( !this.state.hasCameraPermission ) {
             return(
-                <TouchableWithoutFeedback onPress={ this.askPermission.bind(this)}>
-                    <View style={[styles.button, (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1 ), { flex:1, width: '90%' }]}>
-                        <Text style={[ styles.beginButtonText, (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1 )]}>
+                <TouchableWithoutFeedback onPress={ this.askPermission.bind(this) }>
+                    <View 
+                        style={[
+                            styles.button, 
+                            (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1 ), 
+                            { flex:1, width: '90%' }
+                        ]}
+                    >
+                        <Text 
+                            style={[ 
+                                styles.buttonText, 
+                                (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)
+                            ]}
+                        >
                             We need your permission to use the camera
                         </Text>
                     </View>
@@ -165,10 +170,10 @@ class QRScanner extends Component {
         } else {
             //console.log("Camera is shown");
             return(
-                <View style = {{flex:1, width: INNER_MODULE_WIDTH, height: '100%', borderRadius: 10}}>
+                <View style = {{ width: INNER_MODULE_WIDTH, height: '100%', borderRadius: 10}}>
                     <Camera 
                         //type={Camera.Constants.Type.back}
-                        style={[ {flex:0, height: INNER_MODULE_WIDTH, width: INNER_MODULE_WIDTH} ]}
+                        style={[ styles.barCodeScanner ]}
                         onBarCodeScanned={this.qrCodeScanned}
                         barCodeScannerSettings={{
                             barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
@@ -262,18 +267,6 @@ class GroupsAccommodationsPage extends Component {
 
         );
     }
-    showQRcode = () => {
-        if( this.state.showState != 3 ) {
-            return null;
-        }
-        return (
-            <View>
-                <View style = {styles.padding}/>
-                <QRCode isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation} />
-            </View>
-
-        );
-    }
 
     onJoinPressed = () => {
         console.log( "Join Pressed");
@@ -329,7 +322,7 @@ class GroupsAccommodationsPage extends Component {
                         >
                             <Text
                                 style = {[
-                                    this.mode, styles.beginButtonText,
+                                    this.mode, styles.buttonText,
                                     (this.props.route.params.isDarkmode? styles.buttonColor2Dark: styles.buttonColor2 )
                                 ]}
                             >
@@ -345,14 +338,13 @@ class GroupsAccommodationsPage extends Component {
                             (this.props.route.params.isDarkmode? styles.buttonColor3Dark: styles.buttonColor3 )
                         ]}>
                             <Text style = {[
-                                this.mode, styles.beginButtonText,
+                                this.mode, styles.buttonText,
                                 (this.props.route.params.isDarkmode? styles.buttonColor3Dark: styles.buttonColor3 )
                             ]}>
                                 Invite to a Group
                             </Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <this.showQRcode />
 
                     <this.showEatingAlone/>
                 </View>
