@@ -118,7 +118,7 @@ export default class Preferences extends Component {
               <TextInput
                 style={styles.inputBox}
                 keyboardType='numeric'
-                placeholder=" Enter zipcode"
+                placeholder="Enter zipcode"
                 onChangeText={(zipcode) => {this.onZipInput(zipcode)}}
                 value={this.state.zipcode}
                 onBlur={() => {this.onZipBlur()}}
@@ -130,7 +130,7 @@ export default class Preferences extends Component {
               <Icon name="schedule" size={30} color={(isDarkmode?"white":"black")} style={{paddingRight: 10}}/>
               <TextInput
                 style={styles.inputBox}
-                placeholder=" Enter time"
+                placeholder="Enter time"
                 onChangeText={(time) => {this.setState({time})}}
                 underlineColorAndroid="transparent"
               />
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFF',
     height: 36,
-    padding: 5,
+    padding: 10,
     borderRadius: 5,
     marginTop: 5,
     marginBottom: 5
