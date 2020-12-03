@@ -35,7 +35,7 @@ export default class Preferences extends Component {
   // If the user somehow inputs non-numeric characters, remove them. Also limit
   // the input to 5 numbers.
   onZipInput(text) {
-    this.setState({zipcode: text.replace(/[^0-9]/g, '').substr(0,5)});
+    this.setState({zipcode: text.replace(/[^0-9]/g, '')});
   }
 
   // Show an error text when the user inputs an invalid zipcode.
@@ -122,6 +122,7 @@ export default class Preferences extends Component {
                 onChangeText={(zipcode) => {this.onZipInput(zipcode)}}
                 value={this.state.zipcode}
                 onBlur={() => {this.onZipBlur()}}
+                maxLength={5}
                 underlineColorAndroid="transparent"
               />
             </View>
