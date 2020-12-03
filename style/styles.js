@@ -18,7 +18,9 @@ const buttonFocWidth = 0.75;
 
 const moduleUnit = '15%';
 
-export const INNER_MODULE_WIDTH = 0.75*0.7*Dimensions.get('window').width;
+export const MODULE_WIDTH = 0.75 * Dimensions.get('window').width;
+
+export const INNER_MODULE_WIDTH = 0.7*MODULE_WIDTH;
 
 const styles = StyleSheet.create({
     barCodeScanner: {
@@ -97,6 +99,7 @@ const styles = StyleSheet.create({
     icon: {
       resizeMode: 'contain',
       height: '50%',
+      width: '50%',
       padding: 2
     },
     navbar: {
@@ -210,10 +213,8 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#FFF',
       height: 50,
-      paddingHorizontal: 10,
+      padding: 15,
       borderRadius: 5,
-      marginTop: 5,
-      marginBottom: 5,
     },
     guidance: {
       fontSize: 20,
@@ -235,6 +236,8 @@ const styles = StyleSheet.create({
       height: moduleUnit,
       alignContent: 'center',
       alignItems: 'center',
+      width: '100%',
+      flex: -1,
 
     },
     moduleText:{

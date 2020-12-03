@@ -17,10 +17,8 @@ class EatingAlone extends Component {
         super(props);
         const {navigation, isDarkmode}= this.props;
         const mode = (this.props.isDarkmode ? styles.darkmode: styles.lightmode);
-        //console.log( "Eating Alone( isDarkmode: " + this.props.isDarkmode + ")");
     }
     render(props) {
-        console.log( "Eating Alone( isDarkmode: " + this.props.isDarkmode + ")");
         var mode = (this.props.isDarkmode ? styles.darkmode: styles.lightmode);
         return(
             <View style={styles.outline, styles.containerModule}>
@@ -85,7 +83,7 @@ class QRScanner extends Component {
         } else {
 
         }
-        console.log(data, " scanned")
+        //console.log(data, " scanned")
         if( this.props.setGroupCode(data) ) {
             this.setState({
                 showScanner: false,
@@ -132,7 +130,7 @@ class QRScanner extends Component {
         this.setState({
             hasCameraPermission: status === 'granted'
         });
-        console.log(this.state.hasCameraPermission);
+        //console.log(this.state.hasCameraPermission);
 
     }
 
@@ -142,7 +140,6 @@ class QRScanner extends Component {
         this.setState({
             hasCameraPermission: status === 'granted'
         });
-        return false;
         return status === 'granted';
     }
     showScanner = () => {
@@ -156,7 +153,7 @@ class QRScanner extends Component {
             )
         } else if ( !this.state.hasCameraPermission ) {
             return(
-                <TouchableWithoutFeedback onPress={this.askPermission}>
+                <TouchableWithoutFeedback onPress={ this.askPermission.bind(this)}>
                     <View style={[styles.button, (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1 ), { flex:1, width: '90%' }]}>
                         <Text style={[ styles.beginButtonText, (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1 )]}>
                             We need your permission to use the camera
@@ -170,7 +167,7 @@ class QRScanner extends Component {
             return(
                 <View style = {{flex:1, width: INNER_MODULE_WIDTH, height: '100%', borderRadius: 10}}>
                     <Camera 
-                        type={Camera.Constants.Type.back}
+                        //type={Camera.Constants.Type.back}
                         style={[ {flex:0, height: INNER_MODULE_WIDTH, width: INNER_MODULE_WIDTH} ]}
                         onBarCodeScanned={this.qrCodeScanned}
                         barCodeScannerSettings={{
@@ -178,7 +175,7 @@ class QRScanner extends Component {
                         }}
                         useCamera2Api={true}
                         onMountError={(message)=>{Alert.alert("Camera error", JSON.stringify(message) + this.getPermission())}}
-                        ratio={"1:1"}
+                        //ratio={"1:1"}
                     />
                 </View>
 
