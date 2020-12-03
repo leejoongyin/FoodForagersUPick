@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'rea
 import '../assets/McDonalds.png'//logo from './assets/mcds.jpg'
 import colors from '../style/colors';
 import Navbar from '../src/Navbar';
-import {SCALING_WIDTH, MODULE_WIDTH} from '../style/styles';
+import {SCALING_WIDTH, MODULE_WIDTH, MODULE_RADIUS} from '../style/styles';
 
 const restaurauntImage = '../assets/splash.png';
 
@@ -17,15 +17,15 @@ export default function App(props) {
   return (
   <View style = {[styles.screen]}>    
     <View style={[ styles.mainViewer, mode ]}>
-      <View style={[styles.padding2]}/>
+      <View style={[styles.padding]}/>
       <Text style={[ mode2, { fontSize: 25 }]}>Let's go to:</Text>
       <Text style={[ mode, { fontSize: 45, fontWeight: 'bold'} ]}>McDonald's</Text>
-      <View style={styles.padding2}/>
+      <View style={[{height: '3%'}]}/>
       <Image 
         source={require('../assets/McDonalds.png')} 
         style={[styles.restaurauntImage]} 
       /> 
-      <View style={[styles.padding2]}/>
+      <View style={[styles.padding]}/>
       
       <View style={[styles.infoRow ]}>
         <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Hours: </Text>
@@ -42,7 +42,7 @@ export default function App(props) {
       </View>
       
       
-      <View style={[styles.padding2]}/>
+      <View style={[styles.padding]}/>
       <View style={[styles.infoRow]}>
           <View>
             <TouchableOpacity
@@ -63,7 +63,7 @@ export default function App(props) {
             </TouchableOpacity>
           </View> 
       </View>
-      <View style={[styles.padding2], {height: '25%'}}/>
+      <View style={[styles.padding2]}/>
     </View>
     
     <Navbar isDarkmode={props.route.params.isDarkmode} navigation={props.navigation}/>
@@ -104,14 +104,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   padding: {
-    flex: 0.1,
+    flex: 0.5,
     width: 20,
-    height: 20,
+    height: '10%',
   }, 
   padding2: {
-    flex: -2,
+    flex: 2,
     width: '5%',
-    height: '5%',
+    height: '15%',
   },  
   navBar: {
     backgroundColor: '#404040',
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#999999',
     padding: 0,
     height: 50,
-    borderRadius: 10,
+    borderRadius: MODULE_RADIUS,
     borderWidth: 0,
     width: 0.40*SCALING_WIDTH,
   },
@@ -220,9 +220,9 @@ const styles = StyleSheet.create({
   },
   restaurauntImage: {
     width: MODULE_WIDTH, 
-    height: '30%', 
-    borderRadius: 2,
-    resizeMode: 'contain'
+    height: '32%', 
+    borderRadius: 3,
+    resizeMode: 'contain',
   },
 
   screen: {

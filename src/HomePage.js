@@ -6,7 +6,7 @@ const { Component } = require("react");
 import '../assets/LogoDark.png';
 import '../assets/Logo.png'
 import Navbar from './Navbar';
-import styles from '../style/styles' ;
+import styles, {SCALING_WIDTH} from '../style/styles' ;
 import colors from '../style/colors';
 
 class HomePage extends React.Component {
@@ -75,7 +75,7 @@ class HomePage extends React.Component {
           <View style = {styles.padding}/>
           <View style = {{flex: 0.1}}/>
           <TouchableWithoutFeedback  title = 'BEGIN' onPress = {this.onBeginPressed}>
-            <View style = {[ this.mode, styles.buttonFocused, (isDarkmode? styles.buttonColor1Dark: styles.buttonColor1), {width:'70%'} ]}>
+            <View style = {[ this.mode, styles.buttonFocused, (isDarkmode? styles.buttonColor1Dark: styles.buttonColor1), {width:0.7*SCALING_WIDTH} ]}>
               <Text style = {[this.mode, styles.buttonText, (isDarkmode? styles.buttonColor1Dark: styles.buttonColor1)]}> BEGIN </Text>
             </View>
           </TouchableWithoutFeedback>

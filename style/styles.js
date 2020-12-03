@@ -1,25 +1,17 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import colors from './colors';
 
-const accentColorPrim = colors.accentPrim;
-const accentColorSec = colors.accentSec;
-const accentColorTer = colors.accentTer;
-const accentColorPrimDark = colors.accentPrimDark;
-const accentColorSecDark = colors.accentSecDark;
-const accentColorTerDark = colors.accentTerDark;
+
 const isDarkmode = true;
 
-const darkBG = colors.darkBG;
-const liteBG = colors.liteBG;
+export const WINDOW_WIDTH = Dimensions.get('window').width;
+export const WINDOW_HEIGHT = Dimensions.get('window').height;
 
-const headerTintColor = colors.headerTintColor;
+export const SCALING_WIDTH = ( WINDOW_WIDTH < WINDOW_HEIGHT ? WINDOW_WIDTH : 0.6 * WINDOW_HEIGHT );
 
+export const FOCUS_MODULE_SCALE = 0.88;
 
-export const FOCUS_MODULE_SCALE = 0.85;
-export const SCALING_WIDTH = (Dimensions.get('window').width < Dimensions.get('window').height?Dimensions.get('window').width : Dimensions.get('window').height);
-
-
-
+export const MODULE_RADIUS = 10;
 
 export const MODULE_WIDTH = FOCUS_MODULE_SCALE * SCALING_WIDTH;
 export const MODULE_FRAME = 0.15 * MODULE_WIDTH;
@@ -61,9 +53,8 @@ const styles = StyleSheet.create({
       flexDirection: 'column'
     },
     darkmode: {
-      backgroundColor: darkBG,
+      backgroundColor: colors.darkBG,
       color: 'white',
-      borderColor: '#cccccc'
     },
     darkmode2: {
       backgroundColor: colors.darkBG,
@@ -86,8 +77,7 @@ const styles = StyleSheet.create({
     },
     lightmode: {
       backgroundColor: colors.liteBG,
-      color: accentColorPrim,
-      borderColor: '#555555'
+      color: colors.accentPrim,
     },
     lightmode2: {
       backgroundColor: colors.liteBG,
@@ -133,15 +123,9 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
       color: colors.accentPrim
     },
-    default: {
-      backgroundColor: (isDarkmode?darkBG:liteBG),
-      color: (isDarkmode?liteBG:'black')
-    },
-    barCodeScanner: {
-      flex:1,
-    },
+
     buttonEnabled: {
-      backgroundColor: accentColorPrim
+      backgroundColor: colors.accentPrim
     },
     buttonText: {
       fontSize: 20,
@@ -156,33 +140,33 @@ const styles = StyleSheet.create({
       padding: 10,
       height: 50,
       width: 0.5*SCALING_WIDTH,
-      borderRadius: 10,
+      borderRadius: MODULE_RADIUS,
       borderWidth: 0,
       borderColor: (isDarkmode?'white':'black'),
     },
     buttonColor1: {
-      backgroundColor: accentColorPrim,
+      backgroundColor: colors.accentPrim,
       color: 'white',
     },
     buttonColor2:{
-      backgroundColor: accentColorSec,
+      backgroundColor: colors.accentSec,
       color: 'white',
     },
     buttonColor3: {
-      backgroundColor: accentColorTer,
+      backgroundColor: colors.accentTer,
       color: 'white',
     },
     buttonColor1Dark: {
-      backgroundColor: accentColorPrimDark,
-      color: accentColorPrim,
+      backgroundColor: colors.accentPrimDark,
+      color: colors.accentPrim,
     },
     buttonColor2Dark:{
-      backgroundColor: accentColorSecDark,
-      color: accentColorPrim,
+      backgroundColor: colors.accentSecDark,
+      color: colors.accentPrim,
     },
     buttonColor3Dark: {
-      backgroundColor: accentColorTerDark,
-      color: accentColorPrim,
+      backgroundColor: colors.accentTerDark,
+      color: colors.accentPrim,
     },
     buttonFocused: {
       alignContent: 'center',
@@ -193,19 +177,17 @@ const styles = StyleSheet.create({
       padding: 10,
       height: 50,
       width: MODULE_WIDTH,
-      borderRadius: 10,
-      borderWidth: 0,
-      borderColor: (isDarkmode?'white':'black'),
+      borderRadius: MODULE_RADIUS,
     },
     header: {
-      backgroundColor: headerTintColor,
+      backgroundColor: colors.headerTintColor,
     },
     headerText: {
       alignSelf: 'center',
     },
     inputBox: {
       flex: 1,
-      backgroundColor: '#FFF',
+      backgroundColor: 'white',
       height: 50,
       padding: 5,
       borderRadius: 5,
@@ -223,7 +205,7 @@ const styles = StyleSheet.create({
       height: MODULE_WIDTH,
       width: MODULE_WIDTH,
       flex:-1,
-      borderRadius: 10,
+      borderRadius: MODULE_RADIUS,
     },
     moduleRow: {
       flexDirection: 'row',
@@ -236,10 +218,9 @@ const styles = StyleSheet.create({
     },
     moduleText:{
       color: 'black',
-      backgroundColor: 'white',
     },
     moduleCorner: {
-      height: '100%',
+      height: MODULE_FRAME,
       width: MODULE_FRAME,
       alignContent: 'center',
       alignItems: 'center',
@@ -258,7 +239,7 @@ const styles = StyleSheet.create({
       width: '100%'
     },
     statusBar: {
-        height: 25
+      height: 25
     },
     title: {
       fontWeight: 'bold',
@@ -267,23 +248,13 @@ const styles = StyleSheet.create({
     text: {
       fontSize: 18
     },
-    darkmode: {
-      backgroundColor: darkBG,
-      color: accentColorPrimDark,
-      borderColor: '#cccccc'
-    },
-    lightmode: {
-      backgroundColor: liteBG,
-      color: accentColorPrim,
-      borderColor: '#555555'
-    },
     darkmodeIcon: {
       backgroundColor: 'transparent',
-      color: accentColorPrimDark,
+      color: colors.accentPrimDark,
     },
     lightmodeIcon: {
       backgroundColor: 'transparent',
-      color: accentColorPrim,
+      color: colors.accentPrim,
     },
     navContainer: {
       position: 'absolute',
