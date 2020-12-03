@@ -1,18 +1,19 @@
 import 'react-native-gesture-handler';
 import React, {Component, useState} from 'react';
-import { Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
+import { Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Navbar from './Navbar';
 import colors from '../style/colors';
+import validateZip from '../model/validateZip';
 
 import { ThemeProvider } from '@react-navigation/native';
 
 const MAX_SELECT = 10;
 
 export default class Preferences extends Component {
-  
+
   constructor(props) {
     super(props);
     this.budgetSelectionHandler = new SelectionHandler({ maxMultiSelect: MAX_SELECT, allowDeselect: true, defaultSelection: null });
@@ -20,6 +21,8 @@ export default class Preferences extends Component {
     this.cuisineSelectionHandler = new SelectionHandler({ maxMultiSelect: MAX_SELECT, allowDeselect: true, defaultSelection: null });
     this.restaurantSelectionHandler = new SelectionHandler({ maxMultiSelect: MAX_SELECT, allowDeselect: true, defaultSelection: null });
     this.state = {
+        zipcode: "",
+        zipErrorText: "",
         selectedItems: null,
         budgetArray: [],
         dietArray: [],
@@ -29,10 +32,22 @@ export default class Preferences extends Component {
     this.isDarkmode = this.props.isDarkmode;
   }
 
+  // If the user somehow inputs non-numeric characters, remove them. Also limit
+  // the input to 5 numbers.
+  onZipInput(text) {
+    this.setState({zipcode: text.replace(/[^0-9]/g, '').substr(0,5)});
+  }
+
+  // Show an error text when the user inputs an invalid zipcode.
+  onZipBlur() {
+    const errorText = !validateZip(this.state.zipcode) ? "Please enter a valid zipcode." : "";
+    this.setState({zipErrorText: errorText});
+  }
+
   savePreferences = () => {
     this.props.navigation.navigate('Group Accommodations');
   }
-  
+
   renderButton = (data, index, isSelected, onPress) => {
     return (
       <TouchableOpacity
@@ -61,7 +76,7 @@ export default class Preferences extends Component {
       { id: 6, optionText: 'Shellfish allergy' },
       { id: 7, optionText: 'Vegan' },
       { id: 8, optionText: 'Vegetarian' },
-      { id: 9, optionText: 'Kosher' }, 
+      { id: 9, optionText: 'Kosher' },
       { id: 10, optionText: 'Paleo' }
     ];
 
@@ -90,119 +105,141 @@ export default class Preferences extends Component {
     ];
 
     return (
-      <View style={[styles.container, mode, { flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', margin: 'auto', }]}>
-        <View style = {{height: 50}}/>
-        <Text style={[ styles.centerHeader, mode ]}>Where would you like to eat?*</Text>
-        <View style={[ styles.searchSection,mode ]}>
-          <Icon name="place" size={30} color={(isDarkmode?"white":"black")} style={{padding: 10}}/>
-          <TextInput
-            style={styles.inputBox}
-            placeholder=" Enter zipcode"
-            onChangeText={(zipcode) => {this.setState({zipcode})}}
-            underlineColorAndroid="transparent"
-          />
+      <View style={[styles.container, mode, {flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', margin: 'auto'}]}>
+        <View style={{width: '100%'}}>
+          <ScrollView>
+            <View style={{width: '80%', alignSelf: 'center'}}>
+            <Text style={[styles.centerHeader, mode, {marginTop: 10}]}>Where would you like to eat?*</Text>
+            <Text style={[styles.centerHeader, {marginTop: 0}, (isDarkmode ? {color: 'yellow'} : {color: 'brown'}), (!this.state.zipErrorText.length ? {marginBottom: 0, height: 0} : {height: 'auto'}) ]}>
+              {this.state.zipErrorText}
+            </Text>
+            <View style={[styles.searchSection, mode]}>
+              <Icon name="place" size={30} color={(isDarkmode?"white":"black")} style={{paddingRight: 10}}/>
+              <TextInput
+                style={styles.inputBox}
+                keyboardType='numeric'
+                placeholder="Enter zipcode"
+                onChangeText={(zipcode) => {this.onZipInput(zipcode)}}
+                value={this.state.zipcode}
+                onBlur={() => {this.onZipBlur()}}
+                underlineColorAndroid="transparent"
+              />
+            </View>
+            <Text style={[styles.centerHeader, mode]}>When would you like to eat?*</Text>
+            <View style={[styles.searchSection, mode]}>
+              <Icon name="schedule" size={30} color={(isDarkmode?"white":"black")} style={{paddingRight: 10}}/>
+              <TextInput
+                style={styles.inputBox}
+                placeholder="Enter time"
+                onChangeText={(time) => {this.setState({time})}}
+                underlineColorAndroid="transparent"
+              />
+            </View>
+            </View>
+            <View style={{width: '80%', alignSelf: 'center'}}>
+              <Text style={[styles.header, mode]}>Budget</Text>
+            </View>
+            <SelectionGroup
+              renderContent={this.renderButton}
+              items={budgetData}
+              onPress={this.budgetSelectionHandler.selectionHandler}
+              isSelected={this.budgetSelectionHandler.isSelected}
+              containerStyle={styles.answers}
+              onItemSelected={(item) => {
+                const joined = this.state.budgetArray.concat(item.optionText);
+                this.setState({ budgetArray: joined });
+                alert(this.state.budgetArray);
+              }}
+              onItemDeselected={(item) => {
+                const array = [...this.state.budgetArray];
+                var index = array.indexOf(item.optionText);
+                if (index !== -1) {
+                  array.splice(index, 1);
+                  this.setState({budgetArray: array});
+                }
+                alert(this.state.budgetArray);
+              }}
+            />
+            <View style={{width: '80%', alignSelf: 'center'}}>
+              <Text style={[styles.header,mode]}>Dietary Requirements</Text>
+            </View>
+            <SelectionGroup
+              renderContent={this.renderButton}
+              items={dietData}
+              onPress={this.dietSelectionHandler.selectionHandler}
+              isSelected={this.dietSelectionHandler.isSelected}
+              containerStyle={styles.answers}
+              onItemSelected={(item) => {
+                const joined = this.state.dietArray.concat(item.optionText);
+                this.setState({ dietArray: joined });
+              }}
+              onItemDeselected={(item) => {
+                const array = [...this.state.dietArray];
+                var index = array.indexOf(item.optionText);
+                if (index !== -1) {
+                  array.splice(index, 1);
+                  this.setState({dietArray: array});
+                }
+              }}
+            />
+            <View style={{width: '80%', alignSelf: 'center'}}>
+              <Text style={[styles.header,mode]}>Cuisine</Text>
+            </View>
+            <SelectionGroup
+              renderContent={this.renderButton}
+              items={cuisineData}
+              onPress={this.cuisineSelectionHandler.selectionHandler}
+              isSelected={this.cuisineSelectionHandler.isSelected}
+              containerStyle={styles.answers}
+              onItemSelected={(item) => {
+                const joined = this.state.cuisineArray.concat(item.optionText);
+                this.setState({ cuisineArray: joined });
+              }}
+              onItemDeselected={(item) => {
+                const array = [...this.state.cuisineArray];
+                var index = array.indexOf(item.optionText);
+                if (index !== -1) {
+                  array.splice(index, 1);
+                  this.setState({cuisineArray: array});
+                }
+              }}
+            />
+            <View style={{width: '80%', alignSelf: 'center'}}>
+              <Text style={[styles.header,mode]}>Type of Restaurant</Text>
+            </View>
+            <SelectionGroup
+              renderContent={this.renderButton}
+              items={restaurantData}
+              onPress={this.restaurantSelectionHandler.selectionHandler}
+              isSelected={this.restaurantSelectionHandler.isSelected}
+              containerStyle={styles.answers}
+              onItemSelected={(item) => {
+                const joined = this.state.restaurantArray.concat(item.optionText);
+                this.setState({ restaurantArray: joined });
+              }}
+              onItemDeselected={(item) => {
+                const array = [...this.state.restaurantArray];
+                var index = array.indexOf(item.optionText);
+                if (index !== -1) {
+                  array.splice(index, 1);
+                  this.setState({restaurantArray: array});
+                }
+              }}
+            />
+            <View style={{width: '80%', alignSelf: 'center'}}>
+              <TouchableWithoutFeedback
+                title="Submit"
+                onPress={this.savePreferences}>
+                  <View style={[styles.submitBtn,(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)]}><Text style={(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)}>Submit</Text></View>
+              </TouchableWithoutFeedback>
+            </View>
+          </ScrollView>
         </View>
-        <Text style={[styles.centerHeader, mode]}>When would you like to eat?*</Text>
-        <View style={[styles.searchSection, mode]}>
-          <Icon name="schedule" size={30} color={(isDarkmode?"white":"black")} style={{padding: 10}}/>
-          <TextInput
-            style={styles.inputBox}
-            placeholder=" Enter time"
-            onChangeText={(time) => {this.setState({time})}}
-            underlineColorAndroid="transparent"
-          />
-        </View>
-        <Text style={[styles.header,mode ]}>Budget</Text>
-        <SelectionGroup 
-          renderContent={this.renderButton}
-          items={budgetData}
-          onPress={this.budgetSelectionHandler.selectionHandler}
-          isSelected={this.budgetSelectionHandler.isSelected}
-          containerStyle={styles.answers}
-          onItemSelected={(item) => {
-            const joined = this.state.budgetArray.concat(item.optionText);
-            this.setState({ budgetArray: joined });
-            alert(this.state.budgetArray);
-          }}
-          onItemDeselected={(item) => {
-            const array = [...this.state.budgetArray];
-            var index = array.indexOf(item.optionText);
-            if (index !== -1) {
-              array.splice(index, 1);
-              this.setState({budgetArray: array});
-            }
-            alert(this.state.budgetArray);
-          }}
-        />
-        <Text style={[styles.header,mode]}>Dietary Requirements</Text>
-        <SelectionGroup 
-          renderContent={this.renderButton}
-          items={dietData}
-          onPress={this.dietSelectionHandler.selectionHandler}
-          isSelected={this.dietSelectionHandler.isSelected}
-          containerStyle={styles.answers}
-          onItemSelected={(item) => {
-            const joined = this.state.dietArray.concat(item.optionText);
-            this.setState({ dietArray: joined });
-          }}
-          onItemDeselected={(item) => {
-            const array = [...this.state.dietArray];
-            var index = array.indexOf(item.optionText);
-            if (index !== -1) {
-              array.splice(index, 1);
-              this.setState({dietArray: array});
-            }
-          }}
-        />
-        <Text style={[styles.header,mode]}>Cuisine</Text>
-        <SelectionGroup 
-          renderContent={this.renderButton}
-          items={cuisineData}
-          onPress={this.cuisineSelectionHandler.selectionHandler}
-          isSelected={this.cuisineSelectionHandler.isSelected}
-          containerStyle={styles.answers}
-          onItemSelected={(item) => {
-            const joined = this.state.cuisineArray.concat(item.optionText);
-            this.setState({ cuisineArray: joined });
-          }}
-          onItemDeselected={(item) => {
-            const array = [...this.state.cuisineArray];
-            var index = array.indexOf(item.optionText);
-            if (index !== -1) {
-              array.splice(index, 1);
-              this.setState({cuisineArray: array});
-            }
-          }}
-        />
-        <Text style={[styles.header,mode]}>Type of Restaurant</Text>
-        <SelectionGroup 
-          renderContent={this.renderButton}
-          items={restaurantData}
-          onPress={this.restaurantSelectionHandler.selectionHandler}
-          isSelected={this.restaurantSelectionHandler.isSelected}
-          containerStyle={styles.answers}
-          onItemSelected={(item) => {
-            const joined = this.state.restaurantArray.concat(item.optionText);
-            this.setState({ restaurantArray: joined });
-          }}
-          onItemDeselected={(item) => {
-            const array = [...this.state.restaurantArray];
-            var index = array.indexOf(item.optionText);
-            if (index !== -1) {
-              array.splice(index, 1);
-              this.setState({restaurantArray: array});
-            }
-          }}
-        />
-        <TouchableWithoutFeedback
-          title="Submit"
-          onPress={this.savePreferences}>
-            <View style={[styles.submitBtn,(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)]}><Text style={(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)}>Submit</Text></View>
-        </TouchableWithoutFeedback>
         <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
+
       </View>
     );
-  } 
+  }
 };
 
 const styles = StyleSheet.create({
@@ -218,26 +255,27 @@ const styles = StyleSheet.create({
   },
   buttonColor1: {
     backgroundColor: colors.accentPrim,
-    color: 'white',
+    color: 'white'
   },
   buttonColor1Dark: {
     backgroundColor: colors.accentPrimDark,
-    color: colors.accentPrim,
+    color: colors.accentPrim
   },
   searchSection: {
     flexDirection: 'row',
     backgroundColor: '#FFF',
     borderRadius: 5,
-    width: '80%',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   inputBox: {
     flex: 1,
     backgroundColor: '#FFF',
     height: 36,
-    paddingLeft: 5,
+    padding: 10,
     borderRadius: 5,
     marginTop: 5,
-    marginBottom: 5,
+    marginBottom: 5
   },
   submitBtn: {
     alignContent: 'center',
@@ -247,8 +285,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#6B222D',
     color: '#FFF',
     borderRadius: 5,
-    width: '80%',
     height: 36,
+    marginTop: 5,
     marginBottom: 100
   },
   button: {
@@ -259,7 +297,7 @@ const styles = StyleSheet.create({
       width: '30%',
       borderRadius: 5,
       justifyContent: 'center',
-      alignItems: 'center',
+      alignItems: 'center'
   },
   buttonText: {
       textAlign: 'center',
@@ -274,14 +312,13 @@ const styles = StyleSheet.create({
       flexWrap: 'wrap'
   },
   header: {
-    width: '80%',
     textAlign: 'left',
     color: '#6B222D',
     fontSize: 16,
-    marginTop: 10
+    marginTop: 10,
+    width: '80%'
   },
   centerHeader: {
-    width: '80%',
     textAlign: 'center',
     color: '#6B222D',
     fontSize: 16,

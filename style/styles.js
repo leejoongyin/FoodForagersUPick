@@ -57,15 +57,6 @@ const styles = StyleSheet.create({
       alignContent: 'center',
       flexDirection: 'column'
     },
-
-    mainViewer: {
-      flex: 1,
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: '100%',
-      padding: 5
-    },
     darkmode: {
       backgroundColor: darkBG,
       color: 'white',
@@ -101,6 +92,14 @@ const styles = StyleSheet.create({
       height: '50%',
       width: '50%',
       padding: 2
+    },
+    mainViewer: {
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
+      padding: 5
     },
     navbar: {
       alignSelf: 'center',
@@ -207,7 +206,7 @@ const styles = StyleSheet.create({
       backgroundColor: headerTintColor,
     },
     headerText: {
-      alignSelf: 'center',    
+      alignSelf: 'center',
     },
     inputBox: {
       flex: 1,
@@ -306,7 +305,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       elevation: 10
     },
-    navbarText: {      
+    navbarText: {
       fontSize: 13,
       fontWeight: 'bold',
       flexWrap: 'wrap',
