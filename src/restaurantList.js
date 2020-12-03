@@ -3,7 +3,7 @@ import React, {Component, useState} from 'react';
 import { Text, View, TextInput, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 //import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 //import Icon from 'react-native-vector-icons/MaterialIcons';
-import { AntDesign } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import Navbar from './Navbar';
 import colors from '../style/colors';
 export default class RestaurantList extends Component {
@@ -20,14 +20,11 @@ export default class RestaurantList extends Component {
     /*alert(this.state.userInput)*/
   }
 
-  handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      /* e.preventDefault(); */
-      if(this.state.userInput != '') {
-        const joined = this.state.restaurantListArray.concat(this.state.userInput);
-        this.setState({restaurantListArray: joined });
-        this.setState({userInput: ''});
-      }
+  addItem = () => {
+    if(this.state.userInput != '') {
+      const joined = this.state.restaurantListArray.concat(this.state.userInput);
+      this.setState({restaurantListArray: joined });
+      this.setState({userInput: ''});
     }
   }
 
@@ -51,19 +48,20 @@ export default class RestaurantList extends Component {
     var mode = (isDarkmode ? styles.darkmode: styles.lightmode );
 
     return (
-      <View style={[{flex: 1, alignItems: 'center', justifyContent: 'center', margin: 'auto', width: '100%'},mode]}>
-        <Text style={[{padding: 10, fontSize: 20, color: '#6b222d', textAlign: 'center'},mode]}>
-          {"Enter the restaurants you are deciding between:"}
-        </Text>
+      <View style={[{flex: 1, alignItems: 'center', justifyContent: 'center', margin: 'auto', width: '100%'}, mode]}>
+        <View style={{width: '80%'}}>
+          <Text style={[{padding: 10, fontSize: 20, color: '#6b222d', textAlign: 'center'}, mode]}>
+            {"Enter the restaurants you are deciding between:"}
+          </Text>
+        </View>
         <TextInput value={this.state.userInput}
           /*defaultValue = {this.state.restaurantListArray}*/
-          style={{height: 40, paddingLeft: 10, width: '85%', backgroundColor: 'white', borderRadius: 5}}
+          style={{height: 40, paddingLeft: 10, width: '80%', backgroundColor: 'white', borderRadius: 5}}
           placeholder="Type restaurants here and hit enter to add to list"
           onChangeText={this.handleText}
-          onKeyPress={this.handleKeyPress}
-
+          onSubmitEditing={this.addItem}
         />
-        <View style={[{width: '85%', height: '50%'},mode]}>
+        <View style={[{width: '80%', height: '50%'}, mode]}>
           <ScrollView style={{ marginTop: 10, marginBottom: 10,  backgroundColor: 'white', borderRadius: 5}}>
             {this.state.restaurantListArray.map((item) => {
               return(
@@ -71,9 +69,9 @@ export default class RestaurantList extends Component {
                   <View style={styles.viewItem}>
                     <Text style={styles.textItem}>{item}</Text>
                     <View style = {{flexDirection: 'row-reverse'}}>
-                      <View style={{width: 15}}/>
+                      <View style={{paddingRight: 5}}/>
                       <TouchableOpacity onPress={() => this.pressHandler(item)}>
-                        <AntDesign name='delete' size={20}/>
+                        <MaterialIcons name='delete' size={28} color='#6b222d'/>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -82,7 +80,7 @@ export default class RestaurantList extends Component {
             })}
           </ScrollView>
         </View>
-        <TouchableOpacity style={[{backgroundColor: '#6b222d', width: '85%', borderRadius: 5, marginBottom: 100}, (isDarkmode?styles.buttonColor1Dark:styles.buttonColor1)]} onPress={this.submit}>
+        <TouchableOpacity style={[{backgroundColor: '#6b222d', width: '80%', borderRadius: 5, marginBottom: 100}, (isDarkmode?styles.buttonColor1Dark:styles.buttonColor1)]} onPress={this.submit}>
           <View style = {{borderRadius: 10, marginTop: 10, marginBottom: 10 }}>
             <Text style={[{ fontSize: 20, textAlign: 'center', color: '#ffffff'},(isDarkmode?styles.buttonColor1Dark:styles.buttonColor1)]}>Submit</Text>
           </View>
@@ -114,13 +112,13 @@ const styles = StyleSheet.create({
   },
 
   textItem: {
+    color: '#6b222d',
     padding: 10,
     fontSize: 22,
   },
 
   viewItem:{
     //backgroundColor:'#E2D6C8',
-    margin:5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
