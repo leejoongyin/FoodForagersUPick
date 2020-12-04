@@ -22,31 +22,36 @@ class InvitePage extends Component {
         return (
             <View style={[ styles.container, mode ]}>
                 <View style={[ styles.mainViewer, mode ]}>
+                    <View style={[styles.padding]}/>
+
                     <Text style={[ mode2, { fontSize: 20 } ]}> Group Code: </Text>
                     <Text style={[ mode, { fontSize: 50, fontWeight: 'bold', letterSpacing: 10 }]}>
                         {this.props.route.params.getGroupCode()}
                     </Text>
+
                     <View style={[styles.padding]}/>
-                    <View style={[styles.padding]}/>
-                    <QRCode
-                        value ={this.props.route.params.getGroupCode()}
-                        logo={(this.props.route.params.isDarkmode?require('../assets/LogoDark.png'): require('../assets/Logo.png'))}
-                        logoBackgroundColor={isDarkmode?colors.darkBG:colors.liteBG}
-                        backgroundColor={isDarkmode?colors.darkBG:colors.liteBG}
-                        logoSize={50}
-                        size={200}
-                    />
-                    <Text> </Text>
+
+                    <View style={[{height: 200, width: 200}]}>
+                        <QRCode
+                            value ={this.props.route.params.getGroupCode()}
+                            logo={(this.props.route.params.isDarkmode?require('../assets/LogoDark.png'): require('../assets/Logo.png'))}
+                            logoBackgroundColor={isDarkmode?colors.darkBG:colors.liteBG}
+                            backgroundColor={isDarkmode?colors.darkBG:colors.liteBG}
+                            logoSize={50}
+                            size={200}
+                        />
+                    </View>
+
+                    <Text> </Text> 
                     <View styles={[styles.padding]}/>
-                    <View styles={[styles.padding]}/>
-                    <Text> </Text>
-                    <View styles={[styles.padding]}/>
+
                     <Text style={[mode2, { fontSize: 20 }]}> Total Group Members: </Text>
                     <Text style={[mode, { fontSize: 50, fontWeight: 'bold'}]}>
                         {this.getGroupCount()}
                     </Text>
+
                     <View style={[styles.padding]}/>
-                    <View style={[styles.padding]}/>
+
                     <TouchableWithoutFeedback  title = 'Generate' onPress={()=>{this.props.navigation.navigate("Restaurant Info", {isDarkmode: isDarkmode})}}>
                         <View style = {[ mode, styles.buttonFocused, (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1)  ]}>
                             <Text style = {[mode, styles.buttonText,  (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}>
@@ -54,7 +59,8 @@ class InvitePage extends Component {
                             </Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <View style={{height: '15%', flex: -1}}/>
+
+                    <View style={styles.paddingBottom}/>
                 </View>
                 <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
             </View>
