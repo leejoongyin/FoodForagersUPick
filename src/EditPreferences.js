@@ -26,7 +26,7 @@ export default class EditPreferences extends Component {
         return (
             <View style={[styles.container,mode]}>   
                 <Text style={[generateRestaurantStyle.questionFontLight,mode]}>Which would you like to edit?</Text>
-                <View style={[styles.padding]}/>
+                <View style={[styles.paddingManual]}/>
                 <View style={[generateRestaurantStyle.buttonContainer,mode]}>
                     <TouchableOpacity style={[generateRestaurantStyle.yesButtonLight,(isDarkmode?styles.buttonColor1Dark:styles.buttonColor2)]}
                                         onPress={this.yesPressed}                

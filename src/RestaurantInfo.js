@@ -20,29 +20,32 @@ export default function App(props) {
       <View style={[styles.padding]}/>
       <Text style={[ mode2, { fontSize: 25 }]}>Let's go to:</Text>
       <Text style={[ mode, { fontSize: 45, fontWeight: 'bold'} ]}>McDonald's</Text>
-      <View style={[{height: '3%'}]}/>
+      <View style={[styles.padding]}/>
       <Image 
         source={require('../assets/McDonalds.png')} 
         style={[styles.restaurauntImage]} 
       /> 
       <View style={[styles.padding]}/>
-      
-      <View style={[styles.infoRow ]}>
+
+      <View style={[styles.infoRow]}>
         <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Hours: </Text>
         <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold", fontStyle: 'italic'}]}>Open Now </Text>
         <Text style={[styles.textStyle_2, mode2]}>until 7pm </Text>
       </View>
+      <View style={[styles.paddingLine]}/>
       <View style={[styles.infoRow]}>
         <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Location: </Text>
         <Text style={[styles.textStyle_2, mode2 ]}>1234 Street Ave. City, ST 91234</Text>
       </View>
+      <View style={[styles.paddingLine]}/>
       <View style={[styles.infoRow]}>
         <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Phone Number: </Text>
         <Text style={[styles.textStyle_2, mode2 ]}>123-123-1234</Text>
       </View>
       
-      
-      <View style={[styles.padding]}/>
+      <View style={[styles.paddingLine]}/>
+      <View style={[styles.paddingLine]}/>
+
       <View style={[styles.infoRow]}>
           <View>
             <TouchableOpacity
@@ -63,7 +66,7 @@ export default function App(props) {
             </TouchableOpacity>
           </View> 
       </View>
-      <View style={[styles.padding2]}/>
+      <View style={[styles.paddingBottom]}/>
     </View>
     
     <Navbar isDarkmode={props.route.params.isDarkmode} navigation={props.navigation}/>
@@ -103,12 +106,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold"
   },
+  paddingLine: {
+    flex: 0.1,
+    width: 20,
+    height: '3%',
+  }, 
   padding: {
     flex: 0.5,
     width: 20,
     height: '10%',
   }, 
-  padding2: {
+  paddingBottom: {
     flex: 2,
     width: '5%',
     height: '15%',
@@ -220,9 +228,9 @@ const styles = StyleSheet.create({
   },
   restaurauntImage: {
     width: MODULE_WIDTH, 
-    height: '32%', 
-    borderRadius: 3,
-    resizeMode: 'contain',
+    height: '30%', 
+    borderRadius: MODULE_RADIUS,
+    resizeMode: 'cover',
   },
 
   screen: {

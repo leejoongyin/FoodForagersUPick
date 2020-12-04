@@ -64,22 +64,20 @@ class HomePage extends React.Component {
           <Text style = {[ styles.title, this.mode ]}> UPick </Text>
           <View style = {styles.padding}/>
           <Image 
-            style = {styles.logo} 
+            style = {styles.logo}  
             source = {(isDarkmode?require('../assets/LogoDark.png'): require('../assets/Logo.png'))}
           />
-          <View style = {styles.padding}/>
           <View style = {styles.padding}/>
           <View style = {{flex: 0.2}}/>
           <Text style = {[ styles.guidance, this.mode ]}> Let us help you decide where </Text>
           <Text style = {[ styles.guidance, this.mode ]}> or what to eat </Text>
-          <View style = {styles.padding}/>
-          <View style = {{flex: 0.1}}/>
+          <View style = {styles.paddingLine}/>
           <TouchableWithoutFeedback  title = 'BEGIN' onPress = {this.onBeginPressed}>
             <View style = {[ this.mode, styles.buttonFocused, (isDarkmode? styles.buttonColor1Dark: styles.buttonColor1), {width:0.7*SCALING_WIDTH} ]}>
               <Text style = {[this.mode, styles.buttonText, (isDarkmode? styles.buttonColor1Dark: styles.buttonColor1)]}> BEGIN </Text>
             </View>
           </TouchableWithoutFeedback>
-          <View style = {{flex: 1}}/>
+          <View style = {[styles.paddingBottom]}/>
         </View>
         <Navbar isDarkmode={isDarkmode} navigation={this.props.navigation}/>
       </View>

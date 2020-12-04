@@ -25,7 +25,7 @@ class generateRestaurantScreen extends Component {
         return (
             <View style={[styles.container,mode]}>   
                 <Text style={[generateRestaurantStyle.questionFontLight,mode]}>Do you have any restaurants in mind?</Text>
-                <View style={[styles.padding]}/>
+                <View style={[styles.paddingManual]}/>
 
                 <View style={[generateRestaurantStyle.buttonContainer,mode]}>
                     <TouchableOpacity 

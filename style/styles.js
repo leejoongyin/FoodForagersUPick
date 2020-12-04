@@ -11,6 +11,8 @@ export const SCALING_WIDTH = ( WINDOW_WIDTH < WINDOW_HEIGHT ? WINDOW_WIDTH : 0.6
 
 export const FOCUS_MODULE_SCALE = 0.88;
 
+export const SCREEN_MARGIN = (1-FOCUS_MODULE_SCALE)/2
+
 export const MODULE_RADIUS = 10;
 
 export const MODULE_WIDTH = FOCUS_MODULE_SCALE * SCALING_WIDTH;
@@ -129,8 +131,9 @@ const styles = StyleSheet.create({
     },
     buttonText: {
       fontSize: 20,
-      fontWeight: "bold"
-    },
+      fontWeight: "bold",
+      textAlign: 'center'
+    }, 
     button: {
       alignContent: 'center',
       alignItems: 'center',
@@ -230,14 +233,38 @@ const styles = StyleSheet.create({
       borderWidth: 2,
       borderColor: colors.accentPrim,
     },
+    paddingLine: {
+      flex: 0.1,
+      width: 20,
+      height: '3%',
+    }, 
     padding: {
-      height: 20
+      flex: 0.5,
+      width: 20,
+      height: 20,
+    }, 
+    paddingBottom: {
+      flex: 2,
+      width: '5%',
+      height: '15%',
+    },  
+    paddingManual: {
+      height: 20,
+      width: 20, 
     },
     paddedView: {
       padding: 8,
       height: '100%',
       width: '100%'
     },
+    scannerContainer: {
+      height: '100%',
+      width: '100%',
+      alignItems: 'center',
+      alignContent: 'center',
+      justifyContent: 'center',
+      borderRadius: MODULE_RADIUS,
+    },  
     statusBar: {
       height: 25
     },

@@ -28,7 +28,8 @@ export default class Preferences extends Component {
         budgetArray: [],
         dietArray: [],
         cuisineArray: [],
-        restaurantArray: []
+        restaurantArray: [],
+        text : ''
     };
     this.isDarkmode = this.props.isDarkmode;
   }
@@ -47,6 +48,26 @@ export default class Preferences extends Component {
 
   savePreferences = () => {
     this.props.navigation.navigate('Group Accommodations');
+  }
+
+
+  storeData = async (key,value) => {
+    try {
+      const jsonValue = JSON.stringify(value)
+      await AsyncStorage.setItem(key,jsonValue)
+    } catch (e) {
+      // saving error
+    }
+  }
+
+  getData = async (key) => {
+    try {
+      const jsonValue = await AsyncStorage.getItem(key).then((key) => {alert(key)})
+      return jsonValue != null ? JSON.parse(jsonValue) : null
+    } catch(e) {
+      // read error
+    } 
+    console.log('Done.')
   }
 
   renderButton = (data, index, isSelected, onPress) => {
@@ -150,6 +171,8 @@ export default class Preferences extends Component {
               onItemSelected={(item) => {
                 const joined = this.state.budgetArray.concat(item.optionText);
                 this.setState({ budgetArray: joined });
+                this.storeData('budget',this.state.budgetArray);
+                /*this.getData('budget')*/
               }}
               onItemDeselected={(item) => {
                 const array = [...this.state.budgetArray];
@@ -157,6 +180,8 @@ export default class Preferences extends Component {
                 if (index !== -1) {
                   array.splice(index, 1);
                   this.setState({budgetArray: array});
+                  this.storeData('budget',this.state.budgetArray);
+                  /*this.getData('budget');*/
                 }
               }}
             />
@@ -172,6 +197,8 @@ export default class Preferences extends Component {
               onItemSelected={(item) => {
                 const joined = this.state.dietArray.concat(item.optionText);
                 this.setState({ dietArray: joined });
+                this.storeData('diet', this.setState.dietArray);
+                /*this.getData('diet')*/
               }}
               onItemDeselected={(item) => {
                 const array = [...this.state.dietArray];
@@ -179,6 +206,8 @@ export default class Preferences extends Component {
                 if (index !== -1) {
                   array.splice(index, 1);
                   this.setState({dietArray: array});
+                  this.storeData('diet',this.state.dietArray);
+                  /*this.getData('diet')*/
                 }
               }}
             />
@@ -194,6 +223,9 @@ export default class Preferences extends Component {
               onItemSelected={(item) => {
                 const joined = this.state.cuisineArray.concat(item.optionText);
                 this.setState({ cuisineArray: joined });
+                this.storeData('cuisine',this.state.cuisineArray);
+                /*this.getData('cuisine')*/
+            
               }}
               onItemDeselected={(item) => {
                 const array = [...this.state.cuisineArray];
@@ -201,6 +233,8 @@ export default class Preferences extends Component {
                 if (index !== -1) {
                   array.splice(index, 1);
                   this.setState({cuisineArray: array});
+                  this.storeData('cuisine',this.state.cuisineArray);
+                  /*this.getData('cuisine')*/
                 }
               }}
             />
@@ -216,6 +250,8 @@ export default class Preferences extends Component {
               onItemSelected={(item) => {
                 const joined = this.state.restaurantArray.concat(item.optionText);
                 this.setState({ restaurantArray: joined });
+                this.storeData('restaurant',this.state.restaurantArray);
+                /*this.getData('restaurant');*/
               }}
               onItemDeselected={(item) => {
                 const array = [...this.state.restaurantArray];
@@ -223,6 +259,8 @@ export default class Preferences extends Component {
                 if (index !== -1) {
                   array.splice(index, 1);
                   this.setState({restaurantArray: array});
+                  this.storeData('restaurant',this.state.restaurantArray);
+                  /*this.getData('restaurant');*/
                 }
               }}
             />
