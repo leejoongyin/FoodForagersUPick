@@ -37,7 +37,9 @@ export default class Preferences extends Component {
   // If the user somehow inputs non-numeric characters, remove them. Also limit
   // the input to 5 numbers.
   onZipInput(text) {
-    this.setState({zipcode: text.replace(/[^0-9]/g, '')});
+    this.setState({zipcode: text.replace(/[^0-9]/g, '')}, () => {
+      this.storeData('zipcode', this.state.zipcode);
+    });
   }
 
   // Show an error text when the user inputs an invalid zipcode.
@@ -57,15 +59,17 @@ export default class Preferences extends Component {
       await AsyncStorage.setItem(key,jsonValue)
     } catch (e) {
       // saving error
+      alert('error: ', e);
     }
   }
 
   getData = async (key) => {
     try {
-      const jsonValue = await AsyncStorage.getItem(key).then((key) => {alert(key)})
+      const jsonValue = await AsyncStorage.getItem(key).then((key) => {alert(key);})
       return jsonValue != null ? JSON.parse(jsonValue) : null
     } catch(e) {
       // read error
+      alert('error: ', e);
     } 
     console.log('Done.')
   }
@@ -154,7 +158,9 @@ export default class Preferences extends Component {
               <TextInput
                 style={styles.inputBox}
                 placeholder="Enter time"
-                onChangeText={(time) => {this.setState({time})}}
+                onChangeText={(time) => {this.setState({time}, () => {
+                  this.storeData('time', this.state.time)
+                })}}
                 underlineColorAndroid="transparent"
               />
             </View>
@@ -170,18 +176,20 @@ export default class Preferences extends Component {
               containerStyle={styles.answers}
               onItemSelected={(item) => {
                 const joined = this.state.budgetArray.concat(item.optionText);
-                this.setState({ budgetArray: joined });
-                this.storeData('budget',this.state.budgetArray);
-                /*this.getData('budget')*/
+                this.setState({ budgetArray: joined }, () => {
+                    this.storeData('budget', this.state.budgetArray);
+                  }
+                );
               }}
               onItemDeselected={(item) => {
                 const array = [...this.state.budgetArray];
                 var index = array.indexOf(item.optionText);
                 if (index !== -1) {
                   array.splice(index, 1);
-                  this.setState({budgetArray: array});
-                  this.storeData('budget',this.state.budgetArray);
-                  /*this.getData('budget');*/
+                  this.setState({ budgetArray: array }, () => {
+                      this.storeData('budget', this.state.budgetArray);
+                    }
+                  );
                 }
               }}
             />
@@ -195,19 +203,22 @@ export default class Preferences extends Component {
               isSelected={this.dietSelectionHandler.isSelected}
               containerStyle={styles.answers}
               onItemSelected={(item) => {
+                console.log(item.optionText);
                 const joined = this.state.dietArray.concat(item.optionText);
-                this.setState({ dietArray: joined });
-                this.storeData('diet', this.setState.dietArray);
-                /*this.getData('diet')*/
+                this.setState({ dietArray: joined }, () => {
+                    this.storeData('diet', this.state.dietArray);
+                  }
+                );
               }}
               onItemDeselected={(item) => {
                 const array = [...this.state.dietArray];
                 var index = array.indexOf(item.optionText);
                 if (index !== -1) {
                   array.splice(index, 1);
-                  this.setState({dietArray: array});
-                  this.storeData('diet',this.state.dietArray);
-                  /*this.getData('diet')*/
+                  this.setState({ dietArray: array }, () => {
+                      this.storeData('diet', this.state.dietArray);
+                    }
+                  );      
                 }
               }}
             />
@@ -222,19 +233,20 @@ export default class Preferences extends Component {
               containerStyle={styles.answers}
               onItemSelected={(item) => {
                 const joined = this.state.cuisineArray.concat(item.optionText);
-                this.setState({ cuisineArray: joined });
-                this.storeData('cuisine',this.state.cuisineArray);
-                /*this.getData('cuisine')*/
-            
+                this.setState({ cuisineArray: joined }, () => {
+                    this.storeData('cuisine', this.state.cuisineArray);
+                  }
+                );
               }}
               onItemDeselected={(item) => {
                 const array = [...this.state.cuisineArray];
                 var index = array.indexOf(item.optionText);
                 if (index !== -1) {
                   array.splice(index, 1);
-                  this.setState({cuisineArray: array});
-                  this.storeData('cuisine',this.state.cuisineArray);
-                  /*this.getData('cuisine')*/
+                  this.setState({ cuisineArray: array }, () => {
+                      this.storeData('cuisine', this.state.cuisineArray);
+                    }
+                  );
                 }
               }}
             />
@@ -249,18 +261,20 @@ export default class Preferences extends Component {
               containerStyle={styles.answers}
               onItemSelected={(item) => {
                 const joined = this.state.restaurantArray.concat(item.optionText);
-                this.setState({ restaurantArray: joined });
-                this.storeData('restaurant',this.state.restaurantArray);
-                /*this.getData('restaurant');*/
+                this.setState({ restaurantArray: joined }, () => {
+                    this.storeData('restaurant', this.state.restaurantArray);
+                  }
+                );
               }}
               onItemDeselected={(item) => {
                 const array = [...this.state.restaurantArray];
                 var index = array.indexOf(item.optionText);
                 if (index !== -1) {
                   array.splice(index, 1);
-                  this.setState({restaurantArray: array});
-                  this.storeData('restaurant',this.state.restaurantArray);
-                  /*this.getData('restaurant');*/
+                  this.setState({ restaurantArray: array }, () => {
+                      this.storeData('restaurant', this.state.restaurantArray);
+                    }
+                  );
                 }
               }}
             />
@@ -274,7 +288,6 @@ export default class Preferences extends Component {
           </ScrollView>
         </View>
         <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
-
       </View>
     );
   }
@@ -324,7 +337,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 36,
     marginTop: 5,
-    marginBottom: 100
+    marginBottom: 200
   },
   button: {
       padding: 5,
