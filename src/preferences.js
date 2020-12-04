@@ -3,6 +3,7 @@ import React, {Component, useState} from 'react';
 import { Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Navbar from './Navbar';
 import colors from '../style/colors';
@@ -149,7 +150,6 @@ export default class Preferences extends Component {
               onItemSelected={(item) => {
                 const joined = this.state.budgetArray.concat(item.optionText);
                 this.setState({ budgetArray: joined });
-                alert(this.state.budgetArray);
               }}
               onItemDeselected={(item) => {
                 const array = [...this.state.budgetArray];
@@ -158,7 +158,6 @@ export default class Preferences extends Component {
                   array.splice(index, 1);
                   this.setState({budgetArray: array});
                 }
-                alert(this.state.budgetArray);
               }}
             />
             <View style={{width: '80%', alignSelf: 'center'}}>
@@ -282,7 +281,6 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    textAlign: 'center',
     backgroundColor: '#6B222D',
     color: '#FFF',
     borderRadius: 5,

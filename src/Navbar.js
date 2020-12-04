@@ -30,7 +30,7 @@ export default class Navbar extends Component {
                             <Text style = {[ styles.navbarText, mode]}> Join Group </Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Home', {isDarkmode: this.props.isDarkmode})}>
+                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('Generate', {isDarkmode: this.props.isDarkmode})}>
                         <View style = {[ styles.navButtonCenter, iconMode ]}>
                             <Icon name="silverware-fork-knife" size={45} style = {[ mode ]} />
                             <Text style = {[ styles.navbarText, mode]}> Generate </Text>
