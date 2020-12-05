@@ -9,7 +9,7 @@ export default class RestaurantList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      restaurantListArray: ["Liuli Pavilion", "Cat's Tail Tavern", "Wanmin Restaurant", "Dawn Winery", "Yansheng Teahouse"],
+      restaurantListArray: [],
       userInput: '',
     };
   }

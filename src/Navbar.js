@@ -23,7 +23,7 @@ export default function Navbar(props) {
                           <Text style = {[ styles.navbarText, mode]}> Join Group </Text>
                       </View>
                   </TouchableWithoutFeedback>
-                  <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Home', {isDarkmode: props.isDarkmode})}>
+                  <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Generate', {isDarkmode: props.isDarkmode})}>
                       <View style = {[ styles.navButtonCenter, iconMode ]}>
                           <Icon name="silverware-fork-knife" size={45} style = {[ mode ]} />
                           <Text style = {[ styles.navbarText, mode]}> Generate </Text>
@@ -45,5 +45,4 @@ export default function Navbar(props) {
               </View>
           </View>
       );
-
 }

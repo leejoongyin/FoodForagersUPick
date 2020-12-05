@@ -4,6 +4,7 @@ import { View, Image, StyleSheet, Text, TouchableWithoutFeedback, TextInput, Swi
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import '../assets/CameraIcon.png'
 import styles, {INNER_MODULE_WIDTH, MODULE_FRAME, MODULE_WIDTH} from '../style/styles';
@@ -256,9 +257,21 @@ class GroupsAccommodationsPage extends Component {
         this.state = {
             showState: 1
         }
+        this.getData('diet');
         //console.log("Groups( isDarkmode: " + isDarkmode + ")");
         //Alert.alert( "Group Accomodations render, State: " + this.state.showState);
     };
+
+    getData = async (key) => {
+        try {
+          const jsonValue = await AsyncStorage.getItem(key).then((key) => {alert(key)})
+          return jsonValue != null ? JSON.parse(jsonValue) : null
+        } catch(e) {
+          // read error
+          alert('error: ', e);
+        } 
+        console.log('Done.')
+    }
 
     componentWillUnmount() {
         this.firebaseRef.off();
