@@ -284,22 +284,22 @@ class GroupsAccommodationsPage extends Component {
         }
 
         this.getData('zipcode').then((result) => {
-            const zipcode = result;
+            this.setState({zipcode: result});
         });
         this.getData('time').then((result) => {
-            const time = result;
+            this.setState({time: result});
         });
         this.getData('budget').then((result) => {
-            const budgetArray = result;
+            this.setState({budgetArray: result });
         });
         this.getData('diet').then((result) => {
-            const dietArray = result;
+            this.setState({dietArray: result});
         });
         this.getData('cuisine').then((result) => {
-            const cuisineArray = result;
+            this.setState({cuisineArray: result});
         });
         this.getData('restaurant').then((result) => {
-            const restaurantArray = result;
+            this.setState({restaurantArray: result});
         });
     };
 
@@ -358,6 +358,10 @@ class GroupsAccommodationsPage extends Component {
     }
 
     onInvitePressed = () => {
+
+        for (let diet of this.state.dietArray) {
+            console.log(diet);
+        }
 
         this.firebaseRef.set({
             Members:1,
