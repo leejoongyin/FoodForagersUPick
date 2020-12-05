@@ -21,7 +21,7 @@ export const INNER_MODULE_WIDTH = MODULE_WIDTH - (2* MODULE_FRAME);
 
 const styles = StyleSheet.create({
     barCodeScanner: {
-      height: INNER_MODULE_WIDTH, 
+      height: INNER_MODULE_WIDTH,
       width: INNER_MODULE_WIDTH,
     },
     container: {
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
       fontSize: 20,
       fontWeight: "bold",
       textAlign: 'center'
-    }, 
+    },
     button: {
       alignContent: 'center',
       alignItems: 'center',
@@ -237,20 +237,20 @@ const styles = StyleSheet.create({
       flex: 0.1,
       width: 20,
       height: '3%',
-    }, 
+    },
     padding: {
       flex: 0.5,
       width: 20,
       height: 20,
-    }, 
+    },
     paddingBottom: {
       flex: 2,
       width: '5%',
       height: '15%',
-    },  
+    },
     paddingManual: {
       height: 20,
-      width: 20, 
+      width: 20,
     },
     paddedView: {
       padding: 8,
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
       alignContent: 'center',
       justifyContent: 'center',
       borderRadius: MODULE_RADIUS,
-    },  
+    },
     statusBar: {
       height: 25
     },
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
     },
     navContainer: {
       position: 'absolute',
-      height: 75,
+      height: 69,
       width: '100%',
       bottom: 0,
     },
@@ -299,31 +299,33 @@ const styles = StyleSheet.create({
       elevation: 10
     },
     navbarText: {
-      fontSize: 13,
+      fontSize: 11,
       fontWeight: 'bold',
       flexWrap: 'wrap',
       textAlign: 'center',
-      marginBottom: 2
+      marginBottom: 5
     },
     navButton: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      marginBottom: 5
+      width: '18%',
+      marginBottom: 4
     },
     navButtonCenter: {
       display: 'flex',
       alignItems: 'center',
-      marginBottom: 5,
-      backgroundColor: 'transparent'
+      backgroundColor: 'transparent',
+      width: '25%',
+      marginBottom: 4
     },
     navCircle: {
       position: 'absolute',
-      height: 120,
-      width: 125,
+      height: 110,
+      width: 110,
       alignSelf: 'center',
-      borderRadius: 90,
-      bottom: 0,
+      borderRadius: 110,
+      bottom: -12,
       elevation: 10
     }
 });

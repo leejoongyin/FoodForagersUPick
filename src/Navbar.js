@@ -14,32 +14,31 @@ export default function Navbar(props) {
                   <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Edit Preferences', {isDarkmode: props.isDarkmode})}>
                       <View style = {[ styles.navButton, iconMode ]}>
                           <Icon name="circle-edit-outline" size={35} style = {[ mode ]} />
-                          <Text style = {[ styles.navbarText, mode]}> Edit </Text>
+                          <Text style = {[ styles.navbarText, mode]}>Edit</Text>
                       </View>
                   </TouchableWithoutFeedback>
                   <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Group Accommodations', {isDarkmode: props.isDarkmode})}>
                       <View style = {[ styles.navButton, iconMode ]}>
                           <Icon name="account-group" size={40} style = {[ mode ]} />
-                          <Text style = {[ styles.navbarText, mode]}> Join Group </Text>
+                          <Text style = {[ styles.navbarText, mode]}>Join Group</Text>
                       </View>
                   </TouchableWithoutFeedback>
                   <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Generate', {isDarkmode: props.isDarkmode})}>
                       <View style = {[ styles.navButtonCenter, iconMode ]}>
-                          <Icon name="silverware-fork-knife" size={45} style = {[ mode ]} />
-                          <Text style = {[ styles.navbarText, mode]}> Generate </Text>
-                          <Text style = {[ styles.navbarText, mode]}> Recommendation  </Text>
+                          <Icon name="silverware-fork-knife" size={42} style = {[ mode ]} />
+                          <Text style = {[ styles.navbarText, mode]}>{'Generate\nRecommendation'}</Text>
                       </View>
                   </TouchableWithoutFeedback>
                   <TouchableWithoutFeedback onPress={() => alert('Pressed')}>
                       <View style = {[ styles.navButton, iconMode ]}>
                           <Icon name="book-search-outline" size={35} style = {[ mode ]} />
-                          <Text style = {[ styles.navbarText, mode]}> Recipe </Text>
+                          <Text style = {[ styles.navbarText, mode]}>Recipe</Text>
                       </View>
                   </TouchableWithoutFeedback>
                   <TouchableWithoutFeedback onPress={() => alert('Pressed')}>
                       <View style = {[ styles.navButton, iconMode ]}>
                           <Icon name="currency-usd" size={35} style = {[ mode ]} />
-                          <Text style = {[ styles.navbarText, mode]}> Budget </Text>
+                          <Text style = {[ styles.navbarText, mode]}>Budget</Text>
                       </View>
                   </TouchableWithoutFeedback>
               </View>
