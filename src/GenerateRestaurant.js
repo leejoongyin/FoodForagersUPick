@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import generateRestaurantStyle from "../style/generateRestaurantStylesLight.js";
 import styles from "../style/styles.js";
-import Navbar from './Navbar';
 
 const { Component } = require('react');
 
@@ -23,19 +22,19 @@ class generateRestaurantScreen extends Component {
         var isDarkmode = this.props.route.params.isDarkmode;
         var mode = (isDarkmode?styles.darkmode:styles.lightmode);
         return (
-            <View style={[styles.container,mode]}>   
+            <View style={[styles.container,mode]}>
                 <Text style={[generateRestaurantStyle.questionFontLight,mode]}>Do you have any restaurants in mind?</Text>
                 <View style={[styles.paddingManual]}/>
 
                 <View style={[generateRestaurantStyle.buttonContainer,mode]}>
-                    <TouchableOpacity 
+                    <TouchableOpacity
                         style={[
                             generateRestaurantStyle.yesButtonLight,
                             (isDarkmode?styles.buttonColor1Dark:styles.buttonColor2)
                         ]}
-                        onPress={this.yesPressed}                
+                        onPress={this.yesPressed}
                     >
-                        <Text 
+                        <Text
                             style={[
                                 generateRestaurantStyle.yesNoFontLight,
                                 (isDarkmode?styles.buttonColor1Dark:styles.buttonColor2)
@@ -43,15 +42,15 @@ class generateRestaurantScreen extends Component {
                             Yes
                         </Text>
                     </TouchableOpacity>
-                    
-                    <TouchableOpacity 
+
+                    <TouchableOpacity
                         style={[
                             generateRestaurantStyle.yesButtonLight,
                             (isDarkmode?styles.buttonColor2Dark:styles.buttonColor3)
                         ]}
                         onPress={this.noPressed}
                     >
-                        <Text 
+                        <Text
                             style={[
                                 generateRestaurantStyle.yesNoFontLight,
                                 (isDarkmode?styles.buttonColor2Dark:styles.buttonColor3)
@@ -60,12 +59,11 @@ class generateRestaurantScreen extends Component {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
                 {/*<View style={styles.navBarLight}>
-                    <View style={styles.centerExtCoverLight}></View> 
-                    
+                    <View style={styles.centerExtCoverLight}></View>
+
                     <TouchableOpacity style={styles.nonCenterLight}>
-                        <Image 
+                        <Image
                             source={require("../assets/edit_unselected.png")}
                             style={styles.buttonImage}
                         ></Image>
@@ -73,7 +71,7 @@ class generateRestaurantScreen extends Component {
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.nonCenterLight}>
-                        <Image 
+                        <Image
                             source={require("../assets/group_unselected.png")}
                             style={styles.buttonImage}
                         ></Image>
@@ -82,7 +80,7 @@ class generateRestaurantScreen extends Component {
 
                     <TouchableOpacity style={styles.centerLight}>
                         <View style={styles.centerExtensionLight}></View>
-                        <Image 
+                        <Image
                             source={require("../assets/restaurant_selected.png")}
                             style={styles.centerButtonImage}
                         ></Image>
@@ -91,7 +89,7 @@ class generateRestaurantScreen extends Component {
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.nonCenterLight}>
-                        <Image 
+                        <Image
                             source={require("../assets/recipe_unselected.png")}
                             style={styles.buttonImage}
                         ></Image>
@@ -99,13 +97,13 @@ class generateRestaurantScreen extends Component {
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.nonCenterLight}>
-                        <Image 
+                        <Image
                             source={require("../assets/budget_unselected.png")}
                             style={styles.buttonImage}
                         ></Image>
                         <Text style={styles.navFont}>Budget</Text>
                     </TouchableOpacity>
-                    
+
                 </View>*/}
             </View>
         );

@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import React,  {Component, useState} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import * as Permissions from 'expo-permissions';
@@ -18,6 +18,7 @@ import Preferences from './src/preferences';
 import RestaurantList from './src/restaurantList';
 import RestaurantInfo from './src/RestaurantInfo';
 import EditPreferences from './src/EditPreferences';
+import Navbar from './src/Navbar';
 
 import styles from './style/styles';
 import { render } from 'react-dom';
@@ -30,7 +31,8 @@ const headerTintColor = '#E2D6C8';
 const navigationOptions = {
   headerTitleStyle: styles.headerText,
   headerRight: () =>(<View/>),
-  headerStyle: styles.header
+  headerStyle: styles.header,
+  ...TransitionPresets.SlideFromRightIOS
 }
 
 const groupCodeLength = 4;
@@ -55,7 +57,7 @@ class App extends Component {
        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
-}
+  }
 
   toggleDarkmode() {
     this.setState({ isDarkmode: !this.state.isDarkmode});
@@ -84,92 +86,99 @@ class App extends Component {
     return true;
   }
 
+  getStackScreens = () => {
+    return (
+      <Stack.Navigator initialRouteName="Home" screenOptions = { navigationOptions }>
+        <Stack.Screen
+            name="Home"
+            component={HomePage}
+            options={{headerShown: false}}
+            initialParams={{
+                isDarkmode: this.getIsDarkmode(),
+                toggleDarkmode: this.toggleDarkmode.bind(this),
+                getIsDarkmode: this.getIsDarkmode.bind(this)
+            }}
+        />
+        <Stack.Screen
+            name="Generate"
+            component={generateRestaurantScreen}
+            options={{
+              title: "Generate Restaurant Recommendation"
+            }}
+            initialParams={{
+              isDarkmode: this.getIsDarkmode()
+          }}
+        />
+        <Stack.Screen
+            name="Group Accommodations"
+            component={GroupAccommodationsPage}
+            initialParams={{
+                isDarkmode: this.getIsDarkmode(),
+                getGroupCode: this.getGroupCode.bind(this),
+                setGroupCode: this.setGroupCode.bind(this)
+            }}
+        />
+        <Stack.Screen
+            name = "Invite Page"
+            component={InvitePage}
+            options={{
+                title: "Group Accommodations"
+            }}
+            initialParams = {{
+                isDarkmode: this.getIsDarkmode(),
+                getGroupCode: this.getGroupCode.bind(this),
+                setGroupCode: this.setGroupCode.bind(this)
+            }}
+        />
+        <Stack.Screen
+            name = "Preferences"
+            component={Preferences}
+            options={{
+                title: "Preferences"
+            }}
+            initialParams = {{
+                isDarkmode: this.getIsDarkmode()
+            }}
+        />
+        <Stack.Screen
+            name = "Edit Preferences"
+            component={EditPreferences}
+            options={{
+                title: "Preferences"
+            }}
+            initialParams = {{
+                isDarkmode: this.getIsDarkmode()
+            }}
+        />
+        <Stack.Screen
+            name = "Restaurant List"
+            component={RestaurantList}
+            options={{
+                title: "Restaurant List"
+            }}
+            initialParams = {{
+                isDarkmode: this.getIsDarkmode()
+            }}
+        />
+        <Stack.Screen
+            name = "Restaurant Info"
+            component={RestaurantInfo}
+            options={{
+                title: "Recommendation"
+            }}
+            initialParams = {{
+                isDarkmode: this.getIsDarkmode()
+            }}
+        />
+      </Stack.Navigator>
+    );
+  }
   render() {
     return (
       <NavigationContainer>{
-        <Stack.Navigator initialRouteName="Home" screenOptions = { navigationOptions }>
-          <Stack.Screen
-              name="Home"
-              component={HomePage}
-              options={{headerShown: false}}
-              initialParams={{
-                  isDarkmode: this.getIsDarkmode(),
-                  toggleDarkmode: this.toggleDarkmode.bind(this),
-                  getIsDarkmode: this.getIsDarkmode.bind(this)
-              }}
-          />
-          <Stack.Screen
-              name="Generate"
-              component={generateRestaurantScreen}
-              options={{ 
-                title: "Generate Restaurant Recommendation"
-              }}
-              initialParams={{
-                isDarkmode: this.getIsDarkmode()
-            }}
-          />
-          <Stack.Screen
-              name="Group Accommodations"
-              component={GroupAccommodationsPage}
-              initialParams={{
-                  isDarkmode: this.getIsDarkmode(),
-                  getGroupCode: this.getGroupCode.bind(this),
-                  setGroupCode: this.setGroupCode.bind(this)
-              }}
-          />
-          <Stack.Screen
-              name = "Invite Page"
-              component={InvitePage}
-              options={{
-                  title: "Group Accommodations"
-              }}
-              initialParams = {{
-                  isDarkmode: this.getIsDarkmode(),
-                  getGroupCode: this.getGroupCode.bind(this),
-                  setGroupCode: this.setGroupCode.bind(this)
-              }}
-          />
-          <Stack.Screen
-              name = "Preferences"
-              component={Preferences}
-              options={{
-                  title: "Preferences"
-              }}
-              initialParams = {{
-                  isDarkmode: this.getIsDarkmode()
-              }}
-          />
-          <Stack.Screen
-              name = "Edit Preferences"
-              component={EditPreferences}
-              options={{
-                  title: "Preferences"
-              }}
-              initialParams = {{
-                  isDarkmode: this.getIsDarkmode()
-              }}
-          />
-          <Stack.Screen
-              name = "Restaurant List"
-              component={RestaurantList}
-              options={{
-                  title: "Restaurant List"
-              }}
-              initialParams = {{
-                  isDarkmode: this.getIsDarkmode()
-              }}
-          />
-          <Stack.Screen
-              name = "Restaurant Info"
-              component={RestaurantInfo}
-              options={{
-                  title: "Recommendation"
-              }}
-              initialParams = {{
-                  isDarkmode: this.getIsDarkmode()
-              }}
-          />
-        </Stack.Navigator>
+        <Tab.Navigator tabBar={props => <Navbar isDarkmode={this.state.isDarkmode} { ...props}/>}>
+          <Tab.Screen name="Home" component={this.getStackScreens}/>
+        </Tab.Navigator>
       }</NavigationContainer>
     );
   }
