@@ -23,8 +23,8 @@ import styles from './style/styles';
 import { render } from 'react-dom';
 
 const Stack = createStackNavigator();
+const GenerateStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
 const headerTintColor = '#E2D6C8';
 
 const navigationOptions = {
@@ -59,12 +59,9 @@ class App extends Component {
 
   toggleDarkmode() {
     this.setState({ isDarkmode: !this.state.isDarkmode});
-    //console.log("getIsDarkmode run: " + this.getIsDarkmode());
-    //console.log("isDarkmode Toggled: " + this.state.isDarkmode);
   }
 
   getIsDarkmode() {
-    //console.log("getIsDarkmode run: " + this.state.isDarkmode);
     return this.state.isDarkmode;
   }
 
@@ -84,7 +81,108 @@ class App extends Component {
     return true;
   }
 
+  GenerateStackScreen  = () => {
+    return (
+      <GenerateStack.Navigator>
+        <Stack.Screen
+              name="Home"
+              component={HomePage}
+              options={{headerShown: false}}
+              initialParams={{
+                  isDarkmode: this.getIsDarkmode(),
+                  toggleDarkmode: this.toggleDarkmode.bind(this),
+                  getIsDarkmode: this.getIsDarkmode.bind(this)
+              }}
+          />
+         <GenerateStack.Screen
+              name="Generate"
+              component={generateRestaurantScreen}
+              options={{ 
+                title: "Generate Restaurant Recommendation"
+              }}
+              initialParams={{
+                isDarkmode: this.getIsDarkmode()
+            }}
+          />
+        <GenerateStack.Screen
+              name="Group Accommodations"
+              component={GroupAccommodationsPage}
+              initialParams={{
+                  isDarkmode: this.getIsDarkmode(),
+                  getGroupCode: this.getGroupCode.bind(this),
+                  setGroupCode: this.setGroupCode.bind(this)
+              }}
+          />
+          <GenerateStack.Screen
+              name = "Invite Page"
+              component={InvitePage}
+              options={{
+                  title: "Group Accommodations"
+              }}
+              initialParams = {{
+                  isDarkmode: this.getIsDarkmode(),
+                  getGroupCode: this.getGroupCode.bind(this),
+                  setGroupCode: this.setGroupCode.bind(this)
+              }}
+          />
+          <GenerateStack.Screen
+              name = "Preferences"
+              component={Preferences}
+              options={{
+                  title: "Preferences"
+              }}
+              initialParams = {{
+                  isDarkmode: this.getIsDarkmode()
+              }}
+          />
+          <GenerateStack.Screen
+              name = "Restaurant List"
+              component={RestaurantList}
+              options={{
+                  title: "Restaurant List"
+              }}
+              initialParams = {{
+                  isDarkmode: this.getIsDarkmode()
+              }}
+          />
+          <GenerateStack.Screen
+              name = "Restaurant Info"
+              component={RestaurantInfo}
+              options={{
+                  title: "Recommendation"
+              }}
+              initialParams = {{
+                  isDarkmode: this.getIsDarkmode()
+              }}
+          />
+      </GenerateStack.Navigator>
+    );
+  }
+
   render() {
+    return(
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen name="Edit Preferences" component={EditPreferences} options={{
+                  title: "Preferences"
+              }}
+              initialParams = {{
+                  isDarkmode: this.getIsDarkmode()
+              }}/>
+          <Tab.Screen name="Join Group" component={GroupAccommodationsPage} initialParams={{
+              isDarkmode: this.getIsDarkmode(),
+              getGroupCode: this.getGroupCode.bind(this),
+              setGroupCode: this.setGroupCode.bind(this)
+          }} />
+          <Tab.Screen name="Generate Recommendations" component={this.GenerateStackScreen} />
+          <Tab.Screen name="Recipe" component={''} />
+          <Tab.Screen name="Budget" component={''} />
+        </Tab.Navigator>
+    </NavigationContainer>
+    )
+  }
+
+  /*render() {
     return (
       <NavigationContainer>{
         <Stack.Navigator initialRouteName="Home" screenOptions = { navigationOptions }>
@@ -172,7 +270,7 @@ class App extends Component {
         </Stack.Navigator>
       }</NavigationContainer>
     );
-  }
+  }*/
 }
 
 export default App;
