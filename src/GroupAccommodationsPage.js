@@ -282,14 +282,30 @@ class GroupsAccommodationsPage extends Component {
         this.state = {
             showState: 1
         }
-        this.getData('diet');
-        //console.log("Groups( isDarkmode: " + isDarkmode + ")");
-        //Alert.alert( "Group Accomodations render, State: " + this.state.showState);
+
+        this.getData('zipcode').then((result) => {
+            const zipcode = result;
+        });
+        this.getData('time').then((result) => {
+            const time = result;
+        });
+        this.getData('budget').then((result) => {
+            const budgetArray = result;
+        });
+        this.getData('diet').then((result) => {
+            const dietArray = result;
+        });
+        this.getData('cuisine').then((result) => {
+            const cuisineArray = result;
+        });
+        this.getData('restaurant').then((result) => {
+            const restaurantArray = result;
+        });
     };
 
     getData = async (key) => {
         try {
-          const jsonValue = await AsyncStorage.getItem(key).then((key) => {alert(key)})
+          const jsonValue = await AsyncStorage.getItem(key).then((key) => {return key;})
           return jsonValue != null ? JSON.parse(jsonValue) : null
         } catch(e) {
           // read error
