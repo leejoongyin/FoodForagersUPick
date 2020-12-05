@@ -12,9 +12,6 @@ import colors from '../style/colors';
 import QRCode from 'react-native-qrcode-svg';
 
 class InvitePage extends Component {
-    getGroupCount() {
-        return 4;
-    }
     render() {
         var isDarkmode = this.props.route.params.isDarkmode
         var mode  = (isDarkmode ? styles.darkmode: styles.lightmode);
@@ -44,12 +41,6 @@ class InvitePage extends Component {
 
                     <Text> </Text>
                     <View styles={[styles.padding]}/>
-
-                    <Text style={[mode2, { fontSize: 20 }]}> Total Group Members: </Text>
-                    <Text style={[mode, { fontSize: 50, fontWeight: 'bold'}]}>
-                        {this.getGroupCount()}
-                    </Text>
-
                     <View style={[styles.padding]}/>
 
                     <TouchableWithoutFeedback  title = 'Generate' onPress={()=>{this.props.navigation.navigate("Restaurant Info", {isDarkmode: isDarkmode})}}>

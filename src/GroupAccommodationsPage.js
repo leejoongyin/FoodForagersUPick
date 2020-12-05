@@ -358,13 +358,11 @@ class GroupsAccommodationsPage extends Component {
     }
 
     onInvitePressed = () => {
-
-        for (let diet of this.state.dietArray) {
-            console.log(diet);
-        }
+        var updates = {};
 
         this.firebaseRef.set({
-            Members:1,
+            Zipcode: 0,
+            Time: 0,
             Budget: {m:0, mm:0, mmm:0},
             Diet: {Lactose:0,Nut:0,Shellfish:0,Vegan:0,Vegetarian:0,Kosher:0,Paleo:0},
             Cuisine: {Chinese:0, American:0, Mexican:0, Italian:0, Japanese:0,
@@ -373,7 +371,27 @@ class GroupsAccommodationsPage extends Component {
                 Drink:0, CoffeeShop:0, BBQ:0, Dinner:0}
         });
 
-        // temporarily here so i dont get 1000000 instances in my db when u guys test
+        updates['Zipcode'] = this.state.zipcode; 
+        updates['Time'] = this.state.time;
+
+        for (let budget of this.state.budgetArray) {
+            updates['/Budget/' + budget] = 1;
+        }
+
+        for (let diet of this.state.dietArray) {
+            updates['/Diet/' + diet] = 1;
+        }
+
+        for (let cuisine of this.state.cuisineArray) {
+            updates['/Cuisine/' + cuisine] = 1;
+        }
+
+        for (let restaurant of this.state.restaurantArray) {
+            updates['/Restaurant/' + restaurant] = 1;
+        }
+
+        this.firebaseRef.update(updates);
+        // remove for testing VVV
         this.firebaseRef.remove();
 
         this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.route.params.isDarkmode});
