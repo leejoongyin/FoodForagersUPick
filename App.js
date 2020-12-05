@@ -22,6 +22,7 @@ import Navbar from './src/Navbar';
 
 import styles from './style/styles';
 import { render } from 'react-dom';
+import { GROUP_CODE_LENGTH, GROUP_CODE_VALID_CHARS } from './src/constants';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -35,15 +36,13 @@ const navigationOptions = {
   ...TransitionPresets.SlideFromRightIOS
 }
 
-const groupCodeLength = 4;
-
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       isDarkmode: true,
-      groupCode: this.roomCodeGenerator(groupCodeLength)
+      groupCode: this.roomCodeGenerator(GROUP_CODE_LENGTH)
     };
     var mode = (this.getIsDarkmode() ? styles.darkmode : styles.lightmode);
     console.log(mode);
@@ -51,7 +50,7 @@ class App extends Component {
 
   roomCodeGenerator = (length) => {
     var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var characters       = GROUP_CODE_VALID_CHARS;
     var charactersLength = characters.length;
     for ( var i = 0; i < length; i++ ) {
        result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -74,15 +73,21 @@ class App extends Component {
     return this.state.groupCode;
   }
 
+  validateGroupCode( e ) {
+    if ( !e || e.length != GROUP_CODE_LENGTH ) {
+      return false;
+    }
+    return true;
+  }
   setGroupCode( e ) {
-    if ( !e || e.length != groupCodeLength ) {
+    if ( !this.validateGroupCode( e ) ) {
       return false;
     }
 
     this.setState( prevState => ({
       groupCode: e
     }));
-    console.log(e);
+    //console.log(e);
     return true;
   }
 

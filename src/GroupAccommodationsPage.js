@@ -2,17 +2,18 @@
 import React, {Component} from 'react';
 import { View, Image, StyleSheet, Text, TouchableWithoutFeedback, TextInput, Switch, Alert } from 'react-native';
 import * as Permissions from 'expo-permissions';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import { BarCodeScanner, Constants } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import '../assets/CameraIcon.png'
 import styles, {INNER_MODULE_WIDTH, MODULE_FRAME, MODULE_WIDTH} from '../style/styles';
 import db from './base';
+import {GROUP_CODE_VALID_CHARS} from './constants';
 
 class EatingAlone extends Component {
     constructor(props){
-        super(props);
+        super(props); 
         const {navigation, isDarkmode}= this.props;
     }
     render(props) {
@@ -68,7 +69,7 @@ class QRScanner extends Component {
         this.state = {
             showScanner: false,
             isVerifying: false,
-            groupCode: '',
+            groupCodeIn: '',
             hasCameraPermission: null,
         }
     }
@@ -96,8 +97,24 @@ class QRScanner extends Component {
         }
 
     };
-    groupCodeEntered = (groupCode) => {
-        if( this.props.setGroupCode( groupCode ) ) {
+
+    filterGroupCodeInput = ( input ) => {
+        var output = "";
+        input = input.toUpperCase();
+        for( var i = 0; i < input.length; i++ ) {
+            if( GROUP_CODE_VALID_CHARS.indexOf( input[i] ) > -1  ) {
+                output += input[i];
+            }
+        }
+        return output; 
+    }
+
+    groupCodeEntered = (input) => {
+        var filteredInput = this.filterGroupCodeInput(input);
+        this.setState({
+            groupCodeIn: filteredInput
+        });
+        if( this.props.setGroupCode( filteredInput ) ) {
             this.setState({
                 showScanner: false,
                 isVerifying: false,
@@ -118,6 +135,13 @@ class QRScanner extends Component {
         this.setState({
             showScanner: true,
         });
+    }
+    onScannerHeaderPressed = () => {
+        if( this.state.inputtingText ) {
+            this.setState({inputtingText: false});
+        } else {
+            this.setState({showScanner: false});
+        }
     }
 
     componentDidMount() {
@@ -211,7 +235,7 @@ class QRScanner extends Component {
         var mode = (this.props.isDarkmode ? styles.darkmode: styles.lightmode);
         return(
             <View style = {[ styles.module, {height: (this.state.inputtingText?2*MODULE_FRAME:MODULE_WIDTH)} ]}>
-                <TouchableWithoutFeedback onPress={()=>{this.setState({inputtingText: false})}}>
+                <TouchableWithoutFeedback onPress={this.onScannerHeaderPressed.bind(this)}>
                     <View style={[styles.moduleRow]}>
                         <View style={[styles.moduleCorner, {padding:1}]}>
                             <Image style = {styles.icon} source = {require('../assets/CameraIcon.png')}/>
@@ -234,6 +258,7 @@ class QRScanner extends Component {
                     <View style={[styles.paddedView]}>
                         <TextInput
                             style={[styles.inputBox, styles.outline]}
+                            value={this.state.groupCodeIn}
                             placeholder=" Or enter Group Code here"
                             onChangeText={(groupCodeIn)=>{this.groupCodeEntered(groupCodeIn)}}
                             underlineColorAndroid="transparent"
