@@ -66,34 +66,34 @@ render() {
                 backgroundColor: '#F2E9E0'
             }}>
                 <Text style={left}>
-                    {this.props.item.date} 
+                    {this.props.item.date}
                 </Text>
                 <Text style={middle}>
-                    {this.props.item.description} 
+                    {this.props.item.description}
                 </Text>
                 <Text style = {right}>
-                    {this.props.item.amount} 
+                    {this.props.item.amount}
                 </Text>
 
-            </View> 
+            </View>
             <View style = {{
                 height: 1,
                 backgroundColor: "gray"
             }}>
-            </View>              
-            </View>               
+            </View>
+            </View>
         </Swipeout>
 
     );
 }
 }
 
-export default class BudgetLog extends React.Component {
+export default class BudgetLog extends Component {
 constructor(props){
 
     super(props);
 
-    state = {
+    this.state = {
         deletedRowKey: null,
         amount: '',
         description: '',
@@ -129,9 +129,9 @@ addExp () {
              }}>
                 <Text style={greet}>This month, you've spent:</Text>
                 <Text style={amount}> ${total} </Text>
-                <Button 
-                style = {{ 
-                    fontSize: 18, 
+                <Button
+                style = {{
+                    fontSize: 18,
                     color: 'white',
                 }}
                 containerStyle = {{
@@ -164,13 +164,13 @@ addExp () {
                         renderItem={({item, index}) =>{
                             //console.log(`Item = ${JSON.stringify(item)}, index = ${index}`)
                             return(
-                                <FlatListItem 
+                                <FlatListItem
                                     style ={{backgroundColor: '#6B222D',
                                     //height: 100
 
                                 }}
-                                item={item} 
-                                index={index} 
+                                item={item}
+                                index={index}
                                 parentFlatList={this} >
 
                                 </FlatListItem>
@@ -186,7 +186,7 @@ addExp () {
             </View>
         )
 
-    }; 
+    };
 }
 
 
@@ -240,4 +240,3 @@ const button ={
     marginTop: 10,
     marginBottom: 20
 }
-
