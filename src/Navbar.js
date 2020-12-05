@@ -35,7 +35,7 @@ export default function Navbar(props) {
                           <Text style = {[ styles.navbarText, mode]}>Recipe</Text>
                       </View>
                   </TouchableWithoutFeedback>
-                  <TouchableWithoutFeedback onPress={() => alert('Pressed')}>
+                  <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Budget Log', {isDarkmode: props.isDarkmode})}>
                       <View style = {[ styles.navButton, iconMode ]}>
                           <Icon name="currency-usd" size={35} style = {[ mode ]} />
                           <Text style = {[ styles.navbarText, mode]}>Budget</Text>

@@ -18,6 +18,7 @@ import Preferences from './src/preferences';
 import RestaurantList from './src/restaurantList';
 import RestaurantInfo from './src/RestaurantInfo';
 import EditPreferences from './src/EditPreferences';
+import BudgetLog from './src/BudgetLog';
 import Navbar from './src/Navbar';
 
 import styles from './style/styles';
@@ -174,6 +175,16 @@ class App extends Component {
             initialParams = {{
                 isDarkmode: this.getIsDarkmode()
             }}
+        />
+        <Stack.Screen
+          name="Budget Log"
+          component={BudgetLog}
+          options={{
+            title: "Budget Log"
+          }}
+          initialParams = {{
+              isDarkmode: this.getIsDarkmode()
+          }}
         />
       </Stack.Navigator>
     );
