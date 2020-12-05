@@ -6,10 +6,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-import './Navbar';
 import '../assets/CameraIcon.png'
-import Navbar from './Navbar';
 import styles, {INNER_MODULE_WIDTH, MODULE_FRAME, MODULE_WIDTH} from '../style/styles';
 import db from './base';
 
@@ -26,16 +23,16 @@ class EatingAlone extends Component {
                 <View style = {styles.paddingManual}/>
 
                 <View style = {styles.paddingManual}/>
-                <Text style = {[mode, styles.text]} > 
-                    or get a recommendation just for you: 
+                <Text style = {[mode, styles.text]} >
+                    or get a recommendation just for you:
                 </Text>
                 <View style = {styles.paddingManual}/>
-                <TouchableWithoutFeedback  
-                    title = 'Generate' 
+                <TouchableWithoutFeedback
+                    title = 'Generate'
                     onPress={
                         ()=>{
                             this.props.navigation.navigate(
-                                "Restaurant Info", 
+                                "Restaurant Info",
                                 {isDarkmode: this.props.isDarkmode}
                             )
                         }
@@ -93,7 +90,7 @@ class QRScanner extends Component {
             });
             Alert.alert(
                 'Invalid Code Scanned',
-                "The code that was scanned is not a group code", 
+                "The code that was scanned is not a group code",
                 [{text: "ok", onPress: ()=>{this.codeWarningDismissed()}}]
             );
         }
@@ -125,7 +122,7 @@ class QRScanner extends Component {
 
     componentDidMount() {
         this._isMounted = true;
-        this.getPermission(); 
+        this.getPermission();
     }
 
     componentWillUnmount() {
@@ -139,7 +136,7 @@ class QRScanner extends Component {
                 hasCameraPermission: status === 'granted'
             });
         }
-        
+
         //console.log(this.state.hasCameraPermission);
 
     }
@@ -170,16 +167,16 @@ class QRScanner extends Component {
         } else if ( !this.state.hasCameraPermission ) {
             return(
                 <TouchableWithoutFeedback onPress={ this.askPermission.bind(this) }>
-                    <View 
+                    <View
                         style={[
-                            styles.button, 
-                            (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1 ), 
+                            styles.button,
+                            (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1 ),
                             { flex:1, width: '90%' }
                         ]}
                     >
-                        <Text 
-                            style={[ 
-                                styles.buttonText, 
+                        <Text
+                            style={[
+                                styles.buttonText,
                                 (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)
                             ]}
                         >
@@ -193,9 +190,9 @@ class QRScanner extends Component {
             //console.log("Camera is shown");
             return(
                 <View style = {styles.scannerContainer}>
-                    <Camera 
+                    <Camera
                         //type={Camera.Constants.Type.back}
-                        style={[ styles.barCodeScanner ]} 
+                        style={[ styles.barCodeScanner ]}
                         onBarCodeScanned={this.qrCodeScanned}
                         barCodeScannerSettings={{
                             barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
@@ -325,9 +322,9 @@ class GroupsAccommodationsPage extends Component {
             Members:1,
             Budget: {m:0, mm:0, mmm:0},
             Diet: {Lactose:0,Nut:0,Shellfish:0,Vegan:0,Vegetarian:0,Kosher:0,Paleo:0},
-            Cuisine: {Chinese:0, American:0, Mexican:0, Italian:0, Japanese:0, 
+            Cuisine: {Chinese:0, American:0, Mexican:0, Italian:0, Japanese:0,
                 Korean:0, Thai:0, Vietnamese:0, Indian:0},
-            Restaurant: {Breakfast:0, Brunch:0, Bar:0, FastFood:0, Dessert:0, 
+            Restaurant: {Breakfast:0, Brunch:0, Bar:0, FastFood:0, Dessert:0,
                 Drink:0, CoffeeShop:0, BBQ:0, Dinner:0}
         });
 
@@ -390,7 +387,6 @@ class GroupsAccommodationsPage extends Component {
 
                     <View style={styles.paddingBottom}/>
                 </View>
-                <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
             </View>
         );
 

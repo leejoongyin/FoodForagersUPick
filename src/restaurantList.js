@@ -4,7 +4,6 @@ import { Text, View, TextInput, StyleSheet, ScrollView, TouchableOpacity} from '
 //import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 //import Icon from 'react-native-vector-icons/MaterialIcons';
 import { MaterialIcons } from '@expo/vector-icons';
-import Navbar from './Navbar';
 import colors from '../style/colors';
 export default class RestaurantList extends Component {
   constructor(props) {
@@ -85,7 +84,6 @@ export default class RestaurantList extends Component {
             <Text style={[{ fontSize: 20, textAlign: 'center', color: '#ffffff'},(isDarkmode?styles.buttonColor1Dark:styles.buttonColor1)]}>Submit</Text>
           </View>
         </TouchableOpacity>
-        <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
       </View>
     );
   }

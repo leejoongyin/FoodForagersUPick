@@ -5,7 +5,6 @@ import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Navbar from './Navbar';
 import colors from '../style/colors';
 import validateZip from '../model/validateZip';
 
@@ -287,7 +286,6 @@ export default class Preferences extends Component {
             </View>
           </ScrollView>
         </View>
-        <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
       </View>
     );
   }

@@ -5,7 +5,6 @@ const { Component } = require("react");
 
 import '../assets/LogoDark.png';
 import '../assets/Logo.png'
-import Navbar from './Navbar';
 import styles, {SCALING_WIDTH} from '../style/styles' ;
 import colors from '../style/colors';
 
@@ -56,15 +55,15 @@ class HomePage extends React.Component {
         </View>
         <View style = {[ this.mode, styles.mainViewer ]}>
           <View style = {{flex: 0.15}}/>
-          <Text 
+          <Text
             style = {[ this.mode, { fontSize: 20, color: (isDarkmode?colors.accentTerDark :colors.accentTer ) }]}
-          > 
-            WELCOME TO 
+          >
+            WELCOME TO
           </Text>
           <Text style = {[ styles.title, this.mode ]}> UPick </Text>
           <View style = {styles.padding}/>
-          <Image 
-            style = {styles.logo}  
+          <Image
+            style = {styles.logo}
             source = {(isDarkmode?require('../assets/LogoDark.png'): require('../assets/Logo.png'))}
           />
           <View style = {styles.padding}/>
@@ -79,7 +78,6 @@ class HomePage extends React.Component {
           </TouchableWithoutFeedback>
           <View style = {[styles.paddingBottom]}/>
         </View>
-        <Navbar isDarkmode={isDarkmode} navigation={this.props.navigation}/>
       </View>
 
     );

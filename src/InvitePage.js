@@ -42,7 +42,7 @@ class InvitePage extends Component {
                         />
                     </View>
 
-                    <Text> </Text> 
+                    <Text> </Text>
                     <View styles={[styles.padding]}/>
 
                     <Text style={[mode2, { fontSize: 20 }]}> Total Group Members: </Text>
@@ -62,7 +62,6 @@ class InvitePage extends Component {
 
                     <View style={styles.paddingBottom}/>
                 </View>
-                <Navbar isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation}/>
             </View>
         )
 

@@ -3,7 +3,6 @@ import React from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 import '../assets/McDonalds.png'//logo from './assets/mcds.jpg'
 import colors from '../style/colors';
-import Navbar from '../src/Navbar';
 import {SCALING_WIDTH, MODULE_WIDTH, MODULE_RADIUS} from '../style/styles';
 
 const restaurauntImage = '../assets/splash.png';
@@ -15,16 +14,16 @@ export default function App(props) {
   var buttonColor1= (isDarkmode?styles.buttonColor1Dark:styles.buttonColor1);
 
   return (
-  <View style = {[styles.screen]}>    
+  <View style = {[styles.screen]}>
     <View style={[ styles.mainViewer, mode ]}>
       <View style={[styles.padding]}/>
       <Text style={[ mode2, { fontSize: 25 }]}>Let's go to:</Text>
       <Text style={[ mode, { fontSize: 45, fontWeight: 'bold'} ]}>McDonald's</Text>
       <View style={[styles.padding]}/>
-      <Image 
-        source={require('../assets/McDonalds.png')} 
-        style={[styles.restaurauntImage]} 
-      /> 
+      <Image
+        source={require('../assets/McDonalds.png')}
+        style={[styles.restaurauntImage]}
+      />
       <View style={[styles.padding]}/>
 
       <View style={[styles.infoRow]}>
@@ -42,7 +41,7 @@ export default function App(props) {
         <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Phone Number: </Text>
         <Text style={[styles.textStyle_2, mode2 ]}>123-123-1234</Text>
       </View>
-      
+
       <View style={[styles.paddingLine]}/>
       <View style={[styles.paddingLine]}/>
 
@@ -53,7 +52,7 @@ export default function App(props) {
               style={[styles.button, buttonColor1]}
             >
               <Text style={[styles.buttonText, buttonColor1]}>View Menu</Text>
-              
+
             </TouchableOpacity>
           </View>
           <View style={[styles.buttonGap]}/>
@@ -64,14 +63,12 @@ export default function App(props) {
             >
               <Text style={[styles.buttonText,buttonColor1]}>Call Now</Text>
             </TouchableOpacity>
-          </View> 
+          </View>
       </View>
       <View style={[styles.paddingBottom]}/>
     </View>
-    
-    <Navbar isDarkmode={props.route.params.isDarkmode} navigation={props.navigation}/>
   </View>
-           
+
   );
 }
 
@@ -110,23 +107,23 @@ const styles = StyleSheet.create({
     flex: 0.1,
     width: 20,
     height: '3%',
-  }, 
+  },
   padding: {
     flex: 0.5,
     width: 20,
     height: '10%',
-  }, 
+  },
   paddingBottom: {
     flex: 2,
     width: '5%',
     height: '15%',
-  },  
+  },
   navBar: {
     backgroundColor: '#404040',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  
+
   },
 
   textStyle: {
@@ -143,7 +140,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#fff',
     textAlign: 'center',
-   
+
   },
 
   box1: {
@@ -151,7 +148,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#202020',
   },
 
-  box2: {       
+  box2: {
   },
 
   box3: {
@@ -219,16 +216,16 @@ const styles = StyleSheet.create({
   buttonGap: {
     width: 0.05*SCALING_WIDTH,
     flex: 1,
-  }, 
+  },
 
   outline: {
     borderWidth: 5,
-    borderColor: 'red', 
+    borderColor: 'red',
     backgroundColor: 'blue',
   },
   restaurauntImage: {
-    width: MODULE_WIDTH, 
-    height: '30%', 
+    width: MODULE_WIDTH,
+    height: '30%',
     borderRadius: MODULE_RADIUS,
     resizeMode: 'cover',
   },
@@ -240,5 +237,5 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   }
 
-  
+
 });
