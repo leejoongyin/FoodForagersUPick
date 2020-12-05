@@ -4,6 +4,8 @@ import { Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFe
 import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { format } from "date-fns";
 
 import colors from '../style/colors';
 import validateZip from '../model/validateZip';
@@ -11,6 +13,7 @@ import validateZip from '../model/validateZip';
 import { ThemeProvider } from '@react-navigation/native';
 
 const MAX_SELECT = 10;
+const now = new Date();
 
 export default class Preferences extends Component {
 
@@ -23,6 +26,8 @@ export default class Preferences extends Component {
     this.state = {
         zipcode: "",
         zipErrorText: "",
+        time: null,
+        showTimepicker: false,
         selectedItems: null,
         budgetArray: [],
         dietArray: [],
@@ -33,8 +38,7 @@ export default class Preferences extends Component {
     this.isDarkmode = this.props.isDarkmode;
   }
 
-  // If the user somehow inputs non-numeric characters, remove them. Also limit
-  // the input to 5 numbers.
+  // If the user somehow inputs non-numeric characters, remove them.
   onZipInput(text) {
     this.setState({zipcode: text.replace(/[^0-9]/g, '')}, () => {
       this.storeData('zipcode', this.state.zipcode);
@@ -45,6 +49,19 @@ export default class Preferences extends Component {
   onZipBlur() {
     const errorText = !validateZip(this.state.zipcode) ? "Please enter a valid zipcode." : "";
     this.setState({zipErrorText: errorText});
+  }
+
+  handleTimeChange = (event, selectedTime) => {
+    if (selectedTime) {
+      if (selectedTime < now) {
+        selectedTime.setDate(selectedTime.getDate() + 1);
+      }
+      this.setState({time: selectedTime, showTimepicker: false}, () => {
+        this.storeData('time', this.state.time);
+      });
+    } else {
+      this.setState({showTimepicker: false});
+    }
   }
 
   savePreferences = () => {
@@ -69,7 +86,7 @@ export default class Preferences extends Component {
     } catch(e) {
       // read error
       alert('error: ', e);
-    } 
+    }
     console.log('Done.')
   }
 
@@ -144,6 +161,7 @@ export default class Preferences extends Component {
                 style={styles.inputBox}
                 keyboardType='numeric'
                 placeholder="Enter zipcode"
+                placeholderTextColor='lightgray'
                 onChangeText={(zipcode) => {this.onZipInput(zipcode)}}
                 value={this.state.zipcode}
                 onBlur={() => {this.onZipBlur()}}
@@ -151,18 +169,26 @@ export default class Preferences extends Component {
                 underlineColorAndroid="transparent"
               />
             </View>
+
             <Text style={[styles.centerHeader, mode]}>When would you like to eat?*</Text>
             <View style={[styles.searchSection, mode]}>
               <Icon name="schedule" size={30} color={(isDarkmode?"white":"black")} style={{paddingRight: 10}}/>
-              <TextInput
-                style={styles.inputBox}
-                placeholder="Enter time"
-                onChangeText={(time) => {this.setState({time}, () => {
-                  this.storeData('time', this.state.time)
-                })}}
-                underlineColorAndroid="transparent"
-              />
+              <TouchableWithoutFeedback onPress={() => this.setState({showTimepicker: true})}>
+                <Text style={[styles.inputBox, (this.state.time ? {color: 'black'} : {color: 'lightgray'})]}>
+                {this.state.time ? format(this.state.time, "MMMM do, yyyy h:mm a") : "Enter time"}
+                </Text>
+              </TouchableWithoutFeedback>
             </View>
+            {this.state.showTimepicker && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={new Date()}
+                mode={'time'}
+                is24Hour={true}
+                display="default"
+                onChange={this.handleTimeChange}
+              />
+            )}
             </View>
             <View style={{width: '80%', alignSelf: 'center'}}>
               <Text style={[styles.header, mode]}>Budget</Text>
@@ -217,7 +243,7 @@ export default class Preferences extends Component {
                   this.setState({ dietArray: array }, () => {
                       this.storeData('diet', this.state.dietArray);
                     }
-                  );      
+                  );
                 }
               }}
             />
