@@ -43,7 +43,8 @@ class App extends Component {
 
     this.state = {
       isDarkmode: true,
-      groupCode: this.roomCodeGenerator(GROUP_CODE_LENGTH)
+      mainCode: this.roomCodeGenerator(GROUP_CODE_LENGTH),
+      groupCode: "ABCD"
     };
     var mode = (this.getIsDarkmode() ? styles.darkmode : styles.lightmode);
     console.log(mode);
@@ -73,7 +74,10 @@ class App extends Component {
   getGroupCode() {
     return this.state.groupCode;
   }
-
+  setCode() {
+    this.state.groupCode = this.state.mainCode;
+    return true;
+  }
   validateGroupCode( e ) {
     if ( !e || e.length != GROUP_CODE_LENGTH ) {
       return false;
@@ -121,7 +125,8 @@ class App extends Component {
             initialParams={{
                 isDarkmode: this.getIsDarkmode(),
                 getGroupCode: this.getGroupCode.bind(this),
-                setGroupCode: this.setGroupCode.bind(this)
+                setGroupCode: this.setGroupCode.bind(this),
+                setCode: this.setCode.bind(this)
             }}
         />
         <Stack.Screen

@@ -358,6 +358,7 @@ class GroupsAccommodationsPage extends Component {
     }
 
     onInvitePressed = () => {
+        this.props.route.params.setCode();
         var updates = {};
 
         this.firebaseRef.set({
