@@ -14,7 +14,7 @@ import { filterGroupCodeInput } from './filterInput';
 
 class EatingAlone extends Component {
     constructor(props){
-        super(props); 
+        super(props);
         const {navigation, isDarkmode}= this.props;
     }
     render(props) {
@@ -262,6 +262,7 @@ class QRScanner extends Component {
                             underlineColorAndroid="transparent"
                             onFocus={()=>{this.setState({inputtingText: true})}}
                             onEndEditing={()=>{this.setState({inputtingText: false})}}
+                            maxLength={4}
                         />
                     </View>
                 </View>
@@ -308,7 +309,7 @@ class GroupsAccommodationsPage extends Component {
         } catch(e) {
           // read error
           alert('error: ', e);
-        } 
+        }
         console.log('Done.')
     }
 
@@ -370,7 +371,7 @@ class GroupsAccommodationsPage extends Component {
                 Drink:0, CoffeeShop:0, BBQ:0, Dinner:0}
         });
 
-        updates['Zipcode'] = this.state.zipcode; 
+        updates['Zipcode'] = this.state.zipcode;
         updates['Time'] = this.state.time;
 
         for (let budget of this.state.budgetArray) {
