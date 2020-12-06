@@ -44,7 +44,7 @@ export default class Ajax {
     /**
      * Optional body to use in request (for post, patch)
      */
-    this.body = {};
+    // this.body = {};
 
     /**
      * Initialize the axios instance
@@ -61,14 +61,14 @@ export default class Ajax {
    * @param {Object} queryParameters - The query parameters
    * @param {Object} body - The request body
    */
-  makeRequest = (url, method, queryParameters, body) => {
+  makeRequest = (url, method, queryParameters) => {
     this.url = url
       ? url
       : (() => {
           throw new Error("URL required");
         })();
     this.queryParameters = queryParameters || {};
-    this.body = body || {};
+    // this.body = body || {};
     this.method = method || "get";
 
     /**
@@ -78,7 +78,8 @@ export default class Ajax {
       method: this.method,
       url: this.url,
       params: this.queryParameters,
-      data: this.body,
+      //data: {},
+      //data: this.body,
     });
 
     return request;
