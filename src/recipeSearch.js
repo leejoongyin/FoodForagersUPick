@@ -5,7 +5,9 @@ import Papa from 'papaparse';
 import { FlatList, Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Linking} from 'react-native';
 // import myDataset from '../data/RAW_recipes.csv';
 // // import STree from '@jayrbolton/suffix-tree';
+
 import { getRecipesAction } from "./model/RecipeSearchAction";
+import colors from '../style/colors'; 
 
 
 export default class RecipeSearch extends Component {
@@ -70,16 +72,19 @@ export default class RecipeSearch extends Component {
   // };
 
   render() {
+    var isDarkmode = this.props.route.params.isDarkmode;
+    var mode = (isDarkmode?styles.darkmode:styles.lightmode);
+    var buttonColor = (isDarkmode?styles.buttonColor1Dark:styles.buttonColor1);
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', margin: 'auto', marginTop: 50, marginBottom: 50 }}>
-        <Text style={styles.centerHeader}>Enter a meal/cuisine that you'd like a recipe for:</Text>
+      <View style={[{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', margin: 'auto', marginBottom: 50 },mode]}>
+        <Text style={[styles.centerHeader, mode ]}>Enter a meal/cuisine that you'd like a recipe for:</Text>
         <TextInput
           onSubmitEditing= { (event) => this.getSearchQuery(event.nativeEvent.text) }
           placeholder="ie hotdogs, pizza, lasagna, etc."
           style={styles.inputBox}
         />
-        <Text style={styles.subHeader}>Recipe Suggestions:</Text>
+        <Text style={[styles.subHeader, mode ]}>Recipe Suggestions:</Text>
         <TouchableOpacity 
           title="foodSuggestion1"
           onPress={(e) => this.getSearchQuery("Baked Potato")}>
@@ -103,6 +108,32 @@ export default class RecipeSearch extends Component {
 };
 
 const styles = StyleSheet.create({
+  lightmode: {
+    backgroundColor: colors.liteBG,
+    color: colors.accentPrim,
+    borderColor: '#555555'
+  },
+  darkmode: {
+    backgroundColor: colors.darkBG,
+    color: 'white',
+    borderColor: '#cccccc'
+  },
+  lightmode2: {
+    backgroundColor: colors.liteBG,
+    color: 'black',
+  },
+  darkmode2: {
+    backgroundColor: colors.darkBG,
+    color: colors.liteBG,
+  },
+  buttonColor1: {
+    backgroundColor: colors.accentPrim,
+    color: 'white',
+  },
+  buttonColor1Dark: {
+    backgroundColor: colors.accentPrimDark,
+    color: colors.accentPrim,
+  },
   inputBox: {
     backgroundColor: '#FFF',
     width: '80%',
