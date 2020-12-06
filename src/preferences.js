@@ -113,13 +113,11 @@ export default class Preferences extends Component {
     ];
 
     const dietData = [
-      { id: 4, optionText: 'Lactose intolerant' },
-      { id: 5, optionText: 'Nut allergy' },
-      { id: 6, optionText: 'Shellfish allergy' },
       { id: 7, optionText: 'Vegan' },
       { id: 8, optionText: 'Vegetarian' },
-      { id: 9, optionText: 'Kosher' },
-      { id: 10, optionText: 'Paleo' }
+      { id: 4, optionText: 'Kosher' },
+      { id: 5, optionText: 'Halal' },
+      { id: 6, optionText: 'Gluten free' }
     ];
 
     const cuisineData = [
@@ -137,13 +135,12 @@ export default class Preferences extends Component {
     const restaurantData = [
       { id: 1, optionText: 'Breakfast' },
       { id: 2, optionText: 'Brunch' },
-      { id: 3, optionText: 'Bar' },
+      { id: 3, optionText: 'Bars' },
       { id: 4, optionText: 'Fast Food' },
       { id: 5, optionText: 'Dessert' },
-      { id: 6, optionText: 'Drink' },
-      { id: 7, optionText: 'Coffee Shop' },
-      { id: 7, optionText: 'BBQ' },
-      { id: 7, optionText: 'Dinner' }
+      { id: 6, optionText: 'Bubble tea' },
+      { id: 7, optionText: 'Coffee Shops' },
+      { id: 7, optionText: 'BBQ' }
     ];
 
     return (
@@ -308,6 +305,13 @@ export default class Preferences extends Component {
                 title="Submit"
                 onPress={this.savePreferences}>
                   <View style={[styles.submitBtn,(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)]}><Text style={(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)}>Submit</Text></View>
+              </TouchableWithoutFeedback>
+            </View>
+            <View style={{width: '80%', alignSelf: 'center'}}>
+              <TouchableWithoutFeedback
+                title="Submit"
+                onPress={this.savePreferences}>
+                  <View style={[styles.submitBtn,(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)]}><Text style={(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)}>Clear Preferences</Text></View>
               </TouchableWithoutFeedback>
             </View>
           </ScrollView>
