@@ -9,7 +9,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import '../assets/CameraIcon.png'
 import styles, {INNER_MODULE_WIDTH, MODULE_FRAME, MODULE_WIDTH} from '../style/styles';
 import db from './base';
-import {GROUP_CODE_VALID_CHARS} from './constants';
+import {GROUP_CODE_LENGTH, GROUP_CODE_VALID_CHARS} from './constants';
+import { filterGroupCodeInput } from './filterInput';
 
 class EatingAlone extends Component {
     constructor(props){
@@ -98,19 +99,9 @@ class QRScanner extends Component {
 
     };
 
-    filterGroupCodeInput = ( input ) => {
-        var output = "";
-        input = input.toUpperCase();
-        for( var i = 0; i < input.length; i++ ) {
-            if( GROUP_CODE_VALID_CHARS.indexOf( input[i] ) > -1  ) {
-                output += input[i];
-            }
-        }
-        return output; 
-    }
 
     groupCodeEntered = (input) => {
-        var filteredInput = this.filterGroupCodeInput(input);
+        var filteredInput = filterGroupCodeInput(input);
         this.setState({
             groupCodeIn: filteredInput
         });
@@ -119,9 +110,15 @@ class QRScanner extends Component {
                 showScanner: false,
                 isVerifying: false,
                 inputtingText: false,
+                groupCodeIn: ""
 
             })
             this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.isDarkmode});
+        } else if ( filteredInput.length >= GROUP_CODE_LENGTH ) {
+            Alert.alert(" The code entered: (" + filteredInput + ") is not a valid group code");
+            this.setState({
+                groupCodeIn: ""
+            });
         }
     }
 
@@ -259,6 +256,7 @@ class QRScanner extends Component {
                         <TextInput
                             style={[styles.inputBox, styles.outline]}
                             value={this.state.groupCodeIn}
+                            keyboardType='visible-password'
                             placeholder=" Or enter Group Code here"
                             onChangeText={(groupCodeIn)=>{this.groupCodeEntered(groupCodeIn)}}
                             underlineColorAndroid="transparent"
