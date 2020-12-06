@@ -20,6 +20,7 @@ import RestaurantInfo from './src/RestaurantInfo';
 import EditPreferences from './src/EditPreferences';
 import BudgetLog from './src/BudgetLog';
 import Navbar from './src/Navbar';
+import RecipeSearch from './src/recipeSearch';
 
 import styles from './style/styles';
 import { render } from 'react-dom';
@@ -186,6 +187,16 @@ class App extends Component {
           component={BudgetLog}
           options={{
             title: "Budget Log"
+          }}
+          initialParams = {{
+              isDarkmode: this.getIsDarkmode()
+          }}
+        />
+        <Stack.Screen
+          name="Search Recipe"
+          component={RecipeSearch}
+          options={{
+            title: "Search for Recipe"
           }}
           initialParams = {{
               isDarkmode: this.getIsDarkmode()
