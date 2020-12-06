@@ -73,7 +73,44 @@ class QRScanner extends Component {
             groupCodeIn: '',
             hasCameraPermission: null,
         }
+
+        this.getData('zipcode').then((result) => {
+            this.setState({zipcode: result});
+            console.log('zipcode: ', this.state.zipcode);
+        });
+        this.getData('time').then((result) => {
+            this.setState({time: result});
+            console.log('time: ', this.state.time);
+        });
+        this.getData('budget').then((result) => {
+            this.setState({budgetArray: result });
+            console.log('budget: ', this.state.budgetArray);
+        });
+        this.getData('diet').then((result) => {
+            this.setState({dietArray: result});
+            console.log('diet: ', this.state.dietArray);
+        });
+        this.getData('cuisine').then((result) => {
+            this.setState({cuisineArray: result});
+            console.log('cuisine: ', this.state.cuisineArray);
+        });
+        this.getData('restaurant').then((result) => {
+            this.setState({restaurantArray: result});
+            console.log('restauarnt: ', this.state.restaurantArray);
+        });
     }
+
+    getData = async (key) => {
+        try {
+          const jsonValue = await AsyncStorage.getItem(key).then((key) => {return key;})
+          return jsonValue != null ? JSON.parse(jsonValue) : null
+        } catch(e) {
+          // read error
+          alert('error: ', e);
+        }
+        console.log('Done.')
+    }
+    
     qrCodeScanned = ({ type, data }) => {
         if( this.state.isVerifying ) {
             return;

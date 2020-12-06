@@ -36,6 +36,92 @@ export default class Preferences extends Component {
         text : ''
     };
     this.isDarkmode = this.props.isDarkmode;
+
+    const budgetData = [
+      { id: 1, optionText: '$' },
+      { id: 2, optionText: '$$' },
+      { id: 3, optionText: '$$$' }
+    ];
+
+    const dietData = [
+      { id: 7, optionText: 'Vegan' },
+      { id: 8, optionText: 'Vegetarian' },
+      { id: 4, optionText: 'Kosher' },
+      { id: 5, optionText: 'Halal' },
+      { id: 6, optionText: 'Gluten free' }
+    ];
+
+    const cuisineData = [
+      { id: 1, optionText: 'Chinese' },
+      { id: 2, optionText: 'American' },
+      { id: 3, optionText: 'Mexican' },
+      { id: 4, optionText: 'Italian' },
+      { id: 5, optionText: 'Japanese' },
+      { id: 6, optionText: 'Korean' },
+      { id: 7, optionText: 'Thai' },
+      { id: 7, optionText: 'Vietnamese' },
+      { id: 7, optionText: 'Indian' }
+    ];
+
+    const restaurantData = [
+      { id: 1, optionText: 'Breakfast' },
+      { id: 2, optionText: 'Brunch' },
+      { id: 3, optionText: 'Bars' },
+      { id: 4, optionText: 'Fast Food' },
+      { id: 5, optionText: 'Dessert' },
+      { id: 6, optionText: 'Bubble tea' },
+      { id: 7, optionText: 'Coffee Shops' },
+      { id: 7, optionText: 'BBQ' }
+    ];
+
+    this.getData('zipcode').then((result) => {
+        this.setState({zipcode: result});
+        console.log('zipcode: ', this.state.zipcode);
+    });
+    this.getData('time').then((result) => {
+        this.setState({time: result});
+        console.log('time: ', this.state.time);
+    });
+    this.getData('budget').then((result) => {
+        this.setState({budgetArray: result });
+        if (this.state.budgetArray != null) {
+          for (let budget of this.state.budgetArray) {
+            let index = budgetData.find(x => x.optionText === budget).id;
+            this.budgetSelectionHandler.selectionHandler(index)
+          }
+        }
+        console.log('budget: ', this.state.budgetArray);
+    });
+    this.getData('diet').then((result) => {
+        this.setState({dietArray: result});
+        if (this.state.dietArray != null) {
+          for (let diet of this.state.dietArray) {
+            let index = dietData.find(x => x.optionText === diet).id;
+            this.dietSelectionHandler.selectionHandler(index)
+          }
+        }
+        console.log('diet: ', this.state.dietArray);
+    });
+    this.getData('cuisine').then((result) => {
+        this.setState({cuisineArray: result});
+        if (this.state.cuisineArray != null) {
+          for (let cuisine of this.state.cuisineArray) {
+            let index = cuisineData.find(x => x.optionText === cuisine).id;
+            this.cuisineSelectionHandler.selectionHandler(index)
+          }
+        }
+        console.log('cuisine: ', this.state.cuisineArray);
+    });
+    this.getData('restaurant').then((result) => {
+        this.setState({restaurantArray: result});
+        if (this.state.restaurantArray != null) {
+          for (let rest of this.state.restaurantArray) {
+            let index = restaurantData.find(x => x.optionText === rest).id;
+            this.restaurantSelectionHandler.selectionHandler(index)
+          }
+        }
+        console.log('restauarnt: ', this.state.restaurantArray);
+    });
   }
 
   // If the user somehow inputs non-numeric characters, remove them.
@@ -81,7 +167,7 @@ export default class Preferences extends Component {
 
   getData = async (key) => {
     try {
-      const jsonValue = await AsyncStorage.getItem(key).then((key) => {alert(key);})
+      const jsonValue = await AsyncStorage.getItem(key).then((key) => {return key;})
       return jsonValue != null ? JSON.parse(jsonValue) : null
     } catch(e) {
       // read error
@@ -155,6 +241,7 @@ export default class Preferences extends Component {
             <View style={[styles.searchSection, mode]}>
               <Icon name="place" size={30} color={(isDarkmode?"white":"black")} style={{paddingRight: 10}}/>
               <TextInput
+                ref={input => { this.zipcodeInput = input }}
                 style={styles.inputBox}
                 keyboardType='numeric'
                 placeholder="Enter zipcode"
@@ -305,13 +392,6 @@ export default class Preferences extends Component {
                 title="Submit"
                 onPress={this.savePreferences}>
                   <View style={[styles.submitBtn,(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)]}><Text style={(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)}>Submit</Text></View>
-              </TouchableWithoutFeedback>
-            </View>
-            <View style={{width: '80%', alignSelf: 'center'}}>
-              <TouchableWithoutFeedback
-                title="Submit"
-                onPress={this.savePreferences}>
-                  <View style={[styles.submitBtn,(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)]}><Text style={(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)}>Clear Preferences</Text></View>
               </TouchableWithoutFeedback>
             </View>
           </ScrollView>
