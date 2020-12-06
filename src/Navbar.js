@@ -29,7 +29,7 @@ export default function Navbar(props) {
                           <Text style = {[ styles.navbarText, mode]}>{'Generate\nRecommendation'}</Text>
                       </View>
                   </TouchableWithoutFeedback>
-                  <TouchableWithoutFeedback onPress={() => alert('Pressed')}>
+                  <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Search Recipe', {isDarkmode: props.isDarkmode})}>
                       <View style = {[ styles.navButton, iconMode ]}>
                           <Icon name="book-search-outline" size={35} style = {[ mode ]} />
                           <Text style = {[ styles.navbarText, mode]}>Recipe</Text>
