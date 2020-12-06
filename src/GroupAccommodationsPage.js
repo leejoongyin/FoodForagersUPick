@@ -401,8 +401,8 @@ class GroupsAccommodationsPage extends Component {
     }
     render( props ) {
         this.mode  = (this.props.route.params.isDarkmode ? styles.darkmode: styles.lightmode);
-        console.log( this.props.isDarkmode + " : " + this.mode);
-        console.log(this.state.showState);
+        //console.log( this.props.isDarkmode + " : " + this.mode);
+        //console.log(this.state.showState);
         return(
             <View style = {[styles.container, this.mode]}>
                 <View style = {[ this.mode, styles.paddingManual ]} />
