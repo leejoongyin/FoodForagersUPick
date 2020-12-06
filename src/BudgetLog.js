@@ -143,8 +143,8 @@ refreshFlatList = (activeKey) => {
                 <Button
                     style = {[{
                         fontSize: 18,
-                        color: 'white',
-                    },buttonColor]}
+                        color: buttonColor.color,
+                    }]}
                     containerStyle = {[{
                         padding: 8,
                         marginLeft: 70,
@@ -153,8 +153,8 @@ refreshFlatList = (activeKey) => {
                         marginTop: 10,
                         marginBottom: 20,
                         borderRadius: 6,
-                        backgroundColor: '#6B222D'
-                    },buttonColor]}
+                        backgroundColor: buttonColor.backgroundColor
+                    }]}
                     onPress ={this.addExp}
                 >
                     add
@@ -229,8 +229,8 @@ const greet = {
 
 const amount = {
     textAlign: 'center',
-    fontSize: 35,
-    fontWeight: 'Bold',
+    fontSize: 35, 
+    fontWeight: 'bold',
     marginBottom: 20,
     //left: '50%',
 }
