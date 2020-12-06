@@ -14,7 +14,7 @@ import { filterGroupCodeInput } from './filterInput';
 
 class EatingAlone extends Component {
     constructor(props){
-        super(props); 
+        super(props);
         const {navigation, isDarkmode}= this.props;
     }
     render(props) {
@@ -268,6 +268,7 @@ class QRScanner extends Component {
                             underlineColorAndroid="transparent"
                             onFocus={()=>{this.setState({inputtingText: true})}}
                             onEndEditing={()=>{this.setState({inputtingText: false})}}
+                            maxLength={4}
                         />
                     </View>
                 </View>
@@ -288,21 +289,27 @@ class GroupsAccommodationsPage extends Component {
 
         this.getData('zipcode').then((result) => {
             this.setState({zipcode: result});
+            console.log('zipcode: ', this.state.zipcode);
         });
         this.getData('time').then((result) => {
             this.setState({time: result});
+            console.log('time: ', this.state.time);
         });
         this.getData('budget').then((result) => {
             this.setState({budgetArray: result });
+            console.log('budget: ', this.state.budgetArray);
         });
         this.getData('diet').then((result) => {
             this.setState({dietArray: result});
+            console.log('diet: ', this.state.dietArray);
         });
         this.getData('cuisine').then((result) => {
             this.setState({cuisineArray: result});
+            console.log('cuisine: ', this.state.cuisineArray);
         });
         this.getData('restaurant').then((result) => {
             this.setState({restaurantArray: result});
+            console.log('restauarnt: ', this.state.restaurantArray);
         });
     };
 
@@ -313,7 +320,7 @@ class GroupsAccommodationsPage extends Component {
         } catch(e) {
           // read error
           alert('error: ', e);
-        } 
+        }
         console.log('Done.')
     }
     showEatingAlone = () => {
@@ -360,7 +367,6 @@ class GroupsAccommodationsPage extends Component {
         this.firebaseRef = db.database().ref(this.props.route.params.getGroupCode());
         var updates = {};
 
-        updates['Zipcode'] = this.state.zipcode; 
         updates['Time'] = this.state.time;
 
         for (let budget of this.state.budgetArray) {
