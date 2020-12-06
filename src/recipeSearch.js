@@ -37,7 +37,7 @@ export default class RecipeSearch extends Component {
       });
       // console.log(getRecipesAction(query));
       let link = getRecipesAction(query);
-      console.log(link);
+      // console.log(link);
       // return this.gotoSourceWebsite(link);
     } else {
       this.setState({
@@ -47,27 +47,27 @@ export default class RecipeSearch extends Component {
     }
   };
 
-  gotoSourceWebsite = (url) => {
-    Linking.canOpenURL(url).then((supported) => {
-      if (supported) {
-        console.log(url);
-        Linking.openURL(url);
-      } else {
-        alert(
-          "Cannot Open the link !",
-          "The wepage seems to be offline at the moment.",
-          [{ text: "OK" }],
-          { cancelable: false }
-        );
-      }
-    });
-  };
+  // gotoSourceWebsite = (url) => {
+  //   Linking.canOpenURL(url).then((supported) => {
+  //     if (supported) {
+  //       console.log(url);
+  //       Linking.openURL(url);
+  //     } else {
+  //       alert(
+  //         "Cannot Open the link !",
+  //         "The wepage seems to be offline at the moment.",
+  //         [{ text: "OK" }],
+  //         { cancelable: false }
+  //       );
+  //     }
+  //   });
+  // };
 
-  goToRecipe = (recipe) => {
-    let data = this.props.route.params.recipeData.recipe;
-    this.gotoSourceWebsite(data.url);
-    // this.props.navigation.navigate("./showRecipe.js", { recipeData: recipe });
-  };
+  // goToRecipe = (recipe) => {
+  //   let data = this.props.route.params.recipeData.recipe;
+  //   this.gotoSourceWebsite(data.url);
+  //   // this.props.navigation.navigate("./showRecipe.js", { recipeData: recipe });
+  // };
 
   render() {
 
@@ -82,17 +82,17 @@ export default class RecipeSearch extends Component {
         <Text style={styles.subHeader}>Recipe Suggestions:</Text>
         <TouchableOpacity 
           title="foodSuggestion1"
-          onPress={(e) => this.goToRecipe("Baked Potato")}>
+          onPress={(e) => this.getSearchQuery("Baked Potato")}>
             <View style={styles.suggestBtn}><Text style={{color: '#6B222D'}}>Baked Potato</Text></View>
         </TouchableOpacity>
         <TouchableOpacity
           title="foodSuggestion2"
-          onPress={(e) => this.goToRecipe("Venison Burgers")}>
+          onPress={(e) => this.getSearchQuery("Venison Burgers")}>
             <View style={styles.suggestBtn}><Text style={{color: '#6B222D'}}>Venison Burgers</Text></View>
         </TouchableOpacity>
         <TouchableOpacity
           title="foodSuggestion3"
-          onPress={(e) => this.goToRecipe("Apple Pie")}>
+          onPress={(e) => this.getSearchQuery("Apple Pie")}>
             <View style={styles.suggestBtn}><Text style={{color: '#6B222D'}}>Apple Pie</Text></View>
         </TouchableOpacity>
 
@@ -105,9 +105,10 @@ export default class RecipeSearch extends Component {
 const styles = StyleSheet.create({
   inputBox: {
     backgroundColor: '#FFF',
-    width: '60%',
+    width: '80%',
     height: 36,
-    paddingLeft: 5,
+    paddingLeft: 20,
+    paddingRight: 5,
     borderRadius: 5,
     marginTop: 5,
     marginBottom: 5,

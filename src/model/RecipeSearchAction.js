@@ -11,11 +11,11 @@ export const getRecipesAction = (query, from, to) => {
       getRecipes(query, from, to)
         .then((response) => {;
           console.log("Success");
-          console.log(response)
+          // console.log(response)
           let url = response.data.hits[0].recipe.url;
           Linking.canOpenURL(url).then((supported) => {
             if (supported) {
-              console.log(url);
+              // console.log(url);
               Linking.openURL(url);
             } else {
               alert(
@@ -29,7 +29,8 @@ export const getRecipesAction = (query, from, to) => {
           return;
         })
         .catch((error) => {
-          console.log("Error");
+          console.log("Error with contacting Edamam API");
+          console.log(error);
           return;
         });
     // };
