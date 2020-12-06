@@ -98,7 +98,12 @@ class QRScanner extends Component {
         }
 
     };
+    
+    updateDB(filteredInput) {
+        this.firebaseRef = db.database().ref(filteredInput);
 
+        this.firebaseRef.off();
+    }
 
     groupCodeEntered = (input) => {
         var filteredInput = filterGroupCodeInput(input);
@@ -113,6 +118,7 @@ class QRScanner extends Component {
                 groupCodeIn: ""
 
             })
+            this.updateDB(filteredInput);
             this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.isDarkmode});
         } else if ( filteredInput.length >= GROUP_CODE_LENGTH ) {
             Alert.alert(" The code entered: (" + filteredInput + ") is not a valid group code");
@@ -276,7 +282,6 @@ class GroupsAccommodationsPage extends Component {
         const {isDarkmode = false} = this.props.route.params;
         var { mode } = (this.props.route.params.isDarkmode ? styles.darkmode: styles.lightmode);
         const { navigation } = this.props;
-        this.firebaseRef = db.database().ref(this.props.route.params.getGroupCode());
         this.state = {
             showState: 1
         }
@@ -311,11 +316,6 @@ class GroupsAccommodationsPage extends Component {
         } 
         console.log('Done.')
     }
-
-    componentWillUnmount() {
-        this.firebaseRef.off();
-    }
-
     showEatingAlone = () => {
         if( this.state.showState != 1 ) {
             return null;
@@ -357,24 +357,16 @@ class GroupsAccommodationsPage extends Component {
 
     onInvitePressed = () => {
         this.props.route.params.setCode();
+        this.firebaseRef = db.database().ref(this.props.route.params.getGroupCode());
         var updates = {};
-
-        this.firebaseRef.set({
-            Zipcode: 0,
-            Time: 0,
-            Budget: {m:0, mm:0, mmm:0},
-            Diet: {Lactose:0,Nut:0,Shellfish:0,Vegan:0,Vegetarian:0,Kosher:0,Paleo:0},
-            Cuisine: {Chinese:0, American:0, Mexican:0, Italian:0, Japanese:0,
-                Korean:0, Thai:0, Vietnamese:0, Indian:0},
-            Restaurant: {Breakfast:0, Brunch:0, Bar:0, FastFood:0, Dessert:0,
-                Drink:0, CoffeeShop:0, BBQ:0, Dinner:0}
-        });
 
         updates['Zipcode'] = this.state.zipcode; 
         updates['Time'] = this.state.time;
 
         for (let budget of this.state.budgetArray) {
-            updates['/Budget/' + budget] = 1;
+            if (budget === '$') {updates['/Budget/Small/'] = 1;}
+            if (budget === '$$') {updates['/Budget/Medium/'] = 1;}
+            if (budget === '$$$') {updates['/Budget/Large/'] = 1;}
         }
 
         for (let diet of this.state.dietArray) {
@@ -392,6 +384,7 @@ class GroupsAccommodationsPage extends Component {
         this.firebaseRef.update(updates);
         // remove for testing VVV
         this.firebaseRef.remove();
+        this.firebaseRef.off();
 
         this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.route.params.isDarkmode});
         //Alert.alert( "Group Accomodations render, State: " + this.state.showState);
