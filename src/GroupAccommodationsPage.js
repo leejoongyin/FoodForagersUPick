@@ -229,21 +229,21 @@ class QRScanner extends Component {
                         if (snapshot.child('Small').val()) {
                             temp = parseInt(snapshot.child('Small').val());
                         }
-                        updates['/Budget/Small/'] = temp + 1;
+                        updates['/Budget/Small/'] = (temp + 1);
                     }
                     if (budget === '$$') {
                         temp = 0;
                         if (snapshot.child('Medium').val()) {
                             temp = parseInt(snapshot.child('Medium').val());
                         }
-                        updates['/Budget/Medium/'] = temp + 1;
+                        updates['/Budget/Medium/'] = (temp + 1);
                     }
                     if (budget === '$$$') {
                         temp = 0;
                         if (snapshot.child('Large').val()) {
                             temp = parseInt(snapshot.child('Large').val());
                         }
-                        updates['/Budget/Large/'] = temp + 1;
+                        updates['/Budget/Large/'] = (temp + 1);
                     }
                 }
                 this.firebaseRef.update(updates);
@@ -258,7 +258,8 @@ class QRScanner extends Component {
                     if (snapshot.child(diet).val()) {
                         temp = parseInt(snapshot.child(diet).val());
                     }
-                    updates['/Diet/' + diet] = temp + 1;
+                    updates['/Diet/' + diet] = (temp + 1);
+                    //console.log("diet: " + diet + " " + (temp+1) + '\n');
                 }
                 this.firebaseRef.update(updates);
             }
@@ -272,7 +273,8 @@ class QRScanner extends Component {
                     if (snapshot.child(cuisine).val()) {
                         temp = parseInt(snapshot.child(cuisine).val());
                     }
-                    updates['/Cuisine/' + cuisine] = temp + 1;
+                    updates['/Cuisine/' + cuisine] = (temp + 1);
+                    //console.log("cuisine: " + cuisine + " " + (temp+1) + '\n');
                 }
                 this.firebaseRef.update(updates);
             }
@@ -286,7 +288,8 @@ class QRScanner extends Component {
                     if (snapshot.child(restaurant).val()) {
                         temp = parseInt(snapshot.child(restaurant).val());
                     }
-                    updates['/Restaurant/' + restaurant] = temp + 1;
+                    updates['/Restaurant/' + restaurant] = (temp + 1);
+                    //console.log("restaurant: " + restaurant + " " + (temp+1) + '\n');
                 }
                 this.firebaseRef.update(updates);
             }
@@ -554,6 +557,7 @@ class GroupsAccommodationsPage extends Component {
     onInvitePressed = () => {
         this.props.route.params.setCode();
         this.firebaseRef = db.database().ref(this.props.route.params.getGroupCode());
+        this.firebaseRef.remove();
         var updates = {};
 
         updates['Zipcode'] = this.state.zipcode;
@@ -579,7 +583,6 @@ class GroupsAccommodationsPage extends Component {
 
         this.firebaseRef.update(updates);
         // remove for testing VVV
-        this.firebaseRef.remove();
         this.firebaseRef.off();
 
         this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.route.params.isDarkmode});
