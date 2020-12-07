@@ -30,7 +30,8 @@ class EatingAlone extends Component {
       });
       this.getData('time').then((result) => {
           var monday = new Date();
-          monday.setDate(monday.getDate() + ((7 - monday.getDay()) % 7 + 1) % 7).setHours(0, 0, 0, 0);
+          monday.setDate(monday.getDate() + (7 - monday.getDay()) % 7 + 1);
+          monday.setHours(0, 0, 0, 0);
           var fixedTime =  (monday < new Date(result)) ? parseInt(new Date(result).getTime() / 1000) - 604800 : parseInt(new Date(result).getTime() / 1000);
           this.setState({time: fixedTime});
           console.log('time: ', this.state.time);
@@ -64,16 +65,100 @@ class EatingAlone extends Component {
   }
 
   getRestaurantFromYelp = async () => {
-    let categories = this.state.dietArray.concat(this.state.cuisineArray).concat(this.state.restaurantArray);
-    console.log(categories);
+
+    // parsing for categories parameter
+    var budgetCSV, dietCSV, cuisineCSV, restaurantCSV;
+    budgetCSV = dietCSV = cuisineCSV = restaurantCSV = '';
+
+    var numBudget; // numerical value corresponding to each '$...' symbol
+    var filter;
+    var bnbChosen = false;
+    let cat = [];
+
+    // csv strings for each preference variable
+    // budget
+    for (var i = 0; i < this.state.budgetArray.length; i++) {
+        if (this.state.budgetArray[i] == '$') {
+            numBudget = '1';
+        }
+        if (this.state.budgetArray[i] == '$$') {
+            numBudget = '2';
+        }
+        if (this.state.budgetArray[i] == '$$$') {
+            numBudget = '3';
+        }
+        if (i == this.state.budgetArray.length - 1) {
+            budgetCSV = budgetCSV + numBudget;
+        }
+        if (i != this.state.budgetArray.length - 1) {
+            budgetCSV = budgetCSV + numBudget + ',';
+        }
+    }
+
+    // diet
+    for (var i = 0; i < this.state.dietArray.length; i++) {
+
+        var temp = this.state.dietArray[i].toLowerCase();
+
+        if (temp === "gluten free") {temp = "gluten_free";}
+
+        if (i == this.state.dietArray.length - 1) {
+            dietCSV = dietCSV + temp;
+        }
+        if (i != this.state.dietArray.length - 1) {
+            dietCSV = dietCSV + temp + ',';
+        }
+        console.log("diet: " + temp + '\n');
+    }
+    // cuisine
+    for (var i = 0; i < this.state.cuisineArray.length; i++) {
+
+        var temp = this.state.cuisineArray[i].toLowerCase();
+
+        if (temp === "indian") {temp = "indpak"}
+        if (temp === "american") {temp = "tradamerican"}
+
+        cat.push(temp);
+        console.log("cuisine: " + temp + '\n');
+    }
+    // restaurant type
+    for (var i = 0; i < this.state.restaurantArray.length; i++) {
+
+        var temp = this.state.restaurantArray[i].toLowerCase();
+
+        if ((temp === "breakfast" || temp === "brunch")) {
+            if (!bnbChosen) {
+                temp = "breakfast_brunch";
+                bnbChosen = true;
+            } else {
+                temp = null;
+            }
+        }
+        if (temp === "fast food") {temp = "hotdogs"}
+        if (temp === "dessert") {temp = "desserts"}
+        if (temp === "bubble tea") {temp = "bubbletea"}
+        if (temp === "coffee shops") {temp = "coffee"}
+
+        if (temp) {cat.push(temp);}
+        console.log("restaurant: " + temp + '\n');
+    }
+
+    // prioritize diet restrictions since categories is: this,that = "this OR that"
+    if (dietCSV !== '') {
+        filter = dietCSV;
+    } else {
+        filter = cat.join(',');
+    }
+
+    console.log(`filter is ${filter}`);
     await axios.get(`https://api.yelp.com/v3/businesses/search`, {
       headers: {'Authorization': `Bearer ${apiKey}`},
       params: {
           limit: 1,
-          categories: 'tradamerican',
+          categories: filter,
           open_at: this.state.time,
           location: this.state.zipcode
-      }
+        }
     }).then((response) => {
       console.log(response.data.businesses[0].name);
       this.storeData('restaurant_name', response.data.businesses[0].name);
@@ -226,24 +311,24 @@ class QRScanner extends Component {
                 for (let budget of this.state.budgetArray) {
                     if (budget === '$') {
                         temp = 0;
-                        if (snapshot.child('Small').val()) {
-                            temp = parseInt(snapshot.child('Small').val());
+                        if (snapshot.child('1').val()) {
+                            temp = parseInt(snapshot.child('1').val());
                         }
-                        updates['/Budget/Small/'] = (temp + 1);
+                        updates['/Budget/1/'] = (temp + 1);
                     }
                     if (budget === '$$') {
                         temp = 0;
-                        if (snapshot.child('Medium').val()) {
-                            temp = parseInt(snapshot.child('Medium').val());
+                        if (snapshot.child('2').val()) {
+                            temp = parseInt(snapshot.child('2').val());
                         }
-                        updates['/Budget/Medium/'] = (temp + 1);
+                        updates['/Budget/2/'] = (temp + 1);
                     }
                     if (budget === '$$$') {
                         temp = 0;
-                        if (snapshot.child('Large').val()) {
-                            temp = parseInt(snapshot.child('Large').val());
+                        if (snapshot.child('3').val()) {
+                            temp = parseInt(snapshot.child('3').val());
                         }
-                        updates['/Budget/Large/'] = (temp + 1);
+                        updates['/Budget/3/'] = (temp + 1);
                     }
                 }
                 this.firebaseRef.update(updates);
@@ -564,9 +649,9 @@ class GroupsAccommodationsPage extends Component {
         updates['Time'] = this.state.time;
 
         for (let budget of this.state.budgetArray) {
-            if (budget === '$') {updates['/Budget/Small/'] = 1;}
-            if (budget === '$$') {updates['/Budget/Medium/'] = 1;}
-            if (budget === '$$$') {updates['/Budget/Large/'] = 1;}
+            if (budget === '$') {updates['/Budget/1/'] = 1;}
+            if (budget === '$$') {updates['/Budget/2/'] = 1;}
+            if (budget === '$$$') {updates['/Budget/3/'] = 1;}
         }
 
         for (let diet of this.state.dietArray) {
