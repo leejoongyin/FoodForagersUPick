@@ -138,7 +138,21 @@ class QRScanner extends Component {
     
     updateDB(filteredInput) {
         this.firebaseRef = db.database().ref(filteredInput);
-
+        this.firebaseRef.child('Budget').once('value').then((snapshot) => {
+            if(snapshot.exists()) {
+                for(let budget of this.state.budgetArray) {
+                    if (budget === '$') { 
+                        console.log(budget + " " + snapshot.child('Small').val() + "\n") 
+                    }
+                    if (budget === '$$') { 
+                        console.log( budget +" " + snapshot.child('Medium').val() + "\n") 
+                    }
+                    if (budget === '$$$') { 
+                        console.log(budget + " " + snapshot.child('Large').val() + "\n") 
+                    }
+                }
+            }
+        });
         this.firebaseRef.off();
     }
 
