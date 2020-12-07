@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, {Component, useState} from 'react';
-import { Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import { Alert, Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -44,11 +44,11 @@ export default class Preferences extends Component {
     ];
 
     const dietData = [
-      { id: 7, optionText: 'Vegan' },
-      { id: 8, optionText: 'Vegetarian' },
-      { id: 4, optionText: 'Kosher' },
-      { id: 5, optionText: 'Halal' },
-      { id: 6, optionText: 'Gluten free' }
+      { id: 1, optionText: 'Vegan' },
+      { id: 2, optionText: 'Vegetarian' },
+      { id: 3, optionText: 'Kosher' },
+      { id: 4, optionText: 'Halal' },
+      { id: 5, optionText: 'Gluten free' }
     ];
 
     const cuisineData = [
@@ -59,8 +59,8 @@ export default class Preferences extends Component {
       { id: 5, optionText: 'Japanese' },
       { id: 6, optionText: 'Korean' },
       { id: 7, optionText: 'Thai' },
-      { id: 7, optionText: 'Vietnamese' },
-      { id: 7, optionText: 'Indian' }
+      { id: 8, optionText: 'Vietnamese' },
+      { id: 9, optionText: 'Indian' }
     ];
 
     const restaurantData = [
@@ -71,9 +71,8 @@ export default class Preferences extends Component {
       { id: 5, optionText: 'Dessert' },
       { id: 6, optionText: 'Bubble tea' },
       { id: 7, optionText: 'Coffee Shops' },
-      { id: 7, optionText: 'BBQ' }
+      { id: 8, optionText: 'BBQ' }
     ];
-
     this.getData('zipcode').then((result) => {
         this.setState({zipcode: result});
         console.log('zipcode: ', this.state.zipcode);
@@ -81,7 +80,7 @@ export default class Preferences extends Component {
     this.getData('time').then((result) => {
         let storedTime = new Date(result);
         if (storedTime < now) {
-          storedTime = now;
+          storedTime = null;
         }
         this.setState({time: storedTime});
         console.log('time: ', this.state.time);
@@ -90,7 +89,7 @@ export default class Preferences extends Component {
         this.setState({budgetArray: result });
         if (this.state.budgetArray != null) {
           for (let budget of this.state.budgetArray) {
-            let index = budgetData.find(x => x.optionText === budget).id;
+            let index = budgetData.find(x => x.optionText === budget).id - 1;
             this.budgetSelectionHandler.selectionHandler(index)
           }
         }
@@ -100,7 +99,7 @@ export default class Preferences extends Component {
         this.setState({dietArray: result});
         if (this.state.dietArray != null) {
           for (let diet of this.state.dietArray) {
-            let index = dietData.find(x => x.optionText === diet).id;
+            let index = dietData.find(x => x.optionText === diet).id - 1;
             this.dietSelectionHandler.selectionHandler(index)
           }
         }
@@ -110,7 +109,7 @@ export default class Preferences extends Component {
         this.setState({cuisineArray: result});
         if (this.state.cuisineArray != null) {
           for (let cuisine of this.state.cuisineArray) {
-            let index = cuisineData.find(x => x.optionText === cuisine).id;
+            let index = cuisineData.find(x => x.optionText === cuisine).id - 1;
             this.cuisineSelectionHandler.selectionHandler(index)
           }
         }
@@ -120,14 +119,14 @@ export default class Preferences extends Component {
         this.setState({restaurantArray: result});
         if (this.state.restaurantArray != null) {
           for (let rest of this.state.restaurantArray) {
-            let index = restaurantData.find(x => x.optionText === rest).id;
+            let index = restaurantData.find(x => x.optionText === rest).id - 1;
             this.restaurantSelectionHandler.selectionHandler(index)
           }
         }
         console.log('restauarnt: ', this.state.restaurantArray);
     });
   }
-
+  
   // If the user somehow inputs non-numeric characters, remove them.
   onZipInput(text) {
     this.setState({zipcode: text.replace(/[^0-9]/g, '')}, () => {
@@ -155,7 +154,11 @@ export default class Preferences extends Component {
   }
 
   savePreferences = () => {
-    this.props.navigation.navigate('Group Accommodations');
+    if (this.state.time && validateZip(this.state.zipcode)) {
+      this.props.navigation.navigate('Group Accommodations');
+    } else {
+      Alert.alert('Error','Please enter all required fields.');
+    }
   }
 
 
@@ -203,11 +206,11 @@ export default class Preferences extends Component {
     ];
 
     const dietData = [
-      { id: 7, optionText: 'Vegan' },
-      { id: 8, optionText: 'Vegetarian' },
-      { id: 4, optionText: 'Kosher' },
-      { id: 5, optionText: 'Halal' },
-      { id: 6, optionText: 'Gluten free' }
+      { id: 1, optionText: 'Vegan' },
+      { id: 2, optionText: 'Vegetarian' },
+      { id: 3, optionText: 'Kosher' },
+      { id: 4, optionText: 'Halal' },
+      { id: 5, optionText: 'Gluten free' }
     ];
 
     const cuisineData = [
@@ -218,8 +221,8 @@ export default class Preferences extends Component {
       { id: 5, optionText: 'Japanese' },
       { id: 6, optionText: 'Korean' },
       { id: 7, optionText: 'Thai' },
-      { id: 7, optionText: 'Vietnamese' },
-      { id: 7, optionText: 'Indian' }
+      { id: 8, optionText: 'Vietnamese' },
+      { id: 9, optionText: 'Indian' }
     ];
 
     const restaurantData = [
@@ -230,7 +233,7 @@ export default class Preferences extends Component {
       { id: 5, optionText: 'Dessert' },
       { id: 6, optionText: 'Bubble tea' },
       { id: 7, optionText: 'Coffee Shops' },
-      { id: 7, optionText: 'BBQ' }
+      { id: 8, optionText: 'BBQ' }
     ];
 
     return (
