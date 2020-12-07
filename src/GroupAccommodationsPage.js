@@ -156,7 +156,7 @@ class EatingAlone extends Component {
       params: {
           limit: 1,
           categories: filter,
-          open_at: this.state.time,
+          //open_at: this.state.time,
           location: this.state.zipcode
         }
     }).then((response) => {
