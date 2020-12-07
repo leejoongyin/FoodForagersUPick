@@ -30,7 +30,7 @@ class EatingAlone extends Component {
       });
       this.getData('time').then((result) => {
           var monday = new Date();
-          monday.setDate(d.getDate() + (1 + 7 - d.getDay()) % 7);
+          monday.setDate(monday.getDate() + (1 + 7 - monday.getDay()) % 7);
           if (monday < new Date(result)) {
             result -= 604800;
           }
@@ -72,7 +72,7 @@ class EatingAlone extends Component {
       headers: {'Authorization': `Bearer ${apiKey}`},
       params: {
           limit: 1,
-          categories: 'mexican',
+          categories: 'tradamerican',
           open_at: this.state.time,
           location: this.state.zipcode
       }
