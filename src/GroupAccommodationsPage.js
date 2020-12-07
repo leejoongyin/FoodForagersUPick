@@ -504,7 +504,7 @@ class GroupsAccommodationsPage extends Component {
 
         this.firebaseRef.update(updates);
         // remove for testing VVV
-        //this.firebaseRef.remove();
+        this.firebaseRef.remove();
         this.firebaseRef.off();
 
         this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.route.params.isDarkmode});
