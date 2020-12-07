@@ -32,7 +32,7 @@ export function getAmountString ( input ) {
         }
         
     }
-    return "$"+output;
+    return output;
 }
 
 export function filterDateInput ( input ) {
