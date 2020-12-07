@@ -73,7 +73,7 @@ class InvitePage extends Component {
 
         this.firebaseRef = db.database().ref(this.props.route.params.getGroupCode());
 
-        this.firebaseRef.child('Budget').once('value').then((snapshot) => {
+        await this.firebaseRef.child('Budget').once('value').then((snapshot) => {
             maxVal = 0;
             index = 0;
             if (snapshot.exists()) {
@@ -105,7 +105,7 @@ class InvitePage extends Component {
             }
         });
 
-        this.firebaseRef.child('Diet').once('value').then((snapshot) => {
+        await this.firebaseRef.child('Diet').once('value').then((snapshot) => {
             maxVal = 0;
             index = 0;
             if (snapshot.exists()) {
@@ -141,7 +141,7 @@ class InvitePage extends Component {
             }
         });
 
-        this.firebaseRef.child('Cuisine').once('value').then((snapshot) => {
+        await this.firebaseRef.child('Cuisine').once('value').then((snapshot) => {
             maxVal = 0;
             index = 0;
             if (snapshot.exists()) {
@@ -173,7 +173,7 @@ class InvitePage extends Component {
             }
         });
 
-        this.firebaseRef.child('Restaurant').once('value').then((snapshot) => {
+        await this.firebaseRef.child('Restaurant').once('value').then((snapshot) => {
             maxVal = 0;
             index = 0;
             if (snapshot.exists()) {
