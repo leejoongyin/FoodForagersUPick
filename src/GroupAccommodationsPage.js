@@ -72,6 +72,7 @@ class EatingAlone extends Component {
 
     var numBudget; // numerical value corresponding to each '$...' symbol
     var filter;
+    var bnbChosen = false;
     let cat = [];
 
     // csv strings for each preference variable
@@ -125,13 +126,20 @@ class EatingAlone extends Component {
 
         var temp = this.state.restaurantArray[i].toLowerCase();
 
-        if (temp === "breakfast" || temp === "brunch") {temp = "breakfast_brunch"}
+        if ((temp === "breakfast" || temp === "brunch")) {
+            if (!bnbChosen) {
+                temp = "breakfast_brunch";
+                bnbChosen = true;
+            } else {
+                temp = null;
+            }
+        }
         if (temp === "fast food") {temp = "hotdogs"}
         if (temp === "dessert") {temp = "desserts"}
         if (temp === "bubble tea") {temp = "bubbletea"}
         if (temp === "coffee shops") {temp = "coffee"}
 
-        cat.push(temp);
+        if (temp) {cat.push(temp);}
         console.log("restaurant: " + temp + '\n');
     }
 
