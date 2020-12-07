@@ -138,19 +138,82 @@ class QRScanner extends Component {
     
     updateDB(filteredInput) {
         this.firebaseRef = db.database().ref(filteredInput);
+        var timelocation = {};
+        timelocation['Zipcode'] = this.state.zipcode;
+        timelocation['Time'] = this.state.time;
+        this.firebaseRef.update(timelocation);
+
         this.firebaseRef.child('Budget').once('value').then((snapshot) => {
-            if(snapshot.exists()) {
-                for(let budget of this.state.budgetArray) {
+            var updates = {};
+            var temp = 0;
+
+            if (snapshot.exists()) {
+                for (let budget of this.state.budgetArray) {
                     if (budget === '$') { 
-                        console.log(budget + " " + snapshot.child('Small').val() + "\n") 
+                        temp = 0;
+                        if (snapshot.child('Small').val()) {
+                            temp = parseInt(snapshot.child('Small').val());
+                        }
+                        updates['/Budget/Small/'] = temp + 1;
                     }
                     if (budget === '$$') { 
-                        console.log( budget +" " + snapshot.child('Medium').val() + "\n") 
+                        temp = 0;
+                        if (snapshot.child('Medium').val()) {
+                            temp = parseInt(snapshot.child('Medium').val());
+                        }
+                        updates['/Budget/Medium/'] = temp + 1;
                     }
                     if (budget === '$$$') { 
-                        console.log(budget + " " + snapshot.child('Large').val() + "\n") 
+                        temp = 0;
+                        if (snapshot.child('Large').val()) {
+                            temp = parseInt(snapshot.child('Large').val());
+                        }
+                        updates['/Budget/Large/'] = temp + 1;
                     }
                 }
+                this.firebaseRef.update(updates);
+            }
+        });
+        this.firebaseRef.child('Diet').once('value').then((snapshot) => {
+            var updates = {};
+            var temp = 0;
+            if (snapshot.exists()) {
+                for (let diet of this.state.dietArray) {
+                    temp = 0;
+                    if (snapshot.child(diet).val()) {
+                        temp = parseInt(snapshot.child(diet).val());
+                    }
+                    updates['/Diet/' + diet] = temp + 1;
+                }
+                this.firebaseRef.update(updates);
+            }
+        });
+        this.firebaseRef.child('Cuisine').once('value').then((snapshot) => {
+            var updates = {};
+            var temp = 0;
+            if (snapshot.exists()) {
+                for (let cuisine of this.state.cuisineArray) {
+                    temp = 0;
+                    if (snapshot.child(cuisine).val()) {
+                        temp = parseInt(snapshot.child(cuisine).val());
+                    }
+                    updates['/Cuisine/' + cuisine] = temp + 1;
+                }
+                this.firebaseRef.update(updates);
+            }
+        });
+        this.firebaseRef.child('Restaurant').once('value').then((snapshot) => {
+            var updates = {};
+            var temp = 0;
+            if (snapshot.exists()) {
+                for (let restaurant of this.state.restaurantArray) {
+                    temp = 0;
+                    if (snapshot.child(restaurant).val()) {
+                        temp = parseInt(snapshot.child(restaurant).val());
+                    }
+                    updates['/Restaurant/' + restaurant] = temp + 1;
+                }
+                this.firebaseRef.update(updates);
             }
         });
         this.firebaseRef.off();
@@ -418,6 +481,7 @@ class GroupsAccommodationsPage extends Component {
         this.firebaseRef = db.database().ref(this.props.route.params.getGroupCode());
         var updates = {};
 
+        updates['Zipcode'] = this.state.zipcode;
         updates['Time'] = this.state.time;
 
         for (let budget of this.state.budgetArray) {
@@ -440,7 +504,7 @@ class GroupsAccommodationsPage extends Component {
 
         this.firebaseRef.update(updates);
         // remove for testing VVV
-        this.firebaseRef.remove();
+        //this.firebaseRef.remove();
         this.firebaseRef.off();
 
         this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.route.params.isDarkmode});
