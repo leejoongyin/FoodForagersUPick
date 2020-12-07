@@ -76,7 +76,7 @@ export default class RestaurantInfo extends Component {
       <View style={[ styles.mainViewer, mode ]}>
         <View style={[styles.padding]}/>
         <Text style={[ mode2, { fontSize: 25 }]}>Let's go to:</Text>
-        <Text style={[ mode, { fontSize: 45, fontWeight: 'bold'} ]}>{this.state.name}</Text>
+        <Text style={[ mode, { fontSize: 45, fontWeight: 'bold', textAlign: 'center'} ]}>{this.state.name}</Text>
         <View style={[styles.padding]}/>
         <Image
           source={{uri: this.state.image}}
