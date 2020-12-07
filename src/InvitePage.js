@@ -222,22 +222,27 @@ class InvitePage extends Component {
         
             console.log(`filter is ${filter}`);
         });
+
+        return filter;
+    }
+
+    returnRestaurant = async (f) => {
         await axios.get(`https://api.yelp.com/v3/businesses/search`, {
-          headers: {'Authorization': `Bearer ${apiKey}`},
-          params: {
-              limit: 1,
-              categories: filter,
-              //open_at: this.state.time,
-              location: this.state.zipcode
-            }
-        }).then((response) => {
-          console.log(response.data.businesses[0].name);
-          this.storeData('restaurant_name', response.data.businesses[0].name);
-          this.storeData('image', response.data.businesses[0].image_url);
-          this.storeData('location', response.data.businesses[0].location.address1 + ". \n" + response.data.businesses[0].location.city +  ", " + response.data.businesses[0].location.state);
-          this.storeData('phone', response.data.businesses[0].display_phone);
-          this.storeData('url', response.data.businesses[0].url);
-        });
+            headers: {'Authorization': `Bearer ${apiKey}`},
+            params: {
+                limit: 1,
+                categories: f,
+                //open_at: this.state.time,
+                location: this.state.zipcode
+              }
+          }).then((response) => {
+            console.log(response.data.businesses[0].name);
+            this.storeData('restaurant_name', response.data.businesses[0].name);
+            this.storeData('image', response.data.businesses[0].image_url);
+            this.storeData('location', response.data.businesses[0].location.address1 + ". \n" + response.data.businesses[0].location.city +  ", " + response.data.businesses[0].location.state);
+            this.storeData('phone', response.data.businesses[0].display_phone);
+            this.storeData('url', response.data.businesses[0].url);
+          });
     }
     
     storeData = async (key,value) => {
@@ -284,11 +289,13 @@ class InvitePage extends Component {
                     title = 'Generate' 
                     onPress={
                         ()=>{
-                          this.getRestaurantFromYelp().then(() => {
-                            this.props.navigation.navigate(
-                                "Restaurant Info",
-                                {isDarkmode: this.props.isDarkmode}
-                            );
+                          this.getRestaurantFromYelp().then((filter) => {
+                              this.returnRestaurant(filter).then(() => {
+                                this.props.navigation.navigate(
+                                    "Restaurant Info",
+                                    {isDarkmode: this.props.isDarkmode}
+                                );
+                            });
                           });
 
                         }
