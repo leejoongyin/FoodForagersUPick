@@ -68,14 +68,13 @@ class EatingAlone extends Component {
       params: {
           limit: 1,
           categories: 'mexican',
-          open_at: this.state.time,
           location: this.state.zipcode
       }
     }).then((response) => {
       console.log(response.data.businesses[0].name);
       this.storeData('restaurant_name', response.data.businesses[0].name);
       this.storeData('image', response.data.businesses[0].image_url);
-      this.storeData('location', response.data.businesses[0].location.display_address);
+      this.storeData('location', response.data.businesses[0].location.address1 + ". \n" + response.data.businesses[0].location.city +  ", " + response.data.businesses[0].location.state);
       this.storeData('phone', response.data.businesses[0].display_phone);
       this.storeData('url', response.data.businesses[0].url);
     });
