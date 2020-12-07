@@ -15,42 +15,7 @@ import { ThemeProvider } from '@react-navigation/native';
 const MAX_SELECT = 10;
 const now = new Date();
 
-const budgetData = [
-  { id: 1, optionText: '$' },
-  { id: 2, optionText: '$$' },
-  { id: 3, optionText: '$$$' }
-];
 
-const dietData = [
-  { id: 1, optionText: 'Vegan' },
-  { id: 2, optionText: 'Vegetarian' },
-  { id: 3, optionText: 'Kosher' },
-  { id: 4, optionText: 'Halal' },
-  { id: 5, optionText: 'Gluten free' }
-];
-
-const cuisineData = [
-  { id: 1, optionText: 'Chinese' },
-  { id: 2, optionText: 'American' },
-  { id: 3, optionText: 'Mexican' },
-  { id: 4, optionText: 'Italian' },
-  { id: 5, optionText: 'Japanese' },
-  { id: 6, optionText: 'Korean' },
-  { id: 7, optionText: 'Thai' },
-  { id: 8, optionText: 'Vietnamese' },
-  { id: 9, optionText: 'Indian' }
-];
-
-const restaurantData = [
-  { id: 1, optionText: 'Breakfast' },
-  { id: 2, optionText: 'Brunch' },
-  { id: 3, optionText: 'Bars' },
-  { id: 4, optionText: 'Fast Food' },
-  { id: 5, optionText: 'Dessert' },
-  { id: 6, optionText: 'Bubble tea' },
-  { id: 7, optionText: 'Coffee Shops' },
-  { id: 8, optionText: 'BBQ' }
-];
 
 export default class Preferences extends Component {
 
@@ -77,12 +42,48 @@ export default class Preferences extends Component {
     this.getStoredData();
   }
 
-  getStoredData() {
-    this.getData('zipcode').then((result) => {
+  getStoredData = async () => {
+    const budgetData = [
+      { id: 1, optionText: '$' },
+      { id: 2, optionText: '$$' },
+      { id: 3, optionText: '$$$' }
+    ];
+
+    const dietData = [
+      { id: 1, optionText: 'Vegan' },
+      { id: 2, optionText: 'Vegetarian' },
+      { id: 3, optionText: 'Kosher' },
+      { id: 4, optionText: 'Halal' },
+      { id: 5, optionText: 'Gluten free' }
+    ];
+
+    const cuisineData = [
+      { id: 1, optionText: 'Chinese' },
+      { id: 2, optionText: 'American' },
+      { id: 3, optionText: 'Mexican' },
+      { id: 4, optionText: 'Italian' },
+      { id: 5, optionText: 'Japanese' },
+      { id: 6, optionText: 'Korean' },
+      { id: 7, optionText: 'Thai' },
+      { id: 8, optionText: 'Vietnamese' },
+      { id: 9, optionText: 'Indian' }
+    ];
+
+    const restaurantData = [
+      { id: 1, optionText: 'Breakfast' },
+      { id: 2, optionText: 'Brunch' },
+      { id: 3, optionText: 'Bars' },
+      { id: 4, optionText: 'Fast Food' },
+      { id: 5, optionText: 'Dessert' },
+      { id: 6, optionText: 'Bubble tea' },
+      { id: 7, optionText: 'Coffee Shops' },
+      { id: 8, optionText: 'BBQ' }
+    ];
+    await this.getData('zipcode').then((result) => {
         this.setState({zipcode: result});
         console.log('zipcode: ', this.state.zipcode);
     });
-    this.getData('time').then((result) => {
+    await this.getData('time').then((result) => {
         let storedTime = new Date(result);
         if (storedTime < now) {
           storedTime = null;
@@ -90,43 +91,51 @@ export default class Preferences extends Component {
         this.setState({time: storedTime});
         console.log('time: ', this.state.time);
     });
-    this.getData('budget').then((result) => {
+    await this.getData('budget').then((result) => {
         this.setState({budgetArray: result });
         if (this.state.budgetArray != null) {
           for (let budget of this.state.budgetArray) {
             let index = budgetData.find(x => x.optionText === budget).id - 1;
             this.budgetSelectionHandler.selectionHandler(index)
           }
+        } else {
+          this.setState({budgetArray: []});
         }
         console.log('budget: ', this.state.budgetArray);
     });
-    this.getData('diet').then((result) => {
+    await this.getData('diet').then((result) => {
         this.setState({dietArray: result});
         if (this.state.dietArray != null) {
           for (let diet of this.state.dietArray) {
             let index = dietData.find(x => x.optionText === diet).id - 1;
             this.dietSelectionHandler.selectionHandler(index)
           }
+        } else {
+          this.setState({dietArray: []});
         }
         console.log('diet: ', this.state.dietArray);
     });
-   this.getData('cuisine').then((result) => {
+   await this.getData('cuisine').then((result) => {
         this.setState({cuisineArray: result});
         if (this.state.cuisineArray != null) {
           for (let cuisine of this.state.cuisineArray) {
             let index = cuisineData.find(x => x.optionText === cuisine).id - 1;
             this.cuisineSelectionHandler.selectionHandler(index)
           }
+        } else {
+          this.setState({cuisineArray: []});
         }
         console.log('cuisine: ', this.state.cuisineArray);
     });
-    this.getData('restaurant').then((result) => {
+    await this.getData('restaurant').then((result) => {
         this.setState({restaurantArray: result});
         if (this.state.restaurantArray != null) {
           for (let rest of this.state.restaurantArray) {
             let index = restaurantData.find(x => x.optionText === rest).id - 1;
             this.restaurantSelectionHandler.selectionHandler(index)
           }
+        } else {
+          this.setState({restaurantArray: []});
         }
         console.log('restauarnt: ', this.state.restaurantArray);
         this.setState({loading: false});
@@ -204,6 +213,43 @@ export default class Preferences extends Component {
   render() {
     var isDarkmode = this.props.route.params.isDarkmode;
     var mode = (isDarkmode ? styles.darkmode: styles.lightmode );
+
+    const budgetData = [
+      { id: 1, optionText: '$' },
+      { id: 2, optionText: '$$' },
+      { id: 3, optionText: '$$$' }
+    ];
+
+    const dietData = [
+      { id: 1, optionText: 'Vegan' },
+      { id: 2, optionText: 'Vegetarian' },
+      { id: 3, optionText: 'Kosher' },
+      { id: 4, optionText: 'Halal' },
+      { id: 5, optionText: 'Gluten free' }
+    ];
+
+    const cuisineData = [
+      { id: 1, optionText: 'Chinese' },
+      { id: 2, optionText: 'American' },
+      { id: 3, optionText: 'Mexican' },
+      { id: 4, optionText: 'Italian' },
+      { id: 5, optionText: 'Japanese' },
+      { id: 6, optionText: 'Korean' },
+      { id: 7, optionText: 'Thai' },
+      { id: 8, optionText: 'Vietnamese' },
+      { id: 9, optionText: 'Indian' }
+    ];
+
+    const restaurantData = [
+      { id: 1, optionText: 'Breakfast' },
+      { id: 2, optionText: 'Brunch' },
+      { id: 3, optionText: 'Bars' },
+      { id: 4, optionText: 'Fast Food' },
+      { id: 5, optionText: 'Dessert' },
+      { id: 6, optionText: 'Bubble tea' },
+      { id: 7, optionText: 'Coffee Shops' },
+      { id: 8, optionText: 'BBQ' }
+    ];
 
     return (
       <View style={[styles.container, mode, {flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', margin: 'auto'}]}>
