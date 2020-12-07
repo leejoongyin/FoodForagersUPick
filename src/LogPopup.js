@@ -6,6 +6,7 @@ import {
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
 import flatListData from './flatListData';
+import { filterAmountInput } from './filterInput';
 
 var screen = Dimensions.get('window');
 export default class LogPopup extends Component {
@@ -46,7 +47,7 @@ export default class LogPopup extends Component {
                             style={_input} 
                             placeholder= '$ Amount'
                             keyboardType = 'numeric'
-                            onChangeText={(text) => this.setState({newAmount: text})}
+                            onChangeText={(text) => this.setState({newAmount: filterAmountInput(text) })}
                             value={this.state.newAmount}/>
 
                         <TextInput
