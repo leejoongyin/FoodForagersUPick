@@ -19,8 +19,6 @@ const apiKey = KEYS.yelp.api_key;
 class InvitePage extends Component {
     constructor(props){
         super(props);
-        const {navigation, isDarkmode}= this.props;
-        this.isDarkmode = this.props.isDarkmode;
         this.getStoredData();
     }
     getStoredData = async () => {
@@ -94,6 +92,16 @@ class InvitePage extends Component {
                         }
                     }
                 }
+                // budget
+                for (var i = 0; i < bArray.length; i++) {
+
+                    if (i == bArray.length - 1) {
+                        budgetCSV = budgetCSV + numBudget;
+                    }
+                    if (i != bArray.length - 1) {
+                        budgetCSV = budgetCSV + numBudget + ',';
+                    }
+                }
             }
         });
 
@@ -114,6 +122,21 @@ class InvitePage extends Component {
                             index++;
                         }
                     }
+                }
+                // diet
+                for (var i = 0; i < dArray.length; i++) {
+            
+                    var temp = dArray[i].toLowerCase();
+            
+                    if (temp === "gluten free") {temp = "gluten_free";}
+            
+                    if (i == dArray.length - 1) {
+                        dietCSV = dietCSV + temp;
+                    }
+                    if (i != dArray.length - 1) {
+                        dietCSV = dietCSV + temp + ',';
+                    }
+                    console.log("diet: " + temp + '\n');
                 }
             }
         });
@@ -136,6 +159,17 @@ class InvitePage extends Component {
                         }
                     }
                 }
+                // cuisine
+                for (var i = 0; i < cArray.length; i++) {
+            
+                    var temp = cArray[i].toLowerCase();
+            
+                    if (temp === "indian") {temp = "indpak"}
+                    if (temp === "american") {temp = "tradamerican"}
+            
+                    cat.push(temp);
+                    console.log("cuisine: " + temp + '\n');
+                }
             }
         });
 
@@ -157,84 +191,37 @@ class InvitePage extends Component {
                         }
                     }
                 }
-            }
-        });
-        // csv strings for each preference variable
-        // budget
-        for (var i = 0; i < bArray.length; i++) {
-            if (bArray[i] == '$') {
-                numBudget = '1';
-            }
-            if (bArray[i] == '$$') {
-                numBudget = '2';
-            }
-            if (bArray[i] == '$$$') {
-                numBudget = '3';
-            }
-            if (i == bArray.length - 1) {
-                budgetCSV = budgetCSV + numBudget;
-            }
-            if (i != bArray.length - 1) {
-                budgetCSV = budgetCSV + numBudget + ',';
-            }
-        }
-    
-        // diet
-        for (var i = 0; i < dArray.length; i++) {
-    
-            var temp = dArray[i].toLowerCase();
-    
-            if (temp === "gluten free") {temp = "gluten_free";}
-    
-            if (i == dArray.length - 1) {
-                dietCSV = dietCSV + temp;
-            }
-            if (i != dArray.length - 1) {
-                dietCSV = dietCSV + temp + ',';
-            }
-            console.log("diet: " + temp + '\n');
-        }
-        // cuisine
-        for (var i = 0; i < cArray.length; i++) {
-    
-            var temp = cArray[i].toLowerCase();
-    
-            if (temp === "indian") {temp = "indpak"}
-            if (temp === "american") {temp = "tradamerican"}
-    
-            cat.push(temp);
-            console.log("cuisine: " + temp + '\n');
-        }
-        // restaurant type
-        for (var i = 0; i < rArray.length; i++) {
-    
-            var temp = rArray[i].toLowerCase();
-    
-            if ((temp === "breakfast" || temp === "brunch")) {
-                if (!bnbChosen) {
-                    temp = "breakfast_brunch";
-                    bnbChosen = true;
-                } else {
-                    temp = null;
+                // restaurant type
+                for (var i = 0; i < rArray.length; i++) {
+            
+                    var temp = rArray[i].toLowerCase();
+            
+                    if ((temp === "breakfast" || temp === "brunch")) {
+                        if (!bnbChosen) {
+                            temp = "breakfast_brunch";
+                            bnbChosen = true;
+                        } else {
+                            temp = null;
+                        }
+                    }
+                    if (temp === "fast food") {temp = "hotdogs"}
+                    if (temp === "dessert") {temp = "desserts"}
+                    if (temp === "bubble tea") {temp = "bubbletea"}
+                    if (temp === "coffee shops") {temp = "coffee"}
+            
+                    if (temp) {cat.push(temp);}
+                    console.log("restaurant: " + temp + '\n');
                 }
             }
-            if (temp === "fast food") {temp = "hotdogs"}
-            if (temp === "dessert") {temp = "desserts"}
-            if (temp === "bubble tea") {temp = "bubbletea"}
-            if (temp === "coffee shops") {temp = "coffee"}
-    
-            if (temp) {cat.push(temp);}
-            console.log("restaurant: " + temp + '\n');
-        }
-    
-        // prioritize diet restrictions since categories is: this,that = "this OR that"
-        if (dietCSV !== '') {
-            filter = dietCSV;
-        } else {
-            filter = cat.join(',');
-        }
-    
-        console.log(`filter is ${filter}`);
+            // prioritize diet restrictions since categories is: this,that = "this OR that"
+            if (dietCSV !== '') {
+                filter = dietCSV;
+            } else {
+                filter = cat.join(',');
+            }
+        
+            console.log(`filter is ${filter}`);
+        });
         await axios.get(`https://api.yelp.com/v3/businesses/search`, {
           headers: {'Authorization': `Bearer ${apiKey}`},
           params: {
