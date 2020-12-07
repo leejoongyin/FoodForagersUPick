@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React, {Component, useState} from 'react';
 import Papa from 'papaparse';
 // import fs from 'fs'
-import { FlatList, Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Linking} from 'react-native';
+import { FlatList, Text, View, TextInput, StyleSheet, TouchableWithoutFeedback, Linking} from 'react-native';
 // import myDataset from '../data/RAW_recipes.csv';
 // // import STree from '@jayrbolton/suffix-tree';
 
@@ -85,21 +85,21 @@ export default class RecipeSearch extends Component {
           style={styles.inputBox}
         />
         <Text style={[styles.subHeader, mode ]}>Recipe Suggestions:</Text>
-        <TouchableOpacity 
+        <TouchableWithoutFeedback 
           title="foodSuggestion1"
           onPress={(e) => this.getSearchQuery("Baked Potato")}>
             <View style={styles.suggestBtn}><Text style={{color: '#6B222D'}}>Baked Potato</Text></View>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
           title="foodSuggestion2"
           onPress={(e) => this.getSearchQuery("Venison Burgers")}>
             <View style={styles.suggestBtn}><Text style={{color: '#6B222D'}}>Venison Burgers</Text></View>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
           title="foodSuggestion3"
           onPress={(e) => this.getSearchQuery("Apple Pie")}>
             <View style={styles.suggestBtn}><Text style={{color: '#6B222D'}}>Apple Pie</Text></View>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
 
         
       </View>
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     color: '#6B222D',
     borderRadius: 8,
     margin: 4,
-    width: 400,
+    width: '80%',
     height: 36
   },
   button: {

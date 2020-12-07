@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component} from 'react';
 import { Image, Text, View, TouchableWithoutFeedback } from 'react-native';
 import styles from '../style/styles';
 import '../assets/McDonalds.png'//logo from './assets/mcds.jpg'
