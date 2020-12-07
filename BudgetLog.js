@@ -54,12 +54,14 @@ render() {
     return (
         <Swipeout {...swipeSettings}>
             <View style={{
-                //flex: 1,
+                flex: 1,
                 backgroundColor: '#6B222D',
-                //flexDirection: "column"
+                flexDirection: 'column'
             }}>
             <View style = {{
-                //flexDirection: "row",
+                flex:1,
+                flexDirection: 'column',
+                //height: 100,
                 //alignItems: "stretch",
                 //textAlign: "center",
                 //backgroundColor: this.props.index % 2 == 0 ? 'mediumseagreen': 'tomato'
@@ -98,6 +100,7 @@ constructor(props){
         amount: '',
         description: '',
         date: '',
+        //total: 13
     };
     this.addExp =  this.addExp.bind(this);
 }
@@ -115,20 +118,30 @@ refreshFlatList = (activeKey) => {
     this.refs.flatList.scrollToEnd();
 }
 
+updateTotal (newAmount) {
+    //this.setState({total: (this.state.total) + Number(newAmount)});
+    //console.log(`Total = ${total}`);
+}
+
 addExp () {
     //alert("You add Item")
     this.refs.logPop.showLogPop();
     }
 
     render() {
-    var total =  0.00;
+    //global.total =  0.00;
         return (
-            <View style={{
-                backgroundColor: "#F2E9E0",
-                //height: screen.height
-             }}>
+
+                <View style={{backgroundColor: '#F2E9E0', height: screen.height}}>
+                <View style={{
+                    backgroundColor: '#F2E9E0', 
+                    //flexDirection: 'row',
+                    //justifyContent:'flex-end',                
+                    //alignItems: 'center',
+                    //height: 400
+                    }}>
                 <Text style={greet}>This month, you've spent:</Text>
-                <Text style={amount}> ${total} </Text>
+                <Text style={amount}> ${} </Text>
                 <Button 
                 style = {{ 
                     fontSize: 18, 
@@ -146,7 +159,7 @@ addExp () {
                 }}
                 onPress ={this.addExp}
                 >
-                    add
+                    Add new expense
                 </Button>
                 <Text style ={tHistory}>
                     Transction History
@@ -156,13 +169,13 @@ addExp () {
                     backgroundColor: "black"
                     }}>
                 </View>
-                <View style={{backgroundColor: '#F2E9E0', height: screen.height}}>
+                </View>
                     <FlatList
                         ref={"flatList"}
-                        style={{backgroundColor: '#F2E9E0',}}
+                        style={{backgroundColor: '#F2E9E0', }}
                         data={flatListData}
                         renderItem={({item, index}) =>{
-                            //console.log(`Item = ${JSON.stringify(item)}, index = ${index}`)
+                            //console.log(`Item = ${JSON.stringify(Number(item.amount))}, index = ${index}`)
                             return(
                                 <FlatListItem 
                                     style ={{backgroundColor: '#6B222D',
@@ -171,19 +184,20 @@ addExp () {
                                 }}
                                 item={item} 
                                 index={index} 
-                                parentFlatList={this} >
+                                parentFlatList={this} 
+                                //total= {total+JSON.stringify(Number(item.amount))}
+                                >
 
                                 </FlatListItem>
+                                
                             );
+                            //console.log(`Total = ${total}`)
                         }}>
-
                     </FlatList>
+                    <LogPopup ref={'logPop'} parentFlatList={this}>
 
+                    </LogPopup>
                 </View>
-                <LogPopup ref={'logPop'} parentFlatList={this}>
-
-                </LogPopup>
-            </View>
         )
 
     }; 

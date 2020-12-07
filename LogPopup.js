@@ -57,6 +57,7 @@ export default class LogPopup extends Component {
 
                         <TextInput
                             style={_input}
+                            keyboardType='numbers-and-punctuation'
                             placeholder='Date (MM/DD/YYYY)'
                             onChangeText={(text) => this.setState({newDate: text})}
                             value={this.state.newDate}/>
@@ -84,8 +85,10 @@ export default class LogPopup extends Component {
                                         date: this.state.newDate
                                     };
                                     flatListData.push(newLog);
+                                    //console.log(Number(this.state.newAmount) + );
                                     this.props.parentFlatList.refreshFlatList(newKey);
                                     this.refs.popUp.close();
+                                    this.props.parentFlatList.updateTotal(this.state.newAmount);
                             }}
                         >
                             Add
