@@ -219,7 +219,7 @@ class EatingAlone extends Component {
                 <TouchableWithoutFeedback
                     title = 'Pick'
                     onPress={
-                        ()=>{ this.props.navigation.navigate("Restaurant From List", {restaurantList: this.props.getRestaurantList()});}
+                        ()=>{ this.props.navigation.navigate("Restaurant From List", {restaurantList: this.props.getRestaurantList()}); }
                     }
                 >
                     <View style = {[ styles.buttonFocused, buttonColor1, {height: 75} ]}>
