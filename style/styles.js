@@ -62,15 +62,6 @@ const styles = StyleSheet.create({
       backgroundColor: colors.darkBG,
       color: colors.liteBG,
     },
-    darkmodeToggleContainer: {
-      alignSelf: 'flex-start',
-      flexDirection: 'row',
-      alignItems: 'center',
-      alignContent: 'center',
-
-      height: 50,
-      width: '100%',
-    },
     dividingLine: {
         color: '#777777',
         height: 0,
@@ -84,11 +75,6 @@ const styles = StyleSheet.create({
     lightmode2: {
       backgroundColor: colors.liteBG,
       color: 'black',
-    },
-    logo: {
-      resizeMode: 'contain',
-      height: '25%',
-      width: '100%',
     },
     icon: {
       resizeMode: 'contain',
@@ -104,28 +90,6 @@ const styles = StyleSheet.create({
       width: '100%',
       padding: 5
     },
-    navbar: {
-      alignSelf: 'center',
-      height: 75,
-      flex:0,
-      width: '100%',
-      alignItems: 'center',
-      alignContent: 'center',
-      flexDirection: 'column',
-      fontSize: 25
-    },
-    navbarText: {
-      fontSize: 25
-    },
-    navDarkmode: {
-      backgroundColor: colors.liteBG,
-      color: colors.accentPrim
-    },
-    navLightmode: {
-      backgroundColor: 'white',
-      color: colors.accentPrim
-    },
-
     buttonEnabled: {
       backgroundColor: colors.accentPrim
     },
@@ -171,6 +135,12 @@ const styles = StyleSheet.create({
       backgroundColor: colors.accentTerDark,
       color: colors.accentPrim,
     },
+    textColor: {
+      color: 'white',
+    },
+    textColorDark: {
+      color: colors.accentPrim,
+    },
     buttonFocused: {
       alignContent: 'center',
       alignItems: 'center',
@@ -195,10 +165,49 @@ const styles = StyleSheet.create({
       padding: 5,
       borderRadius: 5,
     },
-    guidance: {
+    // Home Page -----------------------------
+    homeContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      width: '100%',
+      height: '100%'
+    },
+    homePadding: {
+      height: '5%'
+    },
+    darkmodeToggleContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      paddingRight: 15
+    },
+    homeContentContainer: {
+      alignSelf: 'flex-start',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
+      height: '70%'
+    },
+    logo: {
+      resizeMode: 'contain',
+      height: '40%',
+      width: '100%',
+      margin: 20
+    },
+    homeGuidanceContainer: {
+      marginBottom: 20,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
+    },
+    homeGuidance: {
       fontSize: 20,
       fontStyle: 'italic'
     },
+    // end Home Page -----------------------------
     module: {
       alignContent: 'center',
       alignItems: 'center',
@@ -233,21 +242,94 @@ const styles = StyleSheet.create({
       borderWidth: 2,
       borderColor: colors.accentPrim,
     },
-    paddingLine: {
-      flex: 0.1,
-      width: 20,
-      height: '3%',
-    },
     padding: {
       flex: 0.5,
       width: 20,
       height: 20,
     },
-    paddingBottom: {
+    paddingLine: {
+      flex: 0.1,
+      width: 20,
+      height: '3%',
+    },
+    // Generate Restaurant -----------------
+    genResQuestion: {
+      fontSize: 20,
+      marginBottom: 20
+    },
+    genResPadding: {
+      height: 10
+    },
+    genResButton: {
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+      padding: 10,
+      height: 50,
+      width: MODULE_WIDTH,
+      borderRadius: MODULE_RADIUS,
+    },
+    genResButtonText: {
+      fontSize: 20,
+      fontWeight: "bold",
+      alignSelf: "center",
+    },
+    // end Generate Restaurant --------------
+    // RestaurantInfo ----------------
+    resInfoPaddingline: {
+      flex: 0.1,
+      width: 20,
+      height: '3%',
+    },
+    resInfoPadding: {
+      flex: 0.5,
+      width: 20,
+      height: 20,
+    },
+    resInfoPaddingBottom: {
       flex: 2,
       width: '5%',
       height: '15%',
     },
+    resInfoTextStyle: {
+      fontSize: 18
+    },
+    resInfoRow: {
+      flexDirection: 'row',
+      width: MODULE_WIDTH,
+      alignContent: 'center',
+      justifyContent: 'flex-start'
+    },
+    resInfoButton: {
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+      backgroundColor: '#999999',
+      padding: 10,
+      height: 50,
+      borderRadius: MODULE_RADIUS,
+      borderWidth: 0,
+      width: 0.40*SCALING_WIDTH,
+    },
+    resInfoRestaurauntImage: {
+      width: MODULE_WIDTH,
+      height: '30%',
+      borderRadius: MODULE_RADIUS,
+      resizeMode: 'cover',
+    },
+    resInfoScreen: {
+      width: '100%',
+      flex: 1,
+      alignContent: 'flex-start',
+      flexDirection: 'column'
+    },
+    resInfoButtonGap: {
+      width: 0.05*SCALING_WIDTH,
+      flex: 1,
+    },
+    // end RestaurantInfo ----------------
     paddingManual: {
       height: 20,
       width: 20,
@@ -275,17 +357,18 @@ const styles = StyleSheet.create({
     text: {
       fontSize: 18
     },
-    darkmodeIcon: {
+    // Navbar ----------------------------
+    navDarkmodeIcon: {
       backgroundColor: 'transparent',
       color: colors.accentPrimDark,
     },
-    lightmodeIcon: {
+    navLightmodeIcon: {
       backgroundColor: 'transparent',
       color: colors.accentPrim,
     },
     navContainer: {
       position: 'absolute',
-      height: 69,
+      height: 67,
       width: '100%',
       bottom: 0,
     },
@@ -309,14 +392,14 @@ const styles = StyleSheet.create({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      width: '18%',
+      width: '17.5%',
       marginBottom: 4
     },
     navButtonCenter: {
       display: 'flex',
       alignItems: 'center',
       backgroundColor: 'transparent',
-      width: '25%',
+      width: '30%',
       marginBottom: 4
     },
     navCircle: {
@@ -327,7 +410,16 @@ const styles = StyleSheet.create({
       borderRadius: 110,
       bottom: -12,
       elevation: 10
-    }
+    },
+    navDarkmode: {
+      backgroundColor: colors.liteBG,
+      color: colors.accentPrim
+    },
+    navLightmode: {
+      backgroundColor: 'white',
+      color: colors.accentPrim
+    },
+    // end Navbar --------------------------
 });
 
 export default styles;

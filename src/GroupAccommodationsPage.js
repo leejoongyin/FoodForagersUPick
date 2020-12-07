@@ -41,12 +41,8 @@ class EatingAlone extends Component {
                     }
                 >
                     <View style = {[ styles.buttonFocused, buttonColor1, {height: 75} ]}>
-                        <Text style = {[ styles.buttonText, buttonColor1 ]}>
-                            Generate restaurant
-                        </Text>
-                        <Text style = {[ styles.buttonText, buttonColor1 ]}>
-                            recommendation
-                        </Text>
+                        <Text style = {[ styles.buttonText, buttonColor1 ]}>  Generate restaurant  </Text>
+                        <Text style = {[ styles.buttonText, buttonColor1 ]}>  recommendation  </Text>
                     </View>
                 </TouchableWithoutFeedback>
             </View>
@@ -535,9 +531,7 @@ class GroupsAccommodationsPage extends Component {
                                     this.mode, styles.buttonText,
                                     (this.props.route.params.isDarkmode? styles.buttonColor2Dark: styles.buttonColor2 )
                                 ]}
-                            >
-                                Join a Group
-                            </Text>
+                            >  Join a Group  </Text>
                         </View>
                     </TouchableWithoutFeedback>
 
@@ -553,9 +547,7 @@ class GroupsAccommodationsPage extends Component {
                             <Text style = {[
                                 this.mode, styles.buttonText,
                                 (this.props.route.params.isDarkmode? styles.buttonColor3Dark: styles.buttonColor3 )
-                            ]}>
-                                Invite to a Group
-                            </Text>
+                            ]}>  Invite to a Group  </Text>
                         </View>
                     </TouchableWithoutFeedback>
 

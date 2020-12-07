@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import generateRestaurantStyle from "../style/generateRestaurantStylesLight.js";
+import { View, Text, TouchableWithoutFeedback } from 'react-native';
 import styles from "../style/styles.js";
 
 const { Component } = require('react');
@@ -21,64 +20,46 @@ class generateRestaurantScreen extends Component {
     render() {
         var isDarkmode = this.props.route.params.isDarkmode;
         var mode = (isDarkmode?styles.darkmode:styles.lightmode);
+        var buttonColorYes = (isDarkmode?styles.buttonColor1Dark:styles.buttonColor2);
+        var buttonColorNo = (isDarkmode?styles.buttonColor2Dark:styles.buttonColor3);
+        var buttonTextColor = (isDarkmode?styles.textColorDark:styles.textColor);
+        
         return (
-            <View style={[styles.container,mode]}>
-                <Text style={[generateRestaurantStyle.questionFontLight,mode]}>Do you have any restaurants in mind?</Text>
-                <View style={[styles.paddingManual]}/>
-
-                <View style={[generateRestaurantStyle.buttonContainer,mode]}>
-                    <TouchableOpacity
-                        style={[
-                            generateRestaurantStyle.yesButtonLight,
-                            (isDarkmode?styles.buttonColor1Dark:styles.buttonColor2)
-                        ]}
-                        onPress={this.yesPressed}
-                    >
-                        <Text
-                            style={[
-                                generateRestaurantStyle.yesNoFontLight,
-                                (isDarkmode?styles.buttonColor1Dark:styles.buttonColor2)
-                        ]}>
-                            Yes
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={[
-                            generateRestaurantStyle.yesButtonLight,
-                            (isDarkmode?styles.buttonColor2Dark:styles.buttonColor3)
-                        ]}
-                        onPress={this.noPressed}
-                    >
-                        <Text
-                            style={[
-                                generateRestaurantStyle.yesNoFontLight,
-                                (isDarkmode?styles.buttonColor2Dark:styles.buttonColor3)
-                        ]}>
-                            No
-                        </Text>
-                    </TouchableOpacity>
+            <View style={[styles.container, mode]}>
+                <Text style={[styles.genResQuestion, mode]}>Do you have any restaurants in mind?</Text>
+                <View>
+                    <TouchableWithoutFeedback onPress={this.yesPressed}>
+                        <View style={[styles.buttonFocused, buttonColorYes]}>
+                            <Text style={[styles.genResButtonText, buttonTextColor]}> Yes </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <View style={styles.genResPadding}></View>
+                    <TouchableWithoutFeedback onPress={this.noPressed}>
+                        <View style={[styles.buttonFocused, buttonColorNo]}>
+                            <Text style={[styles.genResButtonText, buttonTextColor]}> No </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
                 </View>
                 {/*<View style={styles.navBarLight}>
                     <View style={styles.centerExtCoverLight}></View>
 
-                    <TouchableOpacity style={styles.nonCenterLight}>
+                    <TouchableWithoutFeedback style={styles.nonCenterLight}>
                         <Image
                             source={require("../assets/edit_unselected.png")}
                             style={styles.buttonImage}
                         ></Image>
                         <Text style={styles.navFont}>Edit</Text>
-                    </TouchableOpacity>
+                    </TouchableWithoutFeedback>
 
-                    <TouchableOpacity style={styles.nonCenterLight}>
+                    <TouchableWithoutFeedback style={styles.nonCenterLight}>
                         <Image
                             source={require("../assets/group_unselected.png")}
                             style={styles.buttonImage}
                         ></Image>
                         <Text style={styles.navFont}>Join Group</Text>
-                    </TouchableOpacity>
+                    </TouchableWithoutFeedback>
 
-                    <TouchableOpacity style={styles.centerLight}>
+                    <TouchableWithoutFeedback style={styles.centerLight}>
                         <View style={styles.centerExtensionLight}></View>
                         <Image
                             source={require("../assets/restaurant_selected.png")}
@@ -86,23 +67,23 @@ class generateRestaurantScreen extends Component {
                         ></Image>
                         <Text style={styles.centerTopFont}>Generate</Text>
                         <Text style={styles.centerFont}>Recommendation</Text>
-                    </TouchableOpacity>
+                    </TouchableWithoutFeedback>
 
-                    <TouchableOpacity style={styles.nonCenterLight}>
+                    <TouchableWithoutFeedback style={styles.nonCenterLight}>
                         <Image
                             source={require("../assets/recipe_unselected.png")}
                             style={styles.buttonImage}
                         ></Image>
                         <Text style={styles.navFont}>Recipe</Text>
-                    </TouchableOpacity>
+                    </TouchableWithoutFeedback>
 
-                    <TouchableOpacity style={styles.nonCenterLight}>
+                    <TouchableWithoutFeedback style={styles.nonCenterLight}>
                         <Image
                             source={require("../assets/budget_unselected.png")}
                             style={styles.buttonImage}
                         ></Image>
                         <Text style={styles.navFont}>Budget</Text>
-                    </TouchableOpacity>
+                    </TouchableWithoutFeedback>
 
                 </View>*/}
             </View>
