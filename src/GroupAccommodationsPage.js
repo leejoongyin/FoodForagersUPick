@@ -12,11 +12,87 @@ import db from './base';
 import {GROUP_CODE_LENGTH, GROUP_CODE_VALID_CHARS} from './constants';
 import { filterGroupCodeInput } from './filterInput';
 
+import KEYS from "./config/keys.json";
+import axios from 'axios';
+
+const apiKey = KEYS.yelp.api_key;
 class EatingAlone extends Component {
     constructor(props){
         super(props);
         const {navigation, isDarkmode}= this.props;
+        this.isDarkmode = this.props.isDarkmode;
+        this.getStoredData();
     }
+    getStoredData = async () => {
+      this.getData('zipcode').then((result) => {
+          this.setState({zipcode: result});
+          console.log('zipcode: ', this.state.zipcode);
+      });
+      this.getData('time').then((result) => {
+          var monday = new Date();
+          monday.setDate(monday.getDate() + ((7 - monday.getDay()) % 7 + 1) % 7).setHours(0, 0, 0, 0);
+          var fixedTime =  (monday < new Date(result)) ? parseInt(new Date(result).getTime() / 1000) - 604800 : parseInt(new Date(result).getTime() / 1000);
+          this.setState({time: fixedTime});
+          console.log('time: ', this.state.time);
+      });
+      this.getData('budget').then((result) => {
+          this.setState({budgetArray: result });
+          console.log('budget: ', this.state.budgetArray);
+      });
+      this.getData('diet').then((result) => {
+          this.setState({dietArray: result});
+          console.log('diet: ', this.state.dietArray);
+      });
+     this.getData('cuisine').then((result) => {
+          this.setState({cuisineArray: result});
+          console.log('cuisine: ', this.state.cuisineArray);
+      });
+      this.getData('restaurant').then((result) => {
+          this.setState({restaurantArray: result});
+          console.log('restauarnt: ', this.state.restaurantArray);
+      });
+  }
+  getData = async (key) => {
+    try {
+      const jsonValue = await AsyncStorage.getItem(key).then((key) => {return key;})
+      return jsonValue != null ? JSON.parse(jsonValue) : null
+    } catch(e) {
+      // read error
+      alert('error: ', e);
+    }
+    console.log('Done.')
+  }
+
+  getRestaurantFromYelp = async () => {
+    let categories = this.state.dietArray.concat(this.state.cuisineArray).concat(this.state.restaurantArray);
+    console.log(categories);
+    await axios.get(`https://api.yelp.com/v3/businesses/search`, {
+      headers: {'Authorization': `Bearer ${apiKey}`},
+      params: {
+          limit: 1,
+          categories: 'tradamerican',
+          open_at: this.state.time,
+          location: this.state.zipcode
+      }
+    }).then((response) => {
+      console.log(response.data.businesses[0].name);
+      this.storeData('restaurant_name', response.data.businesses[0].name);
+      this.storeData('image', response.data.businesses[0].image_url);
+      this.storeData('location', response.data.businesses[0].location.address1 + ". \n" + response.data.businesses[0].location.city +  ", " + response.data.businesses[0].location.state);
+      this.storeData('phone', response.data.businesses[0].display_phone);
+      this.storeData('url', response.data.businesses[0].url);
+    });
+  }
+
+  storeData = async (key,value) => {
+    try {
+      const jsonValue = JSON.stringify(value)
+      await AsyncStorage.setItem(key,jsonValue)
+    } catch (e) {
+      // saving error
+      alert('error: ', e);
+    }
+  }
     render(props) {
         var mode = (this.props.isDarkmode ? styles.darkmode : styles.lightmode);
         var buttonColor1 = (this.props.isDarkmode ? styles.buttonColor2Dark : styles.buttonColor1);
@@ -33,10 +109,13 @@ class EatingAlone extends Component {
                     title = 'Generate'
                     onPress={
                         ()=>{
+                          this.getRestaurantFromYelp().then(() => {
                             this.props.navigation.navigate(
                                 "Restaurant Info",
                                 {isDarkmode: this.props.isDarkmode}
-                            )
+                            );
+                          });
+
                         }
                     }
                 >
@@ -106,7 +185,7 @@ class QRScanner extends Component {
         }
         console.log('Done.')
     }
-    
+
     qrCodeScanned = ({ type, data }) => {
         if( this.state.isVerifying ) {
             return;
@@ -131,7 +210,7 @@ class QRScanner extends Component {
         }
 
     };
-    
+
     updateDB(filteredInput) {
         this.firebaseRef = db.database().ref(filteredInput);
         var timelocation = {};
@@ -145,26 +224,26 @@ class QRScanner extends Component {
 
             if (snapshot.exists()) {
                 for (let budget of this.state.budgetArray) {
-                    if (budget === '$') { 
+                    if (budget === '$') {
                         temp = 0;
                         if (snapshot.child('Small').val()) {
                             temp = parseInt(snapshot.child('Small').val());
                         }
-                        updates['/Budget/Small/'] = temp + 1;
+                        updates['/Budget/Small/'] = (temp + 1);
                     }
-                    if (budget === '$$') { 
+                    if (budget === '$$') {
                         temp = 0;
                         if (snapshot.child('Medium').val()) {
                             temp = parseInt(snapshot.child('Medium').val());
                         }
-                        updates['/Budget/Medium/'] = temp + 1;
+                        updates['/Budget/Medium/'] = (temp + 1);
                     }
-                    if (budget === '$$$') { 
+                    if (budget === '$$$') {
                         temp = 0;
                         if (snapshot.child('Large').val()) {
                             temp = parseInt(snapshot.child('Large').val());
                         }
-                        updates['/Budget/Large/'] = temp + 1;
+                        updates['/Budget/Large/'] = (temp + 1);
                     }
                 }
                 this.firebaseRef.update(updates);
@@ -179,7 +258,8 @@ class QRScanner extends Component {
                     if (snapshot.child(diet).val()) {
                         temp = parseInt(snapshot.child(diet).val());
                     }
-                    updates['/Diet/' + diet] = temp + 1;
+                    updates['/Diet/' + diet] = (temp + 1);
+                    //console.log("diet: " + diet + " " + (temp+1) + '\n');
                 }
                 this.firebaseRef.update(updates);
             }
@@ -193,7 +273,8 @@ class QRScanner extends Component {
                     if (snapshot.child(cuisine).val()) {
                         temp = parseInt(snapshot.child(cuisine).val());
                     }
-                    updates['/Cuisine/' + cuisine] = temp + 1;
+                    updates['/Cuisine/' + cuisine] = (temp + 1);
+                    //console.log("cuisine: " + cuisine + " " + (temp+1) + '\n');
                 }
                 this.firebaseRef.update(updates);
             }
@@ -207,7 +288,8 @@ class QRScanner extends Component {
                     if (snapshot.child(restaurant).val()) {
                         temp = parseInt(snapshot.child(restaurant).val());
                     }
-                    updates['/Restaurant/' + restaurant] = temp + 1;
+                    updates['/Restaurant/' + restaurant] = (temp + 1);
+                    //console.log("restaurant: " + restaurant + " " + (temp+1) + '\n');
                 }
                 this.firebaseRef.update(updates);
             }
@@ -475,6 +557,7 @@ class GroupsAccommodationsPage extends Component {
     onInvitePressed = () => {
         this.props.route.params.setCode();
         this.firebaseRef = db.database().ref(this.props.route.params.getGroupCode());
+        this.firebaseRef.remove();
         var updates = {};
 
         updates['Zipcode'] = this.state.zipcode;
@@ -500,7 +583,6 @@ class GroupsAccommodationsPage extends Component {
 
         this.firebaseRef.update(updates);
         // remove for testing VVV
-        this.firebaseRef.remove();
         this.firebaseRef.off();
 
         this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.route.params.isDarkmode});
