@@ -136,6 +136,7 @@ refreshFlatList = (activeKey) => {
         return (
             <View style={[{
                 backgroundColor: "#F2E9E0",
+                paddingHorizontal: 15
                 //height: screen.height
              },mode2]}>
                 <Text style={[greet,mode2]}>This month, you've spent:</Text>
@@ -160,7 +161,7 @@ refreshFlatList = (activeKey) => {
                     add
                 </Button>
                 <Text style ={[tHistory,mode2]}>
-                    Transction History
+                    Transaction History
                 </Text>
                 <View style = {{
                     height: 1,
