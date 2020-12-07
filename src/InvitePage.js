@@ -293,10 +293,10 @@ class InvitePage extends Component {
                               this.returnRestaurant(filter).then(() => {
                                 this.props.navigation.navigate(
                                     "Restaurant Info",
-                                    {isDarkmode: this.props.isDarkmode}
+                                    {isDarkmode: isDarkmode}
                                 );
                             });
-                          });
+                          }); 
 
                         }
                     }>
