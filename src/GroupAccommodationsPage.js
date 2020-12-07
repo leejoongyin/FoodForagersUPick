@@ -30,7 +30,8 @@ class EatingAlone extends Component {
       });
       this.getData('time').then((result) => {
           var monday = new Date();
-          monday.setDate(monday.getDate() + ((7 - monday.getDay()) % 7 + 1) % 7).setHours(0, 0, 0, 0);
+          monday.setDate(monday.getDate() + (7 - monday.getDay()) % 7 + 1);
+          monday.setHours(0, 0, 0, 0);
           var fixedTime =  (monday < new Date(result)) ? parseInt(new Date(result).getTime() / 1000) - 604800 : parseInt(new Date(result).getTime() / 1000);
           this.setState({time: fixedTime});
           console.log('time: ', this.state.time);
@@ -64,13 +65,14 @@ class EatingAlone extends Component {
   }
 
   getRestaurantFromYelp = async () => {
-    
+
     // parsing for categories parameter
     var budgetCSV, dietCSV, cuisineCSV, restaurantCSV;
     budgetCSV = dietCSV = cuisineCSV = restaurantCSV = '';
-    
+
     var numBudget; // numerical value corresponding to each '$...' symbol
     var filter;
+    let cat = [];
 
     // csv strings for each preference variable
     // budget
@@ -114,13 +116,8 @@ class EatingAlone extends Component {
 
         if (temp === "indian") {temp = "indpak"}
         if (temp === "american") {temp = "tradamerican"}
-    
-        if (i == this.state.cuisineArray.length - 1) {
-            cuisineCSV = cuisineCSV + temp;
-        }
-        if (i != this.state.cuisineArray.length - 1) {
-            cuisineCSV = cuisineCSV + temp + ',';
-        }
+
+        cat.push(temp);
         console.log("cuisine: " + temp + '\n');
     }
     // restaurant type
@@ -134,25 +131,18 @@ class EatingAlone extends Component {
         if (temp === "bubble tea") {temp = "bubbletea"}
         if (temp === "coffee shops") {temp = "coffee"}
 
-        if (i == this.state.restaurantArray.length - 1) {
-            restaurantCSV = restaurantCSV + temp;
-        }
-        if (i != this.state.restaurantArray.length - 1) {
-            restaurantCSV = restaurantCSV + temp + ',';
-        }   
+        cat.push(temp);
         console.log("restaurant: " + temp + '\n');
     }
 
-    // prioritize diet restrictions since categories is: this,that = "this OR that" 
-    if (dietCSV != '') {
+    // prioritize diet restrictions since categories is: this,that = "this OR that"
+    if (dietCSV !== '') {
         filter = dietCSV;
+    } else {
+        filter = cat.join(',');
     }
 
-    else {
-        filter = cuisineCSV + ',' + restaurantCSV;
-    }
-
-    console.log(filter);
+    console.log(`filter is ${filter}`);
     await axios.get(`https://api.yelp.com/v3/businesses/search`, {
       headers: {'Authorization': `Bearer ${apiKey}`},
       params: {
