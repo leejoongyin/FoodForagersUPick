@@ -10,6 +10,9 @@ describe("test filterGroupCodeInput", ()=>{
     it("test lowercase chars", ()=>{
         expect( filterGroupCodeInput("ab")).toEqual("AB");
     }); 
+    it("test empty", ()=>{
+        expect( filterGroupCodeInput("")).toEqual("");
+    });
     
 }) 
 
@@ -20,15 +23,26 @@ describe("test filterAmountInput", ()=>{
     it("test invalid chars", ()=>{
         expect( filterAmountInput("AB")).toEqual("0.00");
     }); 
+    it("test empty", ()=>{
+        expect( filterAmountInput("")).toEqual("0.00");
+    }); 
     
 }) 
 
 describe("test filterDateInput", ()=>{
     it("test valid chars", ()=>{
         expect( filterDateInput("01")).toEqual("00/00/0001");
+        expect( filterDateInput("12/22/2000")).toEqual("12/22/2000");
+        expect( filterDateInput("12222000")).toEqual("12/22/2000");
     }); 
     it("test invalid chars", ()=>{
         expect( filterDateInput("AB")).toEqual("00/00/0000");
+    }); 
+    it("test overflow", ()=>{
+        expect( filterDateInput("12312222000")).toEqual("12/22/2000");
+    });
+    it("test empty", ()=>{
+        expect( filterDateInput("")).toEqual("00/00/0000");
     }); 
     
 }) 
