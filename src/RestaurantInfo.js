@@ -1,75 +1,127 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, {Component} from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 import '../assets/McDonalds.png'//logo from './assets/mcds.jpg'
 import colors from '../style/colors';
 import {SCALING_WIDTH, MODULE_WIDTH, MODULE_RADIUS} from '../style/styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Linking} from 'react-native';
 
 const restaurauntImage = '../assets/splash.png';
 
-export default function App(props) {
-  var isDarkmode=props.route.params.isDarkmode;
-  var mode = (isDarkmode?styles.darkmode:styles.lightmode);
-  var mode2 = (isDarkmode?styles.darkmode2:styles.lightmode2);
-  var buttonColor1= (isDarkmode?styles.buttonColor1Dark:styles.buttonColor1);
 
-  return (
-  <View style = {[styles.screen]}>
-    <View style={[ styles.mainViewer, mode ]}>
-      <View style={[styles.padding]}/>
-      <Text style={[ mode2, { fontSize: 25 }]}>Let's go to:</Text>
-      <Text style={[ mode, { fontSize: 45, fontWeight: 'bold'} ]}>McDonald's</Text>
-      <View style={[styles.padding]}/>
-      <Image
-        source={require('../assets/McDonalds.png')}
-        style={[styles.restaurauntImage]}
-      />
-      <View style={[styles.padding]}/>
+export default class RestaurantInfo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        loading: true,
+    };
+    this.isDarkmode = this.props.isDarkmode;
 
-      <View style={[styles.infoRow]}>
-        <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Hours: </Text>
-        <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold", fontStyle: 'italic'}]}>Open Now </Text>
-        <Text style={[styles.textStyle_2, mode2]}>until 7pm </Text>
-      </View>
-      <View style={[styles.paddingLine]}/>
-      <View style={[styles.infoRow]}>
-        <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Location: </Text>
-        <Text style={[styles.textStyle_2, mode2 ]}>1234 Street Ave. City, ST 91234</Text>
-      </View>
-      <View style={[styles.paddingLine]}/>
-      <View style={[styles.infoRow]}>
-        <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Phone Number: </Text>
-        <Text style={[styles.textStyle_2, mode2 ]}>123-123-1234</Text>
-      </View>
+    this.getStoredData();
 
-      <View style={[styles.paddingLine]}/>
-      <View style={[styles.paddingLine]}/>
+  }
+  getStoredData = async () => {
+    await this.getData('restaurant_name').then((result) => {
+      this.setState({name: result});
+    });
+    await this.getData('image').then((result) => {
+      this.setState({image: result});
+    });
+    await this.getData('location').then((result) => {
+      this.setState({location: result});
+    });
+    await this.getData('url').then((result) => {
+      this.setState({url: result});
 
-      <View style={[styles.infoRow]}>
-          <View>
-            <TouchableOpacity
-              onPress={() => alert('Hello, world!')}
-              style={[styles.button, buttonColor1]}
-            >
-              <Text style={[styles.buttonText, buttonColor1]}>View Menu</Text>
+    });
+    await this.getData('phone').then((result) => {
+      this.setState({phone: result});
+      this.setState({loading: false});
+    });
+  }
+  getData = async (key) => {
+    try {
+      const jsonValue = await AsyncStorage.getItem(key).then((key) => {return key;})
+      return jsonValue != null ? JSON.parse(jsonValue) : null
+    } catch(e) {
+      // read error
+      alert('error: ', e);
+    }
+    console.log('Done.')
+  }
+  openMenu = () => {
+    Linking.canOpenURL(this.state.url).then((supported) => {
+      if (supported) {
+        Linking.openURL(this.state.url);
+      } else {
+        alert(
+          "Cannot Open the link!",
+          "The webpage seems to be offline at the moment.",
+          [{ text: "OK" }],
+          { cancelable: false }
+        );
+      }
+    });
+  }
+  render() {
+    var isDarkmode = this.props.route.params.isDarkmode;
+    var mode = (isDarkmode?styles.darkmode:styles.lightmode);
+    var mode2 = (isDarkmode?styles.darkmode2:styles.lightmode2);
+    var buttonColor1= (isDarkmode?styles.buttonColor1Dark:styles.buttonColor1);
 
-            </TouchableOpacity>
-          </View>
-          <View style={[styles.buttonGap]}/>
-          <View>
-            <TouchableOpacity
-              onPress={() => alert('Hello, world!')}
-              style={[styles.button, buttonColor1]}
-            >
-              <Text style={[styles.buttonText,buttonColor1]}>Call Now</Text>
-            </TouchableOpacity>
-          </View>
-      </View>
-      <View style={[styles.paddingBottom]}/>
+    return (
+    <View style = {[styles.screen]}>
+      {!this.state.loading && (
+      <View style={[ styles.mainViewer, mode ]}>
+        <View style={[styles.padding]}/>
+        <Text style={[ mode2, { fontSize: 25 }]}>Let's go to:</Text>
+        <Text style={[ mode, { fontSize: 45, fontWeight: 'bold'} ]}>{this.state.name}</Text>
+        <View style={[styles.padding]}/>
+        <Image
+          source={{uri: this.state.image}}
+          style={[styles.restaurauntImage]}
+        />
+        <View style={[styles.padding]}/>
+        <View style={[styles.paddingLine]}/>
+        <View style={[styles.infoRow]}>
+          <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Location: </Text>
+          <Text style={[styles.textStyle_2, mode2 ]}>{this.state.location}</Text>
+        </View>
+        <View style={[styles.paddingLine]}/>
+        <View style={[styles.infoRow]}>
+          <Text style={[styles.textStyle_2, mode2, {fontWeight: "bold"}]}>Phone Number: </Text>
+          <Text style={[styles.textStyle_2, mode2 ]}>{this.state.phone}</Text>
+        </View>
+
+        <View style={[styles.paddingLine]}/>
+        <View style={[styles.paddingLine]}/>
+
+        <View style={[styles.infoRow]}>
+            <View>
+              <TouchableOpacity
+                onPress={this.openMenu}
+                style={[styles.button, buttonColor1]}
+              >
+                <Text style={[styles.buttonText, buttonColor1]}>View Menu</Text>
+
+              </TouchableOpacity>
+            </View>
+            <View style={[styles.buttonGap]}/>
+            <View>
+              <TouchableOpacity
+                onPress={() => alert('Hello, world!')}
+                style={[styles.button, buttonColor1]}
+              >
+                <Text style={[styles.buttonText,buttonColor1]}>Call Now</Text>
+              </TouchableOpacity>
+            </View>
+        </View>
+        <View style={[styles.paddingBottom]}/>
+      </View>)}
     </View>
-  </View>
-
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({
