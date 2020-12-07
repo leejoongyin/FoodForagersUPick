@@ -15,6 +15,43 @@ import { ThemeProvider } from '@react-navigation/native';
 const MAX_SELECT = 10;
 const now = new Date();
 
+const budgetData = [
+  { id: 1, optionText: '$' },
+  { id: 2, optionText: '$$' },
+  { id: 3, optionText: '$$$' }
+];
+
+const dietData = [
+  { id: 1, optionText: 'Vegan' },
+  { id: 2, optionText: 'Vegetarian' },
+  { id: 3, optionText: 'Kosher' },
+  { id: 4, optionText: 'Halal' },
+  { id: 5, optionText: 'Gluten free' }
+];
+
+const cuisineData = [
+  { id: 1, optionText: 'Chinese' },
+  { id: 2, optionText: 'American' },
+  { id: 3, optionText: 'Mexican' },
+  { id: 4, optionText: 'Italian' },
+  { id: 5, optionText: 'Japanese' },
+  { id: 6, optionText: 'Korean' },
+  { id: 7, optionText: 'Thai' },
+  { id: 8, optionText: 'Vietnamese' },
+  { id: 9, optionText: 'Indian' }
+];
+
+const restaurantData = [
+  { id: 1, optionText: 'Breakfast' },
+  { id: 2, optionText: 'Brunch' },
+  { id: 3, optionText: 'Bars' },
+  { id: 4, optionText: 'Fast Food' },
+  { id: 5, optionText: 'Dessert' },
+  { id: 6, optionText: 'Bubble tea' },
+  { id: 7, optionText: 'Coffee Shops' },
+  { id: 8, optionText: 'BBQ' }
+];
+
 export default class Preferences extends Component {
 
   constructor(props) {
@@ -33,46 +70,14 @@ export default class Preferences extends Component {
         dietArray: [],
         cuisineArray: [],
         restaurantArray: [],
-        text : ''
+        text : '',
+        loading: true,
     };
     this.isDarkmode = this.props.isDarkmode;
+    this.getStoredData();
+  }
 
-    const budgetData = [
-      { id: 1, optionText: '$' },
-      { id: 2, optionText: '$$' },
-      { id: 3, optionText: '$$$' }
-    ];
-
-    const dietData = [
-      { id: 1, optionText: 'Vegan' },
-      { id: 2, optionText: 'Vegetarian' },
-      { id: 3, optionText: 'Kosher' },
-      { id: 4, optionText: 'Halal' },
-      { id: 5, optionText: 'Gluten free' }
-    ];
-
-    const cuisineData = [
-      { id: 1, optionText: 'Chinese' },
-      { id: 2, optionText: 'American' },
-      { id: 3, optionText: 'Mexican' },
-      { id: 4, optionText: 'Italian' },
-      { id: 5, optionText: 'Japanese' },
-      { id: 6, optionText: 'Korean' },
-      { id: 7, optionText: 'Thai' },
-      { id: 8, optionText: 'Vietnamese' },
-      { id: 9, optionText: 'Indian' }
-    ];
-
-    const restaurantData = [
-      { id: 1, optionText: 'Breakfast' },
-      { id: 2, optionText: 'Brunch' },
-      { id: 3, optionText: 'Bars' },
-      { id: 4, optionText: 'Fast Food' },
-      { id: 5, optionText: 'Dessert' },
-      { id: 6, optionText: 'Bubble tea' },
-      { id: 7, optionText: 'Coffee Shops' },
-      { id: 8, optionText: 'BBQ' }
-    ];
+  getStoredData() {
     this.getData('zipcode').then((result) => {
         this.setState({zipcode: result});
         console.log('zipcode: ', this.state.zipcode);
@@ -105,7 +110,7 @@ export default class Preferences extends Component {
         }
         console.log('diet: ', this.state.dietArray);
     });
-    this.getData('cuisine').then((result) => {
+   this.getData('cuisine').then((result) => {
         this.setState({cuisineArray: result});
         if (this.state.cuisineArray != null) {
           for (let cuisine of this.state.cuisineArray) {
@@ -124,9 +129,10 @@ export default class Preferences extends Component {
           }
         }
         console.log('restauarnt: ', this.state.restaurantArray);
+        this.setState({loading: false});
     });
   }
-  
+
   // If the user somehow inputs non-numeric characters, remove them.
   onZipInput(text) {
     this.setState({zipcode: text.replace(/[^0-9]/g, '')}, () => {
@@ -199,46 +205,10 @@ export default class Preferences extends Component {
     var isDarkmode = this.props.route.params.isDarkmode;
     var mode = (isDarkmode ? styles.darkmode: styles.lightmode );
 
-    const budgetData = [
-      { id: 1, optionText: '$' },
-      { id: 2, optionText: '$$' },
-      { id: 3, optionText: '$$$' }
-    ];
-
-    const dietData = [
-      { id: 1, optionText: 'Vegan' },
-      { id: 2, optionText: 'Vegetarian' },
-      { id: 3, optionText: 'Kosher' },
-      { id: 4, optionText: 'Halal' },
-      { id: 5, optionText: 'Gluten free' }
-    ];
-
-    const cuisineData = [
-      { id: 1, optionText: 'Chinese' },
-      { id: 2, optionText: 'American' },
-      { id: 3, optionText: 'Mexican' },
-      { id: 4, optionText: 'Italian' },
-      { id: 5, optionText: 'Japanese' },
-      { id: 6, optionText: 'Korean' },
-      { id: 7, optionText: 'Thai' },
-      { id: 8, optionText: 'Vietnamese' },
-      { id: 9, optionText: 'Indian' }
-    ];
-
-    const restaurantData = [
-      { id: 1, optionText: 'Breakfast' },
-      { id: 2, optionText: 'Brunch' },
-      { id: 3, optionText: 'Bars' },
-      { id: 4, optionText: 'Fast Food' },
-      { id: 5, optionText: 'Dessert' },
-      { id: 6, optionText: 'Bubble tea' },
-      { id: 7, optionText: 'Coffee Shops' },
-      { id: 8, optionText: 'BBQ' }
-    ];
-
     return (
       <View style={[styles.container, mode, {flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', margin: 'auto'}]}>
         <View style={{width: '100%'}}>
+          {!this.state.loading && (
           <ScrollView>
             <View style={{width: '80%', alignSelf: 'center'}}>
             <Text style={[styles.centerHeader, mode, {marginTop: 10}]}>Where would you like to eat?*</Text>
@@ -401,7 +371,7 @@ export default class Preferences extends Component {
                   <View style={[styles.submitBtn,(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)]}><Text style={(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)}>Submit</Text></View>
               </TouchableWithoutFeedback>
             </View>
-          </ScrollView>
+          </ScrollView>)}
         </View>
       </View>
     );
