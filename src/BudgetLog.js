@@ -7,6 +7,7 @@ import LogPopup from './LogPopup';
 import Button from 'react-native-button';
 
 import styles from '../style/styles';
+import calculateLogTotal from './calculateLogTotal';
 
 var screen = Dimensions.get('window');
 class FlatListItem extends Component {
@@ -127,6 +128,10 @@ refreshFlatList = (activeKey) => {
         this.refs.logPop.showLogPop();
     }
 
+    calculateTotal = () => {
+
+    }
+
     render() {
         var isDarkmode = this.props.route.params.isDarkmode;
         var mode =  ( isDarkmode ? styles.darkmode: styles.lightmode );
@@ -139,7 +144,7 @@ refreshFlatList = (activeKey) => {
                 //height: screen.height
              },mode2]}>
                 <Text style={[greet,mode2]}>This month, you've spent:</Text>
-                <Text style={[amount,mode2]}> ${total} </Text>
+                <Text style={[amount,mode2]}> ${calculateLogTotal()} </Text>
                 <Button
                     style = {[{
                         fontSize: 18,
