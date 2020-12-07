@@ -9,7 +9,7 @@ export default class RestaurantList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      restaurantListArray: [],
+      restaurantListArray: this.props.route.params.getRestaurantList(),
       userInput: '',
     };
   }
@@ -38,6 +38,7 @@ export default class RestaurantList extends Component {
   }
 
   submit = () => {
+    this.props.route.params.setRestaurantList(this.state.restaurantListArray);
     this.props.navigation.navigate('Group Accommodations');
   }
   // TODO: Replace hardcoded colors with light mode/dark mode
