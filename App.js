@@ -21,6 +21,7 @@ import EditPreferences from './src/EditPreferences';
 import BudgetLog from './src/BudgetLog';
 import Navbar from './src/Navbar';
 import RecipeSearch from './src/recipeSearch';
+import RestaurantFromList from './src/RestaurantFromList';
 
 import styles from './style/styles';
 import { render } from 'react-dom';
@@ -48,7 +49,8 @@ class App extends Component {
     this.state = {
       isDarkmode: true,
       mainCode: this.roomCodeGenerator(GROUP_CODE_LENGTH),
-      groupCode: "ABCD"
+      groupCode: "ABCD",
+      restaurantList: []
     };
     var mode = (this.getIsDarkmode() ? styles.darkmode : styles.lightmode);
     console.log(mode);
@@ -100,6 +102,16 @@ class App extends Component {
     return true;
   }
 
+  setRestaurantList( e ) {
+    this.setState(prevState=>({
+      restaurantList: e
+    }));
+  }
+
+  getRestaurantList() {
+    return this.state.restaurantList;
+  }
+
   getStackScreens = () => {
     return (
       <Stack.Navigator initialRouteName="Home" screenOptions = { navigationOptions }>
@@ -112,6 +124,7 @@ class App extends Component {
                 toggleDarkmode: this.toggleDarkmode.bind(this),
                 getIsDarkmode: this.getIsDarkmode.bind(this)
             }}
+
         />
         <Stack.Screen
             name="Generate"
@@ -130,7 +143,9 @@ class App extends Component {
                 isDarkmode: this.getIsDarkmode(),
                 getGroupCode: this.getGroupCode.bind(this),
                 setGroupCode: this.setGroupCode.bind(this),
-                setCode: this.setCode.bind(this)
+                setCode: this.setCode.bind(this),
+                getRestaurantList: this.getRestaurantList.bind(this),
+
             }}
         />
         <Stack.Screen
@@ -142,7 +157,8 @@ class App extends Component {
             initialParams = {{
                 isDarkmode: this.getIsDarkmode(),
                 getGroupCode: this.getGroupCode.bind(this),
-                setGroupCode: this.setGroupCode.bind(this)
+                setGroupCode: this.setGroupCode.bind(this),
+                getRestaurantList: this.getRestaurantList.bind(this),
             }}
         />
         <Stack.Screen
@@ -172,7 +188,9 @@ class App extends Component {
                 title: "Restaurant List"
             }}
             initialParams = {{
-                isDarkmode: this.getIsDarkmode()
+                isDarkmode: this.getIsDarkmode(),
+                getRestaurantList: this.getRestaurantList.bind(this),
+                setRestaurantList: this.setRestaurantList.bind(this),
             }}
         />
         <Stack.Screen
@@ -183,6 +201,18 @@ class App extends Component {
             }}
             initialParams = {{
                 isDarkmode: this.getIsDarkmode()
+            }}
+        />
+        <Stack.Screen
+            name = "Restaurant From List"
+            component={RestaurantFromList}
+            options={{
+                title: "Recommendation"
+            }}
+            initialParams = {{
+                isDarkmode: this.getIsDarkmode(),
+                getRestaurantList: this.getRestaurantList.bind(this),
+                restaurantList: this.getRestaurantList(),
             }}
         />
         <Stack.Screen

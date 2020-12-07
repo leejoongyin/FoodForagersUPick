@@ -213,6 +213,24 @@ class EatingAlone extends Component {
                         </Text>
                     </View>
                 </TouchableWithoutFeedback>
+                
+                <View style={styles.paddingManual}/>
+
+                <TouchableWithoutFeedback
+                    title = 'Pick'
+                    onPress={
+                        ()=>{ this.props.navigation.navigate("Restaurant From List", {restaurantList: this.props.getRestaurantList()});}
+                    }
+                >
+                    <View style = {[ styles.buttonFocused, buttonColor1, {height: 75} ]}>
+                        <Text style = {[ styles.buttonText, buttonColor1 ]}>
+                            Generate restaurant
+                        </Text>
+                        <Text style = {[ styles.buttonText, buttonColor1 ]}>
+                            recommendation from List
+                        </Text>
+                    </View>
+                </TouchableWithoutFeedback>
             </View>
         );
 
@@ -611,7 +629,11 @@ class GroupsAccommodationsPage extends Component {
         return (
             <View>
                 <View style = {styles.paddingManual}/>
-                <EatingAlone isDarkmode={this.props.route.params.isDarkmode} navigation={this.props.navigation} />
+                <EatingAlone 
+                    isDarkmode={this.props.route.params.isDarkmode} 
+                    navigation={this.props.navigation} 
+                    getRestaurantList={this.props.route.params.getRestaurantList}
+                />
             </View>
 
         );
