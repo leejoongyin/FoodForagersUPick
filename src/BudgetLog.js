@@ -174,6 +174,9 @@ refreshFlatList = (activeKey) => {
                     backgroundColor: mode2.color
                     }}>
                 </View>
+                <LogPopup ref={'logPop'} parentFlatList={this} isDarkmode={isDarkmode}>
+
+                </LogPopup>
                 <View style={[{backgroundColor: '#F2E9E0', height: screen.height }, mode2 ]}>
                     <FlatList
                         ref={"flatList"}
@@ -202,9 +205,7 @@ refreshFlatList = (activeKey) => {
                     </FlatList>
 
                 </View>
-                <LogPopup ref={'logPop'} parentFlatList={this} isDarkmode={isDarkmode}>
-
-                </LogPopup>
+                
             </View>
         )
 

@@ -35,7 +35,9 @@ export default class LogPopup extends Component {
                         borderRadius: 5,
                         shadowRadius: 10,
                         width: screen.width - 80,
-                        height: 300}}
+                        height: 300,
+                        bottom: Dimensions.get('window').height/2 - 100,
+                    }}
                         position='center'
                         backdrop={true}
                         onClosed = {() => {
