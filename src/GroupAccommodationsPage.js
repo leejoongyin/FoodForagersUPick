@@ -94,30 +94,53 @@ class EatingAlone extends Component {
 
     // diet
     for (var i = 0; i < this.state.dietArray.length; i++) {
+
+        var temp = this.state.dietArray[i].toLowerCase();
+
+        if (temp === "gluten free") {temp = "gluten_free";}
+
         if (i == this.state.dietArray.length - 1) {
-            dietCSV = dietCSV + this.state.dietArray[i];
+            dietCSV = dietCSV + temp;
         }
         if (i != this.state.dietArray.length - 1) {
-            dietCSV = dietCSV + this.state.dietArray[i] + ',';
+            dietCSV = dietCSV + temp + ',';
         }
+        console.log("diet: " + temp + '\n');
     }
     // cuisine
     for (var i = 0; i < this.state.cuisineArray.length; i++) {
+
+        var temp = this.state.cuisineArray[i].toLowerCase();
+
+        if (temp === "indian") {temp = "indpak"}
+        if (temp === "american") {temp = "tradamerican"}
+    
         if (i == this.state.cuisineArray.length - 1) {
-            cuisineCSV = cuisineCSV + this.state.cuisineArray[i];
+            cuisineCSV = cuisineCSV + temp;
         }
         if (i != this.state.cuisineArray.length - 1) {
-            cuisineCSV = cuisineCSV + this.state.cuisineArray[i] + ',';
+            cuisineCSV = cuisineCSV + temp + ',';
         }
+        console.log("cuisine: " + temp + '\n');
     }
     // restaurant type
     for (var i = 0; i < this.state.restaurantArray.length; i++) {
+
+        var temp = this.state.restaurantArray[i].toLowerCase();
+
+        if (temp === "breakfast" || temp === "brunch") {temp = "breakfast_brunch"}
+        if (temp === "fast food") {temp = "hotdogs"}
+        if (temp === "dessert") {temp = "desserts"}
+        if (temp === "bubble tea") {temp = "bubbletea"}
+        if (temp === "coffee shops") {temp = "coffee"}
+
         if (i == this.state.restaurantArray.length - 1) {
-            restaurantCSV = restaurantCSV + this.state.restaurantArray[i];
+            restaurantCSV = restaurantCSV + temp;
         }
         if (i != this.state.restaurantArray.length - 1) {
-            restaurantCSV = restaurantCSV + this.state.restaurantArray[i] + ',';
+            restaurantCSV = restaurantCSV + temp + ',';
         }   
+        console.log("restaurant: " + temp + '\n');
     }
 
     // prioritize diet restrictions since categories is: this,that = "this OR that" 
@@ -294,24 +317,24 @@ class QRScanner extends Component {
                 for (let budget of this.state.budgetArray) {
                     if (budget === '$') {
                         temp = 0;
-                        if (snapshot.child('Small').val()) {
-                            temp = parseInt(snapshot.child('Small').val());
+                        if (snapshot.child('1').val()) {
+                            temp = parseInt(snapshot.child('1').val());
                         }
-                        updates['/Budget/Small/'] = (temp + 1);
+                        updates['/Budget/1/'] = (temp + 1);
                     }
                     if (budget === '$$') {
                         temp = 0;
-                        if (snapshot.child('Medium').val()) {
-                            temp = parseInt(snapshot.child('Medium').val());
+                        if (snapshot.child('2').val()) {
+                            temp = parseInt(snapshot.child('2').val());
                         }
-                        updates['/Budget/Medium/'] = (temp + 1);
+                        updates['/Budget/2/'] = (temp + 1);
                     }
                     if (budget === '$$$') {
                         temp = 0;
-                        if (snapshot.child('Large').val()) {
-                            temp = parseInt(snapshot.child('Large').val());
+                        if (snapshot.child('3').val()) {
+                            temp = parseInt(snapshot.child('3').val());
                         }
-                        updates['/Budget/Large/'] = (temp + 1);
+                        updates['/Budget/3/'] = (temp + 1);
                     }
                 }
                 this.firebaseRef.update(updates);
@@ -632,9 +655,9 @@ class GroupsAccommodationsPage extends Component {
         updates['Time'] = this.state.time;
 
         for (let budget of this.state.budgetArray) {
-            if (budget === '$') {updates['/Budget/Small/'] = 1;}
-            if (budget === '$$') {updates['/Budget/Medium/'] = 1;}
-            if (budget === '$$$') {updates['/Budget/Large/'] = 1;}
+            if (budget === '$') {updates['/Budget/1/'] = 1;}
+            if (budget === '$$') {updates['/Budget/2/'] = 1;}
+            if (budget === '$$$') {updates['/Budget/3/'] = 1;}
         }
 
         for (let diet of this.state.dietArray) {
