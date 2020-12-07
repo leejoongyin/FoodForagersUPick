@@ -29,6 +29,11 @@ class EatingAlone extends Component {
           console.log('zipcode: ', this.state.zipcode);
       });
       this.getData('time').then((result) => {
+          var monday = new Date();
+          monday.setDate(d.getDate() + (1 + 7 - d.getDay()) % 7);
+          if (monday < new Date(result)) {
+            result -= 604800;
+          }
           this.setState({time: parseInt(new Date(result).getTime() / 1000)});
           console.log('time: ', this.state.time);
       });
@@ -68,6 +73,7 @@ class EatingAlone extends Component {
       params: {
           limit: 1,
           categories: 'mexican',
+          open_at: this.state.time,
           location: this.state.zipcode
       }
     }).then((response) => {
