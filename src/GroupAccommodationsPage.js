@@ -318,18 +318,17 @@ class QRScanner extends Component {
 
     };
 
-    updateDB(filteredInput) {
+    updateDB = async (filteredInput) => {
         this.firebaseRef = db.database().ref(filteredInput);
         var timelocation = {};
         timelocation['Zipcode'] = this.state.zipcode;
         timelocation['Time'] = this.state.time;
         this.firebaseRef.update(timelocation);
 
-        this.firebaseRef.child('Budget').once('value').then((snapshot) => {
+        await this.firebaseRef.child('Budget').once('value').then((snapshot) => {
             var updates = {};
             var temp = 0;
 
-            if (snapshot.exists()) {
                 for (let budget of this.state.budgetArray) {
                     if (budget === '$') {
                         temp = 0;
@@ -352,14 +351,12 @@ class QRScanner extends Component {
                         }
                         updates['/Budget/3/'] = (temp + 1);
                     }
-                }
                 this.firebaseRef.update(updates);
             }
         });
-        this.firebaseRef.child('Diet').once('value').then((snapshot) => {
+        await this.firebaseRef.child('Diet').once('value').then((snapshot) => {
             var updates = {};
             var temp = 0;
-            if (snapshot.exists()) {
                 for (let diet of this.state.dietArray) {
                     temp = 0;
                     if (snapshot.child(diet).val()) {
@@ -369,12 +366,11 @@ class QRScanner extends Component {
                     //console.log("diet: " + diet + " " + (temp+1) + '\n');
                 }
                 this.firebaseRef.update(updates);
-            }
+            
         });
-        this.firebaseRef.child('Cuisine').once('value').then((snapshot) => {
+        await this.firebaseRef.child('Cuisine').once('value').then((snapshot) => {
             var updates = {};
             var temp = 0;
-            if (snapshot.exists()) {
                 for (let cuisine of this.state.cuisineArray) {
                     temp = 0;
                     if (snapshot.child(cuisine).val()) {
@@ -384,12 +380,10 @@ class QRScanner extends Component {
                     //console.log("cuisine: " + cuisine + " " + (temp+1) + '\n');
                 }
                 this.firebaseRef.update(updates);
-            }
         });
-        this.firebaseRef.child('Restaurant').once('value').then((snapshot) => {
+        await this.firebaseRef.child('Restaurant').once('value').then((snapshot) => {
             var updates = {};
             var temp = 0;
-            if (snapshot.exists()) {
                 for (let restaurant of this.state.restaurantArray) {
                     temp = 0;
                     if (snapshot.child(restaurant).val()) {
@@ -399,7 +393,6 @@ class QRScanner extends Component {
                     //console.log("restaurant: " + restaurant + " " + (temp+1) + '\n');
                 }
                 this.firebaseRef.update(updates);
-            }
         });
         this.firebaseRef.off();
     }
