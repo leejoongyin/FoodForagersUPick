@@ -30,7 +30,7 @@ class EatingAlone extends Component {
       });
       this.getData('time').then((result) => {
           var monday = new Date();
-          monday.setDate(d.getDate() + (1 + 7 - d.getDay()) % 7);
+          monday.setDate(monday.getDate() + (1 + 7 - monday.getDay()) % 7);
           if (monday < new Date(result)) {
             result -= 604800;
           }
@@ -66,16 +66,79 @@ class EatingAlone extends Component {
   }
 
   getRestaurantFromYelp = async () => {
-    let categories = this.state.dietArray.concat(this.state.cuisineArray).concat(this.state.restaurantArray);
-    console.log(categories);
+    
+    // parsing for categories parameter
+    var budgetCSV, dietCSV, cuisineCSV, restaurantCSV;
+    budgetCSV = dietCSV = cuisineCSV = restaurantCSV = '';
+    
+    var numBudget; // numerical value corresponding to each '$...' symbol
+    var filter;
+
+    // csv strings for each preference variable
+    // budget
+    for (var i = 0; i < this.state.budgetArray.length; i++) {
+        if (this.state.budgetArray[i] == '$') {
+            numBudget = '1';
+        }
+        if (this.state.budgetArray[i] == '$$') {
+            numBudget = '2';
+        }
+        if (this.state.budgetArray[i] == '$$$') {
+            numBudget = '3';
+        }
+        if (i == this.state.budgetArray.length - 1) {
+            budgetCSV = budgetCSV + numBudget;
+        }
+        if (i != this.state.budgetArray.length - 1) {
+            budgetCSV = budgetCSV + numBudget + ',';
+        }
+    }
+
+    // diet
+    for (var i = 0; i < this.state.dietArray.length; i++) {
+        if (i == this.state.dietArray.length - 1) {
+            dietCSV = dietCSV + this.state.dietArray[i];
+        }
+        if (i != this.state.dietArray.length - 1) {
+            dietCSV = dietCSV + this.state.dietArray[i] + ',';
+        }
+    }
+    // cuisine
+    for (var i = 0; i < this.state.cuisineArray.length; i++) {
+        if (i == this.state.cuisineArray.length - 1) {
+            cuisineCSV = cuisineCSV + this.state.cuisineArray[i];
+        }
+        if (i != this.state.cuisineArray.length - 1) {
+            cuisineCSV = cuisineCSV + this.state.cuisineArray[i] + ',';
+        }
+    }
+    // restaurant type
+    for (var i = 0; i < this.state.restaurantArray.length; i++) {
+        if (i == this.state.restaurantArray.length - 1) {
+            restaurantCSV = restaurantCSV + this.state.restaurantArray[i];
+        }
+        if (i != this.state.restaurantArray.length - 1) {
+            restaurantCSV = restaurantCSV + this.state.restaurantArray[i] + ',';
+        }   
+    }
+
+    // prioritize diet restrictions since categories is: this,that = "this OR that" 
+    if (dietCSV != '') {
+        filter = dietCSV;
+    }
+
+    else {
+        filter = cuisineCSV + ',' + restaurantCSV;
+    }
+
+    console.log(filter);
     await axios.get(`https://api.yelp.com/v3/businesses/search`, {
       headers: {'Authorization': `Bearer ${apiKey}`},
       params: {
           limit: 1,
-          categories: 'mexican',
-          open_at: this.state.time,
+          categories: filter,
           location: this.state.zipcode
-      }
+        }
     }).then((response) => {
       console.log(response.data.businesses[0].name);
       this.storeData('restaurant_name', response.data.businesses[0].name);
