@@ -79,7 +79,11 @@ export default class Preferences extends Component {
         console.log('zipcode: ', this.state.zipcode);
     });
     this.getData('time').then((result) => {
-        this.setState({time: result});
+        let storedTime = new Date(result);
+        if (storedTime < now) {
+          storedTime = now;
+        }
+        this.setState({time: storedTime});
         console.log('time: ', this.state.time);
     });
     this.getData('budget').then((result) => {

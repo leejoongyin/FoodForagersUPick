@@ -38,6 +38,9 @@ const navigationOptions = {
   ...TransitionPresets.SlideFromRightIOS
 }
 
+// Ignore warnings
+console.disableYellowBox = true;
+
 class App extends Component {
   constructor(props) {
     super(props);
