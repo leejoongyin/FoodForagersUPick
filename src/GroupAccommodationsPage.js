@@ -30,11 +30,9 @@ class EatingAlone extends Component {
       });
       this.getData('time').then((result) => {
           var monday = new Date();
-          monday.setDate(monday.getDate() + (1 + 7 - monday.getDay()) % 7);
-          if (monday < new Date(result)) {
-            result -= 604800;
-          }
-          this.setState({time: parseInt(new Date(result).getTime() / 1000)});
+          monday.setDate(monday.getDate() + ((7 - monday.getDay()) % 7 + 1) % 7).setHours(0, 0, 0, 0);
+          var fixedTime =  (monday < new Date(result)) ? parseInt(new Date(result).getTime() / 1000) - 604800 : parseInt(new Date(result).getTime() / 1000);
+          this.setState({time: fixedTime});
           console.log('time: ', this.state.time);
       });
       this.getData('budget').then((result) => {
