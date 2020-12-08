@@ -1,7 +1,6 @@
 
 import React, {Component} from 'react';
-import { View, Image, StyleSheet, Text, TextInput, Switch, Alert } from 'react-native';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { View, Image, StyleSheet, Text, TouchableWithoutFeedback, TextInput, Switch, Alert } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner, Constants } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
@@ -109,6 +108,7 @@ class EatingAlone extends Component {
         if (i != this.state.dietArray.length - 1) {
             dietCSV = dietCSV + temp + ',';
         }
+        cat.push(temp);
         console.log("diet: " + temp + '\n');
     }
     // cuisine
@@ -145,36 +145,33 @@ class EatingAlone extends Component {
     }
 
     // prioritize diet restrictions since categories is: this,that = "this OR that"
-    if (dietCSV !== '') {
-        filter = dietCSV;
-    } else {
-        filter = cat.join(',');
-    }
+
+    
+    filter = cat.join(',');
+    random = Math.floor(Math.random() * 20);
+
 
     console.log(`filter is ${filter}`);
+    
     await axios.get(`https://api.yelp.com/v3/businesses/search`, {
       headers: {'Authorization': `Bearer ${apiKey}`},
       params: {
-          limit: 1,
+          limit: 20,
           categories: filter,
           //open_at: this.state.time,
-          location: this.state.zipcode
+          location: this.state.zipcode,
+          price: budgetCSV,
         }
     }).then((response) => {
-      console.log(response.data.businesses[0].name);
-      this.storeData('restaurant_name', response.data.businesses[0].name);
-      this.storeData('image', response.data.businesses[0].image_url);
-      this.storeData('location', response.data.businesses[0].location.address1 + ". \n" + response.data.businesses[0].location.city +  ", " + response.data.businesses[0].location.state);
-      this.storeData('phone', response.data.businesses[0].display_phone);
-      this.storeData('url', response.data.businesses[0].url);
+      console.log(response.data.businesses[random].name);
+      this.storeData('restaurant_name', response.data.businesses[random].name);
+      this.storeData('image', response.data.businesses[random].image_url);
+      this.storeData('location', response.data.businesses[random].location.address1 + ". \n" + response.data.businesses[0].location.city +  ", " + response.data.businesses[0].location.state);
+      this.storeData('phone', response.data.businesses[random].display_phone);
+      this.storeData('url', response.data.businesses[random].url);
     });
   }
 
-  onGenerateFromListPressed = () => {
-    //console.log(this.props.getRestaurantList()); 
-    this.props.navigation.navigate("Restaurant From List", {restaurantList: this.props.getRestaurantList()}); 
-
-  }
   storeData = async (key,value) => {
     try {
       const jsonValue = JSON.stringify(value)
@@ -220,7 +217,9 @@ class EatingAlone extends Component {
 
                 <TouchableWithoutFeedback
                     title = 'Pick'
-                    onPress={this.onGenerateFromListPressed.bind(this)}
+                    onPress={
+                        ()=>{ this.props.navigation.navigate("Restaurant From List", {restaurantList: this.props.getRestaurantList()}); }
+                    }
                 >
                     <View style = {[ styles.buttonFocused, buttonColor1, {height: 75} ]}>
                         <Text style = {[ styles.buttonText, buttonColor1 ]}>
