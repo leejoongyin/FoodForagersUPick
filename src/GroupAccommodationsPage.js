@@ -1,6 +1,7 @@
 
 import React, {Component} from 'react';
-import { View, Image, StyleSheet, Text, TouchableWithoutFeedback, TextInput, Switch, Alert } from 'react-native';
+import { View, Image, StyleSheet, Text, TextInput, Switch, Alert } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner, Constants } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
@@ -174,6 +175,12 @@ class EatingAlone extends Component {
     });
   }
 
+  onGenerateFromListPressed = () => {
+    console.log(this.props.getRestaurantList()); 
+    //console.log(this.props.getRestaurantList()); 
+    this.props.navigation.navigate("Restaurant From List", {restaurantList: this.props.getRestaurantList()}); 
+  }
+
   storeData = async (key,value) => {
     try {
       const jsonValue = JSON.stringify(value)
@@ -219,9 +226,7 @@ class EatingAlone extends Component {
 
                 <TouchableWithoutFeedback
                     title = 'Pick'
-                    onPress={
-                        ()=>{ this.props.navigation.navigate("Restaurant From List", {restaurantList: this.props.getRestaurantList()}); }
-                    }
+                    onPress={this.onGenerateFromListPressed.bind(this)}
                 >
                     <View style = {[ styles.buttonFocused, buttonColor1, {height: 75} ]}>
                         <Text style = {[ styles.buttonText, buttonColor1 ]}>
