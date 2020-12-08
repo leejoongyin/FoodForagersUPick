@@ -103,6 +103,7 @@ export default class Preferences extends Component {
         console.log(`preferences.js: Loaded budgetArray with [${this.state.budgetArray}].`);
     }).catch((e) => {
       console.log(`Failed to get budget preferences! Perhaps react-native was a mistake?\n${e}`);
+      this.setState({budgetArray: []});
     });
     await this.getData('diet').then((result) => {
         this.setState({dietArray: result});
@@ -114,28 +115,31 @@ export default class Preferences extends Component {
         console.log(`preferences.js: Loaded dietArray with [${this.state.dietArray}].`);
     }).catch((e) => {
       console.log(`Failed to get diet preferences! Perhaps react-native was a mistake?\n${e}`);
+      this.setState({dietArray: []});
     });
     await this.getData('cuisine').then((result) => {
-        this.setState({cuisineArray: result});
-        if (this.state.cuisineArray) {
-          this.state.cuisineArray.forEach((cuisine) => this.cuisineSelectionHandler.selectionHandler(cuisineData.find(x => x.optionText === cuisine).id - 1));
-        } else {
-          this.setState({cuisineArray: []});
-        }
-        console.log(`preferences.js: Loaded cuisineArray with [${this.state.cuisineArray}].`);
+      this.setState({cuisineArray: result});
+      if (this.state.cuisineArray) {
+        this.state.cuisineArray.forEach((cuisine) => this.cuisineSelectionHandler.selectionHandler(cuisineData.find(x => x.optionText === cuisine).id - 1));
+      } else {
+        this.setState({cuisineArray: []});
+      }
+      console.log(`preferences.js: Loaded cuisineArray with [${this.state.cuisineArray}].`);
     }).catch((e) => {
       console.log(`Failed to get cuisine preferences! Perhaps react-native was a mistake?\n${e}`);
+      this.setState({cuisineArray: []});
     });
     await this.getData('restaurant').then((result) => {
-        this.setState({restaurantArray: result});
-        if (this.state.restaurantArray) {
-          this.state.restaurantArray.forEach((rest) => this.restaurantSelectionHandler.selectionHandler(restaurantData.find(x => x.optionText === rest).id - 1));
-        } else {
-          this.setState({restaurantArray: []});
-        }
-        console.log(`preferences.js: Loaded restaurantArray with [${this.state.restaurantArray}].`);
+      this.setState({restaurantArray: result});
+      if (this.state.restaurantArray) {
+        this.state.restaurantArray.forEach((rest) => this.restaurantSelectionHandler.selectionHandler(restaurantData.find(x => x.optionText === rest).id - 1));
+      } else {
+        this.setState({restaurantArray: []});
+      }
+      console.log(`preferences.js: Loaded restaurantArray with [${this.state.restaurantArray}].`);
     }).catch((e) => {
       console.log(`Failed to get restaurant preferences! Perhaps react-native was a mistake?\n${e}`);
+      this.setState({restaurantArray: []});
     });
   }
 
