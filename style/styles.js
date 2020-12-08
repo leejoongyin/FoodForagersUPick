@@ -252,6 +252,10 @@ const styles = StyleSheet.create({
       width: 20,
       height: '3%',
     },
+    paddingBottom: {
+      height: '20%',
+
+    },
     // Generate Restaurant -----------------
     genResQuestion: {
       fontSize: 20,

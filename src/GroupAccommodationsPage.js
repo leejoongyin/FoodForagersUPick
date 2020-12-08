@@ -169,6 +169,11 @@ class EatingAlone extends Component {
     });
   }
 
+  onGenerateFromListPressed = () => {
+    console.log(this.props.getRestaurantList()); 
+    this.props.navigation.navigate("Restaurant From List", {restaurantList: this.props.getRestaurantList()}); 
+
+  }
   storeData = async (key,value) => {
     try {
       const jsonValue = JSON.stringify(value)
@@ -214,9 +219,7 @@ class EatingAlone extends Component {
 
                 <TouchableWithoutFeedback
                     title = 'Pick'
-                    onPress={
-                        ()=>{ this.props.navigation.navigate("Restaurant From List", {restaurantList: this.props.getRestaurantList()}); }
-                    }
+                    onPress={this.onGenerateFromListPressed.bind(this)}
                 >
                     <View style = {[ styles.buttonFocused, buttonColor1, {height: 75} ]}>
                         <Text style = {[ styles.buttonText, buttonColor1 ]}>

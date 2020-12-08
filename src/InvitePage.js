@@ -307,9 +307,17 @@ class InvitePage extends Component {
                         </View>
                     </TouchableWithoutFeedback>
 
-                    <View style={[styles.padding]}/>
+                    <View style={[styles.paddingManual]}/>
 
-                    <TouchableWithoutFeedback  title = 'Generate' onPress={()=>{this.props.navigation.navigate("Restaurant From List", {isDarkmode: isDarkmode, restaurantList: this.props.route.params.getRestaurantList() })}}>
+                    <TouchableWithoutFeedback  
+                        title = 'Generate' 
+                        onPress={()=>{
+                            this.props.navigation.navigate(
+                                "Restaurant From List", 
+                                {isDarkmode: isDarkmode, restaurantList: this.props.route.params.getRestaurantList() }
+                            )
+                        }}
+                    >
                         <View style = {[ mode, styles.buttonFocused, (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1)  ]}>
                             <Text style = {[mode, styles.buttonText,  (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}>
                                 Generate recomendation from Restaurant List
