@@ -251,9 +251,9 @@ export default class Preferences extends Component {
     ];
 
     return (
+      this.state.loading ? null : 
       <View style={[styles.container, mode, {flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', margin: 'auto'}]}>
         <View style={{width: '100%'}}>
-          {!this.state.loading && (
           <ScrollView>
             <View style={{width: '80%', alignSelf: 'center'}}>
             <Text style={[styles.centerHeader, mode, {marginTop: 10}]}>Where would you like to eat?*</Text>
@@ -415,7 +415,7 @@ export default class Preferences extends Component {
                   <View style={[styles.submitBtn,(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)]}><Text style={(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)}>Submit</Text></View>
               </TouchableWithoutFeedback>
             </View>
-          </ScrollView>)}
+          </ScrollView>
         </View>
       </View>
     );

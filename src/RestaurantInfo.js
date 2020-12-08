@@ -18,7 +18,7 @@ export default class RestaurantInfo extends Component {
     };
     this.isDarkmode = this.props.isDarkmode;
 
-    this.getStoredData();
+    this.getStoredData().then(() => this.setState({loading: false}));
 
   }
   getStoredData = async () => {
@@ -33,11 +33,9 @@ export default class RestaurantInfo extends Component {
     });
     await this.getData('url').then((result) => {
       this.setState({url: result});
-
     });
     await this.getData('phone').then((result) => {
       this.setState({phone: result});
-      this.setState({loading: false});
     });
   }
   getData = async (key) => {
@@ -48,7 +46,6 @@ export default class RestaurantInfo extends Component {
       // read error
       alert('error: ', e);
     }
-    console.log('Done.')
   }
   openMenu = () => {
     Linking.canOpenURL(this.state.url).then((supported) => {
@@ -56,7 +53,7 @@ export default class RestaurantInfo extends Component {
         Linking.openURL(this.state.url);
       } else {
         alert(
-          "Cannot Open the link!",
+          "Cannot open the link!",
           "The webpage seems to be offline at the moment.",
           [{ text: "OK" }],
           { cancelable: false }
