@@ -36,7 +36,7 @@ export default class LogPopup extends Component {
                         shadowRadius: 10,
                         width: screen.width - 80,
                         height: 300,
-                        bottom: Dimensions.get('window').height/2 - 100,
+                        bottom: Dimensions.get('window').height / 2 - Math.min(300, Dimensions.get('window').height)/2 ,
                     }}
                         position='center'
                         backdrop={true}
@@ -104,6 +104,7 @@ const popUptext = {
     textAlign: 'center',
     //marginTop: 10
 }
+
 const _input = {
     height: 40,
     borderBottomColor: 'gray',
