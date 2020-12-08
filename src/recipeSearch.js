@@ -7,7 +7,7 @@ import { FlatList, Text, View, TextInput, StyleSheet, TouchableWithoutFeedback, 
 // // import STree from '@jayrbolton/suffix-tree';
 
 import { getRecipesAction } from "./model/RecipeSearchAction";
-import colors from '../style/colors'; 
+import styles from '../style/styles';
 
 
 export default class RecipeSearch extends Component {
@@ -74,151 +74,32 @@ export default class RecipeSearch extends Component {
   render() {
     var isDarkmode = this.props.route.params.isDarkmode;
     var mode = (isDarkmode?styles.darkmode:styles.lightmode);
-    var buttonColor = (isDarkmode?styles.buttonColor1Dark:styles.buttonColor1);
 
     return (
-      <View style={[{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', margin: 'auto', marginBottom: 50 },mode]}>
-        <Text style={[styles.centerHeader, mode ]}>Enter a meal/cuisine that you'd like a recipe for:</Text>
+      <View style={[ styles.recipeSearchContainer, mode]}>
+        <Text style={[styles.recipeCenterHeader, mode ]}>Enter a meal/cuisine that you'd like a recipe for:</Text>
         <TextInput
           onSubmitEditing= { (event) => this.getSearchQuery(event.nativeEvent.text) }
           placeholder="ie hotdogs, pizza, lasagna, etc."
-          style={styles.inputBox}
+          style={styles.recipeInputBox}
         />
-        <Text style={[styles.subHeader, mode ]}>Recipe Suggestions:</Text>
+        <Text style={[styles.recipeSubHeader, mode ]}>Recipe Suggestions:</Text>
         <TouchableWithoutFeedback 
           title="foodSuggestion1"
           onPress={(e) => this.getSearchQuery("Baked Potato")}>
-            <View style={styles.suggestBtn}><Text style={{color: '#6B222D'}}>Baked Potato</Text></View>
+            <View style={styles.recipeSuggestBtn}><Text style={styles.recipeSuggestBtnText}>Baked Potato</Text></View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback
           title="foodSuggestion2"
           onPress={(e) => this.getSearchQuery("Venison Burgers")}>
-            <View style={styles.suggestBtn}><Text style={{color: '#6B222D'}}>Venison Burgers</Text></View>
+            <View style={styles.recipeSuggestBtn}><Text style={styles.recipeSuggestBtnText}>Venison Burgers</Text></View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback
           title="foodSuggestion3"
           onPress={(e) => this.getSearchQuery("Apple Pie")}>
-            <View style={styles.suggestBtn}><Text style={{color: '#6B222D'}}>Apple Pie</Text></View>
-        </TouchableWithoutFeedback>
-
-        
+            <View style={styles.recipeSuggestBtn}><Text style={styles.recipeSuggestBtnText}>Apple Pie</Text></View>
+        </TouchableWithoutFeedback>        
       </View>
     );
   }
 };
-
-const styles = StyleSheet.create({
-  lightmode: {
-    backgroundColor: colors.liteBG,
-    color: colors.accentPrim,
-    borderColor: '#555555'
-  },
-  darkmode: {
-    backgroundColor: colors.darkBG,
-    color: 'white',
-    borderColor: '#cccccc'
-  },
-  lightmode2: {
-    backgroundColor: colors.liteBG,
-    color: 'black',
-  },
-  darkmode2: {
-    backgroundColor: colors.darkBG,
-    color: colors.liteBG,
-  },
-  buttonColor1: {
-    backgroundColor: colors.accentPrim,
-    color: 'white',
-  },
-  buttonColor1Dark: {
-    backgroundColor: colors.accentPrimDark,
-    color: colors.accentPrim,
-  },
-  inputBox: {
-    backgroundColor: '#FFF',
-    width: '80%',
-    height: 36,
-    paddingLeft: 20,
-    paddingRight: 5,
-    borderRadius: 5,
-    marginTop: 5,
-    marginBottom: 5,
-    alignContent: 'center',
-    alignItems: 'center',
-  },
-  submitBtn: {
-    alignContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    backgroundColor: '#6B222D',
-    color: '#FFF',
-    borderRadius: 8,
-    width: 100,
-    height: 36
-  },
-  suggestBtn: {
-    alignContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    backgroundColor: '#FFF',
-    color: '#6B222D',
-    borderRadius: 8,
-    margin: 4,
-    width: '80%',
-    height: 36
-  },
-  button: {
-      padding: 5,
-      marginTop: 5,
-      marginBottom: 5,
-      height: 36,
-      width: '30%',
-      borderRadius: 5,
-      justifyContent: 'center',
-      alignItems: 'center',
-  },
-  buttonText: {
-      textAlign: 'center',
-      fontSize: 12
-  },
-  answers: {
-      width: '80%',
-      alignSelf: 'center',
-      justifyContent: 'space-between',
-      marginBottom: 10,
-      flexDirection: 'row',
-      flexWrap: 'wrap'
-  },
-  header: {
-    width: '80%',
-    textAlign: 'left',
-    color: '#6B222D',
-    fontSize: 14
-  },
-  centerHeader: {
-    width: '80%',
-    textAlign: 'center',
-    color: '#6B222D',
-    fontSize: 14
-  },
-  subHeader: {
-    width: '80%',
-    height: '5%',
-    textAlign: 'center',
-    color: '#6B222D',
-    fontSize: 14
-  }
-});
-
-// const mapStateToProps = (state) => ({
-//   recipeSearch: {
-//     recipe: state.recipeSearchReducer.recipe,
-//     loading: state.recipeSearchReducer.loading,
-//     error: state.recipeSearchReducer.error,
-//   },
-// });
-
-
-// export default connect(mapStateToProps, null)(recipeSearch);

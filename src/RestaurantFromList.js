@@ -52,7 +52,6 @@ class RestaurantFromList extends Component {
         
         var isDarkmode = this.props.route.params.isDarkmode;
         var mode = (isDarkmode?styles.darkmode:styles.lightmode);
-        var mode2 = (isDarkmode?styles.darkmode2:styles.lightmode2);
 
         return (
             <View style={[styles.container, mode ]}>

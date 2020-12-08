@@ -1,7 +1,7 @@
 import { filterAmountInput, filterDigits } from './filterInput';
 import flatListData from './flatListData';
 
-calculateLogTotal = () =>  {
+const calculateLogTotal = () =>  {
     var total = 0;
     flatListData.forEach((Element)=>{
         total += parseInt(filterDigits(Element.amount));

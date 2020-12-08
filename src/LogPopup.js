@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import {
-    AppRegistry, FlatList, StylSheet, Text, View, Image, Alert,
-    Platform, TouchableHighLight, Dimensions, TextInput
-} from 'react-native'
+import { Text, Dimensions, TextInput } from 'react-native'
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
+import styles from '../style/styles';
 import flatListData from './flatListData';
 import { filterAmountInput } from './filterInput';
 
@@ -44,35 +42,28 @@ export default class LogPopup extends Component {
                            // alert("Modal closed");
                         }}
                     >
-                        <Text style={popUptext}>Add new expense </Text>
+                        <Text style={styles.popUptext}>Add new expense </Text>
                         <TextInput 
-                            style={_input} 
+                            style={styles.input} 
                             placeholder= '$ Amount'
                             keyboardType = 'numeric'
                             onChangeText={(text) => this.setState({newAmount: filterAmountInput(text) })}
                             value={this.state.newAmount}/>
 
                         <TextInput
-                            style={_input}
+                            style={styles.input}
                             placeholder= 'Description'
                             onChangeText={(text) => this.setState({newDescription: text})}
                             value={this.state.newDescription}/>
 
                         <TextInput
-                            style={_input}
+                            style={styles.input}
                             placeholder='Date (MM/DD/YYYY)'
                             onChangeText={(text) => this.setState({newDate: text})}
                             value={this.state.newDate}/>
                         <Button
-                            style={{ fontSize: 18, color: 'white'}}
-                            containerStyle={{
-                                padding: 8,
-                                marginLeft: 70,
-                                marginRight: 70,
-                                height: 40,
-                                borderRadius: 6,
-                                backgroundColor: '#6B222D'
-                            }}
+                            style={styles.logPopupButton}
+                            containerStyle={styles.logPopupButtonContainer}
                             onPress={() => {
                                 if(this.state.newAmount.length == 0 || this.state.newDescription.length == 0
                                     || this.state.newDate.length == 0){
@@ -96,20 +87,4 @@ export default class LogPopup extends Component {
                     </Modal>
             );
         }
-}
-
-const popUptext = {
-    fontSize: 16,
-    frontWeight: 'bold',
-    textAlign: 'center',
-    //marginTop: 10
-}
-const _input = {
-    height: 40,
-    borderBottomColor: 'gray',
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 20,
-    marginBottom: 10,
-    borderBottomWidth: 1
 }

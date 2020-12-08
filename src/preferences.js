@@ -8,6 +8,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from "date-fns";
 
 import colors from '../style/colors';
+import styles from '../style/styles';
 import validateZip from '../model/validateZip';
 
 import { ThemeProvider } from '@react-navigation/native';
@@ -203,9 +204,9 @@ export default class Preferences extends Component {
       <TouchableOpacity
         onPress={onPress}
         key={index}
-        style={[styles.button,
+        style={[styles.prefButton,
         { backgroundColor: isSelected ? '#A6433F' : '#FFF'}]}>
-        <Text style={[styles.buttonText, {color: isSelected ? '#FFF' : '#000'}]}>{data.optionText}</Text>
+        <Text style={[styles.prefButtonText, {color: isSelected ? '#FFF' : '#000'}]}>{data.optionText}</Text>
       </TouchableOpacity>
     );
   }
@@ -252,20 +253,20 @@ export default class Preferences extends Component {
     ];
 
     return (
-      <View style={[styles.container, mode, {flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', margin: 'auto'}]}>
+      <View style={[styles.container, mode, styles.prefContainer]}>
         <View style={{width: '100%'}}>
           {!this.state.loading && (
           <ScrollView>
-            <View style={{width: '80%', alignSelf: 'center'}}>
-            <Text style={[styles.centerHeader, mode, {marginTop: 10}]}>Where would you like to eat?*</Text>
-            <Text style={[styles.centerHeader, {marginTop: 0}, (isDarkmode ? {color: 'yellow'} : {color: 'brown'}), (!this.state.zipErrorText.length ? {marginBottom: 0, height: 0} : {height: 'auto'}) ]}>
+            <View style={styles.prefLabels}>
+            <Text style={[styles.prefCenterHeader, mode, {marginTop: 10}]}>Where would you like to eat?*</Text>
+            <Text style={[styles.prefCenterHeader, {marginTop: 0}, (isDarkmode ? {color: 'yellow'} : {color: 'brown'}), (!this.state.zipErrorText.length ? {marginBottom: 0, height: 0} : {height: 'auto'}) ]}>
               {this.state.zipErrorText}
             </Text>
-            <View style={[styles.searchSection, mode]}>
+            <View style={[styles.prefSearchSection, mode]}>
               <Icon name="place" size={30} color={(isDarkmode?"white":"black")} style={{paddingRight: 10}}/>
               <TextInput
                 ref={input => { this.zipcodeInput = input }}
-                style={styles.inputBox}
+                style={styles.prefInputBox}
                 keyboardType='numeric'
                 placeholder="Enter zipcode"
                 placeholderTextColor='lightgray'
@@ -277,11 +278,11 @@ export default class Preferences extends Component {
               />
             </View>
 
-            <Text style={[styles.centerHeader, mode]}>When would you like to eat?*</Text>
-            <View style={[styles.searchSection, mode]}>
+            <Text style={[styles.prefCenterHeader, mode]}>When would you like to eat?*</Text>
+            <View style={[styles.prefSearchSection, mode]}>
               <Icon name="schedule" size={30} color={(isDarkmode?"white":"black")} style={{paddingRight: 10}}/>
               <TouchableWithoutFeedback onPress={() => this.setState({showTimepicker: true})}>
-                <Text style={[styles.inputBox, (this.state.time ? {color: 'black'} : {color: 'lightgray'})]}>
+                <Text style={[styles.prefInputBox, (this.state.time ? {color: 'black'} : {color: 'lightgray'})]}>
                 {this.state.time ? format(this.state.time, "MMMM do, yyyy h:mm a") : "Enter time"}
                 </Text>
               </TouchableWithoutFeedback>
@@ -297,15 +298,15 @@ export default class Preferences extends Component {
               />
             )}
             </View>
-            <View style={{width: '80%', alignSelf: 'center'}}>
-              <Text style={[styles.header, mode]}>Budget</Text>
+            <View style={styles.prefLabels}>
+              <Text style={[styles.prefHeader, mode]}>Budget</Text>
             </View>
             <SelectionGroup
               renderContent={this.renderButton}
               items={budgetData}
               onPress={this.budgetSelectionHandler.selectionHandler}
               isSelected={this.budgetSelectionHandler.isSelected}
-              containerStyle={styles.answers}
+              containerStyle={styles.prefAnswers}
               onItemSelected={(item) => {
                 const joined = this.state.budgetArray.concat(item.optionText);
                 this.setState({ budgetArray: joined }, () => {
@@ -325,15 +326,15 @@ export default class Preferences extends Component {
                 }
               }}
             />
-            <View style={{width: '80%', alignSelf: 'center'}}>
-              <Text style={[styles.header,mode]}>Dietary Requirements</Text>
+            <View style={styles.prefLabels}>
+              <Text style={[styles.prefHeader,mode]}>Dietary Requirements</Text>
             </View>
             <SelectionGroup
               renderContent={this.renderButton}
               items={dietData}
               onPress={this.dietSelectionHandler.selectionHandler}
               isSelected={this.dietSelectionHandler.isSelected}
-              containerStyle={styles.answers}
+              containerStyle={styles.prefAnswers}
               onItemSelected={(item) => {
                 console.log(item.optionText);
                 const joined = this.state.dietArray.concat(item.optionText);
@@ -354,15 +355,15 @@ export default class Preferences extends Component {
                 }
               }}
             />
-            <View style={{width: '80%', alignSelf: 'center'}}>
-              <Text style={[styles.header,mode]}>Cuisine</Text>
+            <View style={styles.prefLabels}>
+              <Text style={[styles.prefHeader,mode]}>Cuisine</Text>
             </View>
             <SelectionGroup
               renderContent={this.renderButton}
               items={cuisineData}
               onPress={this.cuisineSelectionHandler.selectionHandler}
               isSelected={this.cuisineSelectionHandler.isSelected}
-              containerStyle={styles.answers}
+              containerStyle={styles.prefAnswers}
               onItemSelected={(item) => {
                 const joined = this.state.cuisineArray.concat(item.optionText);
                 this.setState({ cuisineArray: joined }, () => {
@@ -382,15 +383,15 @@ export default class Preferences extends Component {
                 }
               }}
             />
-            <View style={{width: '80%', alignSelf: 'center'}}>
-              <Text style={[styles.header,mode]}>Type of Restaurant</Text>
+            <View style={styles.prefLabels}>
+              <Text style={[styles.prefHeader,mode]}>Type of Restaurant</Text>
             </View>
             <SelectionGroup
               renderContent={this.renderButton}
               items={restaurantData}
               onPress={this.restaurantSelectionHandler.selectionHandler}
               isSelected={this.restaurantSelectionHandler.isSelected}
-              containerStyle={styles.answers}
+              containerStyle={styles.prefAnswers}
               onItemSelected={(item) => {
                 const joined = this.state.restaurantArray.concat(item.optionText);
                 this.setState({ restaurantArray: joined }, () => {
@@ -410,11 +411,11 @@ export default class Preferences extends Component {
                 }
               }}
             />
-            <View style={{width: '80%', alignSelf: 'center'}}>
+            <View style={styles.prefLabels}>
               <TouchableWithoutFeedback
                 title="Submit"
                 onPress={this.savePreferences}>
-                  <View style={[styles.submitBtn,(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)]}><Text style={(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)}>Submit</Text></View>
+                  <View style={[styles.prefSubmitBtn,(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)]}><Text style={(isDarkmode?styles.buttonColor1Dark: styles.buttonColor1)}>Submit</Text></View>
               </TouchableWithoutFeedback>
             </View>
           </ScrollView>)}
@@ -423,87 +424,3 @@ export default class Preferences extends Component {
     );
   }
 };
-
-const styles = StyleSheet.create({
-  lightmode: {
-    backgroundColor: colors.liteBG,
-    color: colors.accentPrim,
-    borderColor: '#555555'
-  },
-  darkmode: {
-    backgroundColor: colors.darkBG,
-    color: 'white',
-    borderColor: '#cccccc'
-  },
-  buttonColor1: {
-    backgroundColor: colors.accentPrim,
-    color: 'white'
-  },
-  buttonColor1Dark: {
-    backgroundColor: colors.accentPrimDark,
-    color: colors.accentPrim
-  },
-  searchSection: {
-    flexDirection: 'row',
-    backgroundColor: '#FFF',
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  inputBox: {
-    flex: 1,
-    backgroundColor: '#FFF',
-    height: 36,
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 5,
-    marginBottom: 5
-  },
-  submitBtn: {
-    alignContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#6B222D',
-    color: '#FFF',
-    borderRadius: 5,
-    height: 36,
-    marginTop: 5,
-    marginBottom: 200
-  },
-  button: {
-      padding: 5,
-      marginTop: 5,
-      marginBottom: 5,
-      height: 36,
-      width: '30%',
-      borderRadius: 5,
-      justifyContent: 'center',
-      alignItems: 'center'
-  },
-  buttonText: {
-      textAlign: 'center',
-      fontSize: 12
-  },
-  answers: {
-      width: '80%',
-      alignSelf: 'center',
-      justifyContent: 'space-between',
-      marginBottom: 10,
-      flexDirection: 'row',
-      flexWrap: 'wrap'
-  },
-  header: {
-    textAlign: 'left',
-    color: '#6B222D',
-    fontSize: 16,
-    marginTop: 10,
-    width: '80%'
-  },
-  centerHeader: {
-    textAlign: 'center',
-    color: '#6B222D',
-    fontSize: 16,
-    marginTop: 5,
-    marginBottom: 5
-  }
-});

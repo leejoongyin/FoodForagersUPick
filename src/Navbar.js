@@ -8,7 +8,7 @@ export default function Navbar(props) {
       const iconMode = (props.isDarkmode ? styles.navDarkmodeIcon: styles.navLightmodeIcon);
       return (
           <View style = {[ styles.navContainer, mode ]}>
-              <View style = {[ styles.navCircle, mode ]}></View>
+              <View style = {[ styles.navCircle, mode ]}/>
               <View style = {[ styles.navbar, mode ]}>
                   <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Edit Preferences', {isDarkmode: props.isDarkmode})}>
                       <View style = {[ styles.navButton, iconMode ]}>

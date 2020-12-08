@@ -43,7 +43,6 @@ class HomePage extends React.Component {
       <View style = {[styles.homeContainer, this.mode]}>
         <View style = {styles.homePadding} />
         <View style = {[ this.mode, styles.darkmodeToggleContainer ]}>
-          {/* <View style = {{flex:1}}/> */}
           <Text style = {[ this.mode, {fontSize: 12} ]}> DARK MODE </Text>
           <Switch
             value={this.props.route.params.getIsDarkmode()}

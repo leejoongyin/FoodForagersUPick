@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableWithoutFeedback } from 'react-native';
-import generateRestaurantStyle from "../style/generateRestaurantStylesLight.js";
 import styles from "../style/styles.js";
 
 const { Component } = require('react');
@@ -28,7 +27,6 @@ export default class EditPreferences extends Component {
         return (
             <View style={[styles.container,mode]}>
                 <Text style={[styles.genResQuestion,mode]}>Which would you like to edit?</Text>
-                {/* <View style={[styles.paddingManual]}/> */}
                 <View>
                     <TouchableWithoutFeedback onPress={this.yesPressed}>
                         <View style={[styles.buttonFocused, buttonColorRes]}>

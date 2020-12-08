@@ -258,6 +258,8 @@ class InvitePage extends Component {
         var isDarkmode = this.props.route.params.isDarkmode
         var mode  = (isDarkmode ? styles.darkmode: styles.lightmode);
         var mode2  = (isDarkmode ? styles.darkmode2: styles.lightmode2);
+        var buttonColor = (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1);
+        var backgroundColor = (isDarkmode?colors.darkBG:colors.liteBG);
         return (
             <View style={[ styles.container, mode ]}>
                 <View style={[ styles.mainViewer, mode ]}>
@@ -274,8 +276,8 @@ class InvitePage extends Component {
                         <QRCode
                             value ={this.props.route.params.getGroupCode()}
                             logo={(this.props.route.params.isDarkmode?require('../assets/LogoDark.png'): require('../assets/Logo.png'))}
-                            logoBackgroundColor={isDarkmode?colors.darkBG:colors.liteBG}
-                            backgroundColor={isDarkmode?colors.darkBG:colors.liteBG}
+                            logoBackgroundColor={backgroundColor}
+                            backgroundColor={backgroundColor}
                             logoSize={50}
                             size={200}
                         />
@@ -300,18 +302,16 @@ class InvitePage extends Component {
 
                         }
                     }>
-                        <View style = {[ mode, styles.buttonFocused, (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1)  ]}>
-                            <Text style = {[mode, styles.buttonText,  (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}>
-                                Generate recomendation
-                            </Text>
+                        <View style = {[ mode, styles.buttonFocused, buttonColor  ]}>
+                            <Text style = {[mode, styles.buttonText,  buttonColor ]}>   Generate recomendation   </Text>
                         </View>
                     </TouchableWithoutFeedback>
 
                     <View style={[styles.padding]}/>
 
                     <TouchableWithoutFeedback  title = 'Generate' onPress={()=>{this.props.navigation.navigate("Restaurant From List", {isDarkmode: isDarkmode, restaurantList: this.props.route.params.getRestaurantList() })}}>
-                        <View style = {[ mode, styles.buttonFocused, (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1)  ]}>
-                            <Text style = {[mode, styles.buttonText,  (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}>
+                        <View style = {[ mode, styles.buttonFocused, buttonColor  ]}>
+                            <Text style = {[mode, styles.buttonText,  buttonColor ]}>
                                 Generate recomendation from Restaurant List
                             </Text>
                         </View>

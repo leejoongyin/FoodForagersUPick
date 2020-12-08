@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-native-modal';
-import { StyleSheet, View, Text, FlatList, Alert, Dimensions} from 'react-native';
+import { View, Text, FlatList, Alert, Dimensions} from 'react-native';
 import flatListData from './flatListData';
 import Swipeout from 'react-native-swipeout';
 import LogPopup from './LogPopup';
@@ -59,27 +59,15 @@ render() {
 
     return (
         <Swipeout {...swipeSettings}>
-            <View style={[{
-                //flex: 1,
-                backgroundColor: '#6B222D',
-                //flexDirection: "column"
-                
-            }, mode2 ]}>
-                <View style = {[{
-                    //flexDirection: "row",
-                    //alignItems: "stretch",
-                    //textAlign: "center",
-                    //backgroundColor: this.props.index % 2 == 0 ? 'mediumseagreen': 'tomato'
-                    backgroundColor: '#F2E9E0',
-                    margin: 5,
-                }, mode2 ]}>
-                    <Text style={[left, mode2 ]}>
+            <View style={ mode2 }>
+                <View style = { mode2 }>
+                    <Text style={[styles.budgetLeft, mode2 ]}>
                         {this.props.item.date}
                     </Text>
-                    <Text style={[middle, mode2 ]}>
+                    <Text style={[styles.budgetMiddle, mode2 ]}>
                         {this.props.item.description}
                     </Text>
-                    <Text style = {[right, mode2 ]}>
+                    <Text style = {[styles.budgetRight, mode2 ]}>
                         {this.props.item.amount}
                     </Text>
 
@@ -139,33 +127,17 @@ refreshFlatList = (activeKey) => {
         var buttonColor =  ( isDarkmode ? styles.buttonColor1Dark: styles.buttonColor1 );
         var total =  0.00;
         return (
-            <View style={[{
-                backgroundColor: "#F2E9E0",
-                paddingHorizontal: 15
-                //height: screen.height
-             },mode2]}>
-                <Text style={[greet,mode2]}>This month, you've spent:</Text>
-                <Text style={[amount,mode2]}> ${calculateLogTotal()} </Text>
+            <View style={[styles.budgetContainer, mode2]}>
+                <Text style={[styles.budgetGreet, mode2]}>This month, you've spent:</Text>
+                <Text style={[styles.budgetAmount, mode2]}> ${calculateLogTotal()} </Text>
                 <Button
-                    style = {[{
-                        fontSize: 18,
-                        color: buttonColor.color,
-                    }]}
-                    containerStyle = {[{
-                        padding: 8,
-                        marginLeft: 70,
-                        marginRight: 70,
-                        height: 40,
-                        marginTop: 10,
-                        marginBottom: 20,
-                        borderRadius: 6,
-                        backgroundColor: buttonColor.backgroundColor
-                    }]}
+                    style = {[styles.budgetButton, buttonColor]}
+                    containerStyle = {[styles.budgetButtonContainer, buttonColor]}
                     onPress ={this.addExp}
                 >
-                    add
+                    Add Expense
                 </Button>
-                <Text style ={[tHistory,mode2]}>
+                <Text style ={[styles.budgettHistory, mode2]}>
                     Transaction History
                 </Text>
                 <View style = {{
@@ -177,22 +149,16 @@ refreshFlatList = (activeKey) => {
                 <LogPopup ref={'logPop'} parentFlatList={this} isDarkmode={isDarkmode}>
 
                 </LogPopup>
-                <View style={[{backgroundColor: '#F2E9E0', height: screen.height }, mode2 ]}>
+                <View style={[ styles.budgetTransactionContainer, mode2 ]}>
                     <FlatList
                         ref={"flatList"}
-                        style={[{backgroundColor: '#F2E9E0',}, mode2]}
+                        style={ mode2 }
                         data={flatListData}
                         renderItem={({item, index}) =>{
                             //console.log(`Item = ${JSON.stringify(item)}, index = ${index}`)
                             return(
                                 <FlatListItem
-                                    style ={[
-                                        {
-                                            backgroundColor: '#6B222D',
-                                            //height: 100
-                                        }, 
-                                        mode2 
-                                    ]}
+                                    style={ mode2 }
                                     item={item}
                                     index={index}
                                     parentFlatList={this} 
@@ -210,56 +176,4 @@ refreshFlatList = (activeKey) => {
         )
 
     };
-}
-
-
-const left = {
-    textAlign: 'left',
-}
-
-const middle = {
-    textAlign: 'center',
-}
-
-const right = {
-    textAlign: 'right',
-}
-
-const greet = {
-    textAlign: 'center',
-    //left: '50%',
-    color: '#6B222D',
-    fontSize: 16,
-    marginTop: 20,
-    marginBottom: 20,
-}
-
-const amount = {
-    textAlign: 'center',
-    fontSize: 35, 
-    fontWeight: 'bold',
-    marginBottom: 20,
-    //left: '50%',
-}
-
-const tHistory = {
-    textAlign: 'left',
-    marginBottom: 10
-}
-
-const addNew = {
-    textAlign: 'center',
-}
-
-const button ={
-    //alignContent: 'center',
-    //alignItems: 'center',
-    //justifyContent: 'center',
-    textAlign: 'center',
-    backgroundColor: '#6B222D',
-    color: '#FFF',
-    borderRadius: 10,
-    height: 36,
-    marginTop: 10,
-    marginBottom: 20
 }

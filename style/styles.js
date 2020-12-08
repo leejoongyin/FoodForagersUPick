@@ -62,12 +62,6 @@ const styles = StyleSheet.create({
       backgroundColor: colors.darkBG,
       color: colors.liteBG,
     },
-    dividingLine: {
-        color: '#777777',
-        height: 0,
-        width: '100%',
-        borderWidth: 1
-    },
     lightmode: {
       backgroundColor: colors.liteBG,
       color: colors.accentPrim,
@@ -75,6 +69,12 @@ const styles = StyleSheet.create({
     lightmode2: {
       backgroundColor: colors.liteBG,
       color: 'black',
+    },
+    dividingLine: {
+        color: '#777777',
+        height: 0,
+        width: '100%',
+        borderWidth: 1
     },
     icon: {
       resizeMode: 'contain',
@@ -165,6 +165,77 @@ const styles = StyleSheet.create({
       padding: 5,
       borderRadius: 5,
     },
+    paddingManual: {
+      height: 20,
+      width: 20,
+    },
+    paddedView: {
+      padding: 8,
+      height: '100%',
+      width: '100%'
+    },
+    scannerContainer: {
+      height: '100%',
+      width: '100%',
+      alignItems: 'center',
+      alignContent: 'center',
+      justifyContent: 'center',
+      borderRadius: MODULE_RADIUS,
+    },
+    statusBar: {
+      height: 25
+    },
+    title: {
+      fontWeight: 'bold',
+      fontSize: 50
+    },
+    text: {
+      fontSize: 18
+    },
+    module: {
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+      backgroundColor: 'white',
+      height: MODULE_WIDTH,
+      width: MODULE_WIDTH,
+      flex:-1,
+      borderRadius: MODULE_RADIUS,
+    },
+    moduleRow: {
+      flexDirection: 'row',
+      height: MODULE_FRAME,
+      alignContent: 'center',
+      alignItems: 'center',
+      width: '100%',
+      flex: -1,
+
+    },
+    moduleText:{
+      color: 'black',
+    },
+    moduleCorner: {
+      height: MODULE_FRAME,
+      width: MODULE_FRAME,
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    outline: {
+      borderWidth: 2,
+      borderColor: colors.accentPrim,
+    },
+    padding: {
+      flex: 0.5,
+      width: 20,
+      height: '10%',
+    },
+    paddingLine: {
+      flex: 0.1,
+      width: 20,
+      height: '3%',
+    },
     // Home Page -----------------------------
     homeContainer: {
       display: 'flex',
@@ -208,50 +279,208 @@ const styles = StyleSheet.create({
       fontStyle: 'italic'
     },
     // end Home Page -----------------------------
-    module: {
+    // Preferences -------------------------------
+    prefContainer: {
+      flex: 1, 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      width: '100%', 
+      margin: 'auto'
+    },
+    prefSearchSection: {
+      flexDirection: 'row',
+      backgroundColor: '#FFF',
+      borderRadius: 5,
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    prefInputBox: {
+      flex: 1,
+      backgroundColor: '#FFF',
+      height: 36,
+      padding: 10,
+      borderRadius: 5,
+      marginTop: 5,
+      marginBottom: 5
+    },
+    prefSubmitBtn: {
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#6B222D',
+      color: '#FFF',
+      borderRadius: 5,
+      height: 36,
+      marginTop: 5,
+      marginBottom: 200
+    },
+    prefButton: {
+        padding: 5,
+        marginTop: 5,
+        marginBottom: 5,
+        height: 36,
+        width: '30%',
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    prefButtonText: {
+        textAlign: 'center',
+        fontSize: 12
+    },
+    prefAnswers: {
+        width: '80%',
+        alignSelf: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 10,
+        flexDirection: 'row',
+        flexWrap: 'wrap'
+    },
+    prefHeader: {
+      textAlign: 'left',
+      color: '#6B222D',
+      fontSize: 16,
+      marginTop: 10,
+      width: '80%'
+    },
+    prefCenterHeader: {
+      textAlign: 'center',
+      color: '#6B222D',
+      fontSize: 16,
+      marginTop: 5,
+      marginBottom: 5
+    },
+    prefLabels: {
+      width: '80%', 
+      alignSelf: 'center'
+    },
+    // end Preferences ---------------------------
+    // Recipe Search -----------------------------
+    recipeSearchContainer: { 
+      flex: 1, 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      width: '100%', 
+      margin: 'auto', 
+      marginBottom: 50 
+    },
+    recipeCenterHeader: {
+      width: '80%',
+      textAlign: 'center',
+      color: '#6B222D',
+      fontSize: 14,
+      paddingBottom: 5
+    },
+    recipeSubHeader: {
+      width: '80%',
+      height: '5%',
+      textAlign: 'center',
+      color: '#6B222D',
+      fontSize: 14,
+      paddingTop: 5
+    },
+    recipeInputBox: {
+      backgroundColor: '#FFF',
+      width: '80%',
+      height: 36,
+      paddingLeft: 20,
+      paddingRight: 5,
+      borderRadius: 5,
+      marginTop: 5,
+      marginBottom: 5,
+      alignContent: 'center',
+      alignItems: 'center',
+    },
+    recipeSuggestBtn: {
       alignContent: 'center',
       alignItems: 'center',
       justifyContent: 'center',
       textAlign: 'center',
-      backgroundColor: 'white',
-      height: MODULE_WIDTH,
-      width: MODULE_WIDTH,
-      flex:-1,
-      borderRadius: MODULE_RADIUS,
+      backgroundColor: '#FFF',
+      color: '#6B222D',
+      borderRadius: 8,
+      margin: 4,
+      width: '80%',
+      height: 36
     },
-    moduleRow: {
-      flexDirection: 'row',
-      height: MODULE_FRAME,
-      alignContent: 'center',
-      alignItems: 'center',
-      width: '100%',
-      flex: -1,
-
+    recipeSuggestBtnText: {
+      color: colors.accentPrim
     },
-    moduleText:{
-      color: 'black',
+    // end Recipe Search -------------------------
+    // Budget Log --------------------------------
+    budgetLeft: {
+      textAlign: 'left',
     },
-    moduleCorner: {
-      height: MODULE_FRAME,
-      width: MODULE_FRAME,
-      alignContent: 'center',
-      alignItems: 'center',
-      justifyContent: 'center'
+    budgetMiddle: {
+      textAlign: 'center',
     },
-    outline: {
-      borderWidth: 2,
-      borderColor: colors.accentPrim,
+    budgetRight: {
+      textAlign: 'right',
     },
-    padding: {
-      flex: 0.5,
-      width: 20,
-      height: 20,
+    budgetGreet: {
+      textAlign: 'center',
+      color: '#6B222D',
+      fontSize: 16,
+      marginTop: 20,
+      marginBottom: 20,
     },
-    paddingLine: {
-      flex: 0.1,
-      width: 20,
-      height: '3%',
+    budgetAmount: {
+      textAlign: 'center',
+      fontSize: 35, 
+      fontWeight: 'bold',
+      marginBottom: 20,
     },
+    budgettHistory: {
+      textAlign: 'left',
+      marginBottom: 10
+    },
+    budgetButton: {
+      fontSize: 18
+    },
+    budgetContainer: {
+      paddingHorizontal: 15
+    },
+    budgetButtonContainer: {
+      padding: 8,
+      marginLeft: 70,
+      marginRight: 70,
+      height: 40,
+      marginTop: 10,
+      marginBottom: 20,
+      borderRadius: 6
+    },
+    budgetTransactionContainer: {
+      height: '100%'
+    },
+    // end Budget Log ----------------------------
+    // Log Pop up --------------------------------
+    popUptext: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      textAlign: 'center'
+    },
+    input: {
+      height: 40,
+      borderBottomColor: 'gray',
+      marginLeft: 30,
+      marginRight: 30,
+      marginTop: 20,
+      marginBottom: 10,
+      borderBottomWidth: 1
+    },
+    logPopupButton: { 
+      fontSize: 18, 
+      color: 'white'
+    },
+    logPopupButtonContainer: {
+      padding: 8,
+      marginLeft: 70,
+      marginRight: 70,
+      height: 40,
+      borderRadius: 6,
+      backgroundColor: '#6B222D'
+    },
+    // end Log Pop up ----------------------------
     // Generate Restaurant -----------------
     genResQuestion: {
       fontSize: 20,
@@ -285,7 +514,7 @@ const styles = StyleSheet.create({
     resInfoPadding: {
       flex: 0.5,
       width: 20,
-      height: 20,
+      height: 10,
     },
     resInfoPaddingBottom: {
       flex: 2,
@@ -293,7 +522,8 @@ const styles = StyleSheet.create({
       height: '15%',
     },
     resInfoTextStyle: {
-      fontSize: 18
+      fontSize: 16,
+      // fontWeight: 'bold'
     },
     resInfoRow: {
       flexDirection: 'row',
@@ -313,6 +543,10 @@ const styles = StyleSheet.create({
       borderWidth: 0,
       width: 0.40*SCALING_WIDTH,
     },
+    resInfoButtonText: {
+      fontWeight: 'bold',
+      fontSize: 18
+    },
     resInfoRestaurauntImage: {
       width: MODULE_WIDTH,
       height: '30%',
@@ -329,34 +563,78 @@ const styles = StyleSheet.create({
       width: 0.05*SCALING_WIDTH,
       flex: 1,
     },
-    // end RestaurantInfo ----------------
-    paddingManual: {
-      height: 20,
-      width: 20,
+    resInfoMainViewer: {
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      width: '100%',
+      padding: 5
     },
-    paddedView: {
-      padding: 8,
-      height: '100%',
+    resInfoRestaurantName: { 
+      fontSize: 45, 
+      fontWeight: 'bold', 
+      textAlign: 'center'
+    },
+    resInfoIntroText: {
+      fontSize: 25
+    },
+    // end RestaurantInfo ----------------
+    // Restaurant List -------------------
+    resListContainer: {
+      flex: 1, 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      margin: 'auto', 
       width: '100%'
     },
-    scannerContainer: {
-      height: '100%',
-      width: '100%',
+    resListPrompt: {
+      padding: 10, 
+      fontSize: 20, 
+      color: '#6b222d', 
+      textAlign: 'center'
+    },
+    resListTextInput: {
+      height: 40, 
+      paddingLeft: 10, 
+      width: '80%', 
+      backgroundColor: 'white', 
+      borderRadius: 5
+    },
+    resListTextItem: {
+      color: '#6b222d',
+      padding: 10,
+      fontSize: 22,
+    },
+    resListViewItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       alignItems: 'center',
-      alignContent: 'center',
-      justifyContent: 'center',
-      borderRadius: MODULE_RADIUS,
     },
-    statusBar: {
-      height: 25
+    resListInputContainer: {
+      width: '80%', 
+      height: '50%'
     },
-    title: {
-      fontWeight: 'bold',
-      fontSize: 50
+    resListInputScrollView: { 
+      marginTop: 10, 
+      marginBottom: 10, 
+      backgroundColor: 'white', 
+      borderRadius: 5
     },
-    text: {
-      fontSize: 18
+    resListSubmitContainer: {
+      backgroundColor: '#6b222d', 
+      width: '80%',
+      marginBottom: 100,
+      borderRadius: 10, 
+      marginTop: 10,
+      padding: 10
     },
+    resListSubmitText: { 
+      fontSize: 20, 
+      textAlign: 'center', 
+      color: '#ffffff'
+    },
+    // end Restaurant List ---------------
     // Navbar ----------------------------
     navDarkmodeIcon: {
       backgroundColor: 'transparent',
