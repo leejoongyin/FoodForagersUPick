@@ -21,12 +21,13 @@ class EatingAlone extends Component {
         super(props);
         const {navigation, isDarkmode}= this.props;
         this.isDarkmode = this.props.isDarkmode;
-        this.getStoredData();
+        this.getStoredData().then(() => console.log(`GroupAccommodationsPage.js: Finished loading data from AsyncStorage.`));
     }
+    
     getStoredData = async () => {
       this.getData('zipcode').then((result) => {
           this.setState({zipcode: result});
-          console.log('zipcode: ', this.state.zipcode);
+          console.log(`GroupAccommodationsPage.js: Loaded zipcode with ${this.state.zipcode}.`);
       });
       this.getData('time').then((result) => {
           var monday = new Date();
@@ -34,25 +35,26 @@ class EatingAlone extends Component {
           monday.setHours(0, 0, 0, 0);
           var fixedTime =  (monday < new Date(result)) ? parseInt(new Date(result).getTime() / 1000) - 604800 : parseInt(new Date(result).getTime() / 1000);
           this.setState({time: fixedTime});
-          console.log('time: ', this.state.time);
+          console.log(`GroupAccommodationsPage.js: Loaded time with ${this.state.time}.`);
       });
       this.getData('budget').then((result) => {
           this.setState({budgetArray: result });
-          console.log('budget: ', this.state.budgetArray);
+          console.log(`GroupAccommodationsPage.js: Loaded budgetArray with ${this.state.budgetArray}.`);
       });
       this.getData('diet').then((result) => {
           this.setState({dietArray: result});
-          console.log('diet: ', this.state.dietArray);
+          console.log(`GroupAccommodationsPage.js: Loaded dietArray with ${this.state.dietArray}.`);
       });
      this.getData('cuisine').then((result) => {
           this.setState({cuisineArray: result});
-          console.log('cuisine: ', this.state.cuisineArray);
+          console.log(`GroupAccommodationsPage.js: Loaded cuisineArray with ${this.state.cuisineArray}.`);
       });
       this.getData('restaurant').then((result) => {
           this.setState({restaurantArray: result});
-          console.log('restauarnt: ', this.state.restaurantArray);
+          console.log(`GroupAccommodationsPage.js: Loaded restaurantArray with ${this.state.restaurantArray}.`);
       });
   }
+
   getData = async (key) => {
     try {
       const jsonValue = await AsyncStorage.getItem(key).then((key) => {return key;})
@@ -146,13 +148,13 @@ class EatingAlone extends Component {
 
     // prioritize diet restrictions since categories is: this,that = "this OR that"
 
-    
+
     filter = cat.join(',');
     random = Math.floor(Math.random() * 20);
 
 
     console.log(`filter is ${filter}`);
-    
+
     await axios.get(`https://api.yelp.com/v3/businesses/search`, {
       headers: {'Authorization': `Bearer ${apiKey}`},
       params: {
@@ -212,7 +214,7 @@ class EatingAlone extends Component {
                         <Text style = {[ styles.buttonText, buttonColor1 ]}>  recommendation  </Text>
                     </View>
                 </TouchableWithoutFeedback>
-                
+
                 <View style={styles.paddingManual}/>
 
                 <TouchableWithoutFeedback
@@ -365,7 +367,7 @@ class QRScanner extends Component {
                     //console.log("diet: " + diet + " " + (temp+1) + '\n');
                 }
                 this.firebaseRef.update(updates);
-            
+
         });
         await this.firebaseRef.child('Cuisine').once('value').then((snapshot) => {
             var updates = {};
@@ -621,9 +623,9 @@ class GroupsAccommodationsPage extends Component {
         return (
             <View>
                 <View style = {styles.paddingManual}/>
-                <EatingAlone 
-                    isDarkmode={this.props.route.params.isDarkmode} 
-                    navigation={this.props.navigation} 
+                <EatingAlone
+                    isDarkmode={this.props.route.params.isDarkmode}
+                    navigation={this.props.navigation}
                     getRestaurantList={this.props.route.params.getRestaurantList}
                 />
             </View>
