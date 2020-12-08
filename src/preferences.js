@@ -62,7 +62,6 @@ export default class Preferences extends Component {
         zipErrorText: "",
         time: null,
         showTimepicker: false,
-        selectedItems: null,
         budgetArray: [],
         dietArray: [],
         cuisineArray: [],
@@ -81,6 +80,8 @@ export default class Preferences extends Component {
     await this.getData('zipcode').then((result) => {
         this.setState({zipcode: result});
         console.log(`preferences.js: Loaded zipcode with ${this.state.zipcode}.`);
+    }).catch((e) => {
+      console.log(`Failed to get the stored zipcode! Perhaps react-native was a mistake?\n${e}`);
     });
     await this.getData('time').then((result) => {
         let storedTime = new Date(result);
@@ -89,15 +90,19 @@ export default class Preferences extends Component {
         }
         this.setState({time: storedTime});
         console.log(`preferences.js: Loaded time with ${this.state.time}.`);
+    }).catch((e) => {
+      console.log(`Failed to get the last time picked! Perhaps react-native was a mistake?\n${e}`);
     });
     await this.getData('budget').then((result) => {
-        this.setState({budgetArray: result });
+        this.setState({budgetArray: result});
         if (this.state.budgetArray) {
           this.state.budgetArray.forEach((budget) => this.budgetSelectionHandler.selectionHandler(budgetData.find(x => x.optionText === budget).id - 1));
         } else {
           this.setState({budgetArray: []});
         }
         console.log(`preferences.js: Loaded budgetArray with [${this.state.budgetArray}].`);
+    }).catch((e) => {
+      console.log(`Failed to get budget preferences! Perhaps react-native was a mistake?\n${e}`);
     });
     await this.getData('diet').then((result) => {
         this.setState({dietArray: result});
@@ -108,7 +113,7 @@ export default class Preferences extends Component {
         }
         console.log(`preferences.js: Loaded dietArray with [${this.state.dietArray}].`);
     }).catch((e) => {
-      console.log(e);
+      console.log(`Failed to get diet preferences! Perhaps react-native was a mistake?\n${e}`);
     });
     await this.getData('cuisine').then((result) => {
         this.setState({cuisineArray: result});
@@ -118,6 +123,8 @@ export default class Preferences extends Component {
           this.setState({cuisineArray: []});
         }
         console.log(`preferences.js: Loaded cuisineArray with [${this.state.cuisineArray}].`);
+    }).catch((e) => {
+      console.log(`Failed to get cuisine preferences! Perhaps react-native was a mistake?\n${e}`);
     });
     await this.getData('restaurant').then((result) => {
         this.setState({restaurantArray: result});
@@ -127,6 +134,8 @@ export default class Preferences extends Component {
           this.setState({restaurantArray: []});
         }
         console.log(`preferences.js: Loaded restaurantArray with [${this.state.restaurantArray}].`);
+    }).catch((e) => {
+      console.log(`Failed to get restaurant preferences! Perhaps react-native was a mistake?\n${e}`);
     });
   }
 
