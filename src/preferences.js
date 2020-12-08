@@ -15,10 +15,7 @@ import { ThemeProvider } from '@react-navigation/native';
 const MAX_SELECT = 10;
 const now = new Date();
 
-
-
 export default class Preferences extends Component {
-
   constructor(props) {
     super(props);
     this.budgetSelectionHandler = new SelectionHandler({ maxMultiSelect: MAX_SELECT, allowDeselect: true, defaultSelection: null });
@@ -39,7 +36,10 @@ export default class Preferences extends Component {
         loading: true,
     };
     this.isDarkmode = this.props.isDarkmode;
-    this.getStoredData().then(() => this.setState({loading: false}));
+    this.getStoredData().then(() => {
+      this.setState({loading: false});
+      console.log('preferences.js: Finished loading data from AsyncStorage.')
+    });
   }
 
   getStoredData = async () => {
@@ -79,9 +79,10 @@ export default class Preferences extends Component {
       { id: 7, optionText: 'Coffee Shops' },
       { id: 8, optionText: 'BBQ' }
     ];
+
     await this.getData('zipcode').then((result) => {
         this.setState({zipcode: result});
-        console.log('zipcode: ', this.state.zipcode);
+        console.log(`preferences.js: Loaded zipcode with ${this.state.zipcode}.`);
     });
     await this.getData('time').then((result) => {
         let storedTime = new Date(result);
@@ -89,7 +90,7 @@ export default class Preferences extends Component {
           storedTime = null;
         }
         this.setState({time: storedTime});
-        console.log('time: ', this.state.time);
+        console.log(`preferences.js: Loaded time with ${this.state.time}.`);
     });
     await this.getData('budget').then((result) => {
         this.setState({budgetArray: result });
@@ -101,7 +102,7 @@ export default class Preferences extends Component {
         } else {
           this.setState({budgetArray: []});
         }
-        console.log('budget: ', this.state.budgetArray);
+        console.log(`preferences.js: Loaded budgetArray with [${this.state.budgetArray}].`);
     });
     await this.getData('diet').then((result) => {
         this.setState({dietArray: result});
@@ -113,7 +114,7 @@ export default class Preferences extends Component {
         } else {
           this.setState({dietArray: []});
         }
-        console.log('diet: ', this.state.dietArray);
+        console.log(`preferences.js: Loaded dietArray with [${this.state.dietArray}].`);
     });
    await this.getData('cuisine').then((result) => {
         this.setState({cuisineArray: result});
@@ -125,7 +126,7 @@ export default class Preferences extends Component {
         } else {
           this.setState({cuisineArray: []});
         }
-        console.log('cuisine: ', this.state.cuisineArray);
+        console.log(`preferences.js: Loaded cuisineArray with [${this.state.cuisineArray}].`);
     });
     await this.getData('restaurant').then((result) => {
         this.setState({restaurantArray: result});
@@ -137,7 +138,7 @@ export default class Preferences extends Component {
         } else {
           this.setState({restaurantArray: []});
         }
-        console.log('restauarnt: ', this.state.restaurantArray);
+        console.log(`preferences.js: Loaded restaurantArray with [${this.state.restaurantArray}].`);
     });
   }
 
@@ -179,7 +180,7 @@ export default class Preferences extends Component {
   storeData = async (key,value) => {
     try {
       const jsonValue = JSON.stringify(value)
-      await AsyncStorage.setItem(key,jsonValue)
+      await AsyncStorage.setItem(key,jsonValue).then(() => console.log(`preferences.js: Stored {${key}:, ${jsonValue}}`));
     } catch (e) {
       // saving error
       alert('error: ', e);
@@ -194,7 +195,6 @@ export default class Preferences extends Component {
       // read error
       alert('error: ', e);
     }
-    console.log('Done.')
   }
 
   renderButton = (data, index, isSelected, onPress) => {
@@ -334,7 +334,6 @@ export default class Preferences extends Component {
               isSelected={this.dietSelectionHandler.isSelected}
               containerStyle={styles.answers}
               onItemSelected={(item) => {
-                console.log(item.optionText);
                 const joined = this.state.dietArray.concat(item.optionText);
                 this.setState({ dietArray: joined }, () => {
                     this.storeData('diet', this.state.dietArray);
