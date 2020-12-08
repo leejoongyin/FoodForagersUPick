@@ -3,8 +3,8 @@ import React, {Component, useState} from 'react';
 import { Alert, Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import localController from './controller/localController';
 import { format } from "date-fns";
 
 import colors from '../style/colors';
@@ -19,7 +19,6 @@ const budgetData = [
   { id: 2, optionText: '$$' },
   { id: 3, optionText: '$$$' }
 ];
-
 const dietData = [
   { id: 1, optionText: 'Vegan' },
   { id: 2, optionText: 'Vegetarian' },
@@ -27,7 +26,6 @@ const dietData = [
   { id: 4, optionText: 'Halal' },
   { id: 5, optionText: 'Gluten free' }
 ];
-
 const cuisineData = [
   { id: 1, optionText: 'Chinese' },
   { id: 2, optionText: 'American' },
@@ -39,7 +37,6 @@ const cuisineData = [
   { id: 8, optionText: 'Vietnamese' },
   { id: 9, optionText: 'Indian' }
 ];
-
 const restaurantData = [
   { id: 1, optionText: 'Breakfast' },
   { id: 2, optionText: 'Brunch' },
@@ -50,6 +47,7 @@ const restaurantData = [
   { id: 7, optionText: 'Coffee Shops' },
   { id: 8, optionText: 'BBQ' }
 ];
+
 export default class Preferences extends Component {
   constructor(props) {
     super(props);
@@ -77,13 +75,13 @@ export default class Preferences extends Component {
   }
 
   getStoredData = async () => {
-    await this.getData('zipcode').then((result) => {
+    await localController.getData('zipcode').then((result) => {
         this.setState({zipcode: result});
         console.log(`preferences.js: Loaded zipcode with ${this.state.zipcode}.`);
     }).catch((e) => {
       console.log(`Failed to get the stored zipcode! Perhaps react-native was a mistake?\n${e}`);
     });
-    await this.getData('time').then((result) => {
+    await localController.getData('time').then((result) => {
         let storedTime = new Date(result);
         if (storedTime < now) {
           storedTime = null;
@@ -93,7 +91,7 @@ export default class Preferences extends Component {
     }).catch((e) => {
       console.log(`Failed to get the last time picked! Perhaps react-native was a mistake?\n${e}`);
     });
-    await this.getData('budget').then((result) => {
+    await localController.getData('budget').then((result) => {
         this.setState({budgetArray: result});
         if (this.state.budgetArray) {
           this.state.budgetArray.forEach((budget) => this.budgetSelectionHandler.selectionHandler(budgetData.find(x => x.optionText === budget).id - 1));
@@ -105,7 +103,7 @@ export default class Preferences extends Component {
       console.log(`Failed to get budget preferences! Perhaps react-native was a mistake?\n${e}`);
       this.setState({budgetArray: []});
     });
-    await this.getData('diet').then((result) => {
+    await localController.getData('diet').then((result) => {
         this.setState({dietArray: result});
         if (this.state.dietArray) {
           this.state.dietArray.forEach((diet) => this.dietSelectionHandler.selectionHandler(dietData.find(x => x.optionText === diet).id - 1));
@@ -117,7 +115,7 @@ export default class Preferences extends Component {
       console.log(`Failed to get diet preferences! Perhaps react-native was a mistake?\n${e}`);
       this.setState({dietArray: []});
     });
-    await this.getData('cuisine').then((result) => {
+    await localController.getData('cuisine').then((result) => {
       this.setState({cuisineArray: result});
       if (this.state.cuisineArray) {
         this.state.cuisineArray.forEach((cuisine) => this.cuisineSelectionHandler.selectionHandler(cuisineData.find(x => x.optionText === cuisine).id - 1));
@@ -129,7 +127,7 @@ export default class Preferences extends Component {
       console.log(`Failed to get cuisine preferences! Perhaps react-native was a mistake?\n${e}`);
       this.setState({cuisineArray: []});
     });
-    await this.getData('restaurant').then((result) => {
+    await localController.getData('restaurant').then((result) => {
       this.setState({restaurantArray: result});
       if (this.state.restaurantArray) {
         this.state.restaurantArray.forEach((rest) => this.restaurantSelectionHandler.selectionHandler(restaurantData.find(x => x.optionText === rest).id - 1));
@@ -174,27 +172,6 @@ export default class Preferences extends Component {
       this.props.navigation.navigate('Group Accommodations');
     } else {
       Alert.alert('Error','Please enter all required fields.');
-    }
-  }
-
-
-  storeData = async (key,value) => {
-    try {
-      const jsonValue = JSON.stringify(value)
-      await AsyncStorage.setItem(key,jsonValue).then(() => console.log(`preferences.js: Stored {${key}: ${jsonValue}}`));
-    } catch (e) {
-      // saving error
-      alert('error: ', e);
-    }
-  }
-
-  getData = async (key) => {
-    try {
-      const jsonValue = await AsyncStorage.getItem(key).then((key) => {return key;})
-      return jsonValue != null ? JSON.parse(jsonValue) : null
-    } catch(e) {
-      // read error
-      alert('error: ', e);
     }
   }
 
