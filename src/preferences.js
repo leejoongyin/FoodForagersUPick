@@ -39,7 +39,7 @@ export default class Preferences extends Component {
         loading: true,
     };
     this.isDarkmode = this.props.isDarkmode;
-    this.getStoredData();
+    this.getStoredData().then(() => this.setState({loading: false}));
   }
 
   getStoredData = async () => {
@@ -138,7 +138,6 @@ export default class Preferences extends Component {
           this.setState({restaurantArray: []});
         }
         console.log('restauarnt: ', this.state.restaurantArray);
-        this.setState({loading: false});
     });
   }
 
