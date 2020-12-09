@@ -4,7 +4,7 @@ export default class localController {
   static async storeData(key,value) {
     try {
       const jsonValue = JSON.stringify(value)
-      await AsyncStorage.setItem(key,jsonValue).then(() => console.log(`preferences.js: Stored {${key}: ${jsonValue}}`));
+      await AsyncStorage.setItem(key,jsonValue).then(() => console.log(`localController.js: Stored {${key}: ${jsonValue}}`));
     } catch (e) {
       console.log(`Error storing data!\n${e}`)
     }

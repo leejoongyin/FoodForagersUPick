@@ -57,17 +57,12 @@ class EatingAlone extends Component {
   }
 
   getRestaurantFromYelp = async () => {
-
-    // parsing for categories parameter
-    var budgetCSV, dietCSV, cuisineCSV, restaurantCSV;
-    budgetCSV = dietCSV = cuisineCSV = restaurantCSV = '';
-
     var numBudget; // numerical value corresponding to each '$...' symbol
     var filter;
     var bnbChosen = false;
     let cat = [];
+    let budget = [];
 
-    // csv strings for each preference variable
     // budget
     for (var i = 0; i < this.state.budgetArray.length; i++) {
         if (this.state.budgetArray[i] == '$') {
@@ -79,12 +74,7 @@ class EatingAlone extends Component {
         if (this.state.budgetArray[i] == '$$$') {
             numBudget = '3';
         }
-        if (i == this.state.budgetArray.length - 1) {
-            budgetCSV = budgetCSV + numBudget;
-        }
-        if (i != this.state.budgetArray.length - 1) {
-            budgetCSV = budgetCSV + numBudget + ',';
-        }
+        budget.push(numBudget);
     }
 
     // diet
@@ -94,15 +84,10 @@ class EatingAlone extends Component {
 
         if (temp === "gluten free") {temp = "gluten_free";}
 
-        if (i == this.state.dietArray.length - 1) {
-            dietCSV = dietCSV + temp;
-        }
-        if (i != this.state.dietArray.length - 1) {
-            dietCSV = dietCSV + temp + ',';
-        }
         cat.push(temp);
         console.log("diet: " + temp + '\n');
     }
+
     // cuisine
     for (var i = 0; i < this.state.cuisineArray.length; i++) {
 
@@ -114,6 +99,7 @@ class EatingAlone extends Component {
         cat.push(temp);
         console.log("cuisine: " + temp + '\n');
     }
+
     // restaurant type
     for (var i = 0; i < this.state.restaurantArray.length; i++) {
 
@@ -138,27 +124,29 @@ class EatingAlone extends Component {
 
     // prioritize diet restrictions since categories is: this,that = "this OR that"
 
-
     filter = cat.join(',');
     random = Math.floor(Math.random() * 20);
 
-
-    console.log(`filter is ${filter}`);
+    console.log(`GroupAccommodationsPage.js: Searching with \n
+      \t categories: ${filter}\n
+      \t open_at: ${this.state.time}\n
+      \t location: ${this.state.zipcode}\n
+      \t price: ${budget.length ? budget.join(',') : "1,2,3,4"}`);
 
     await axios.get(`https://api.yelp.com/v3/businesses/search`, {
       headers: {'Authorization': `Bearer ${apiKey}`},
       params: {
           limit: 20,
           categories: filter,
-          //open_at: this.state.time,
+          open_at: this.state.time,
           location: this.state.zipcode,
-          price: budgetCSV,
+          price: (budget.length ? budget.join(',') : "1,2,3,4"),
         }
     }).then((response) => {
       console.log(response.data.businesses[random].name);
       localController.storeData('restaurant_name', response.data.businesses[random].name);
       localController.storeData('image', response.data.businesses[random].image_url);
-      localController.storeData('location', response.data.businesses[random].location.address1 + ". \n" + response.data.businesses[0].location.city +  ", " + response.data.businesses[0].location.state);
+      localController.storeData('location', response.data.businesses[random].location.address1 + ". \n" + response.data.businesses[random].location.city +  ", " + response.data.businesses[random].location.state);
       localController.storeData('phone', response.data.businesses[random].display_phone);
       localController.storeData('url', response.data.businesses[random].url);
     });
