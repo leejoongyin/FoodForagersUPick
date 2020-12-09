@@ -144,7 +144,7 @@ export default class Preferences extends Component {
   // If the user somehow inputs non-numeric characters, remove them.
   onZipInput(text) {
     this.setState({zipcode: text.replace(/[^0-9]/g, '')}, () => {
-      this.storeData('zipcode', this.state.zipcode);
+      localController.storeData('zipcode', this.state.zipcode);
     });
   }
 
@@ -160,7 +160,7 @@ export default class Preferences extends Component {
         selectedTime.setDate(selectedTime.getDate() + 1);
       }
       this.setState({time: selectedTime, showTimepicker: false}, () => {
-        this.storeData('time', this.state.time);
+        localController.storeData('time', this.state.time);
       });
     } else {
       this.setState({showTimepicker: false});
@@ -249,7 +249,7 @@ export default class Preferences extends Component {
               onItemSelected={(item) => {
                 const joined = this.state.budgetArray.concat(item.optionText);
                 this.setState({ budgetArray: joined }, () => {
-                    this.storeData('budget', this.state.budgetArray);
+                    localController.storeData('budget', this.state.budgetArray);
                   }
                 );
               }}
@@ -259,7 +259,7 @@ export default class Preferences extends Component {
                 if (index !== -1) {
                   array.splice(index, 1);
                   this.setState({ budgetArray: array }, () => {
-                      this.storeData('budget', this.state.budgetArray);
+                      localController.storeData('budget', this.state.budgetArray);
                     }
                   );
                 }
@@ -277,7 +277,7 @@ export default class Preferences extends Component {
               onItemSelected={(item) => {
                 const joined = this.state.dietArray.concat(item.optionText);
                 this.setState({ dietArray: joined }, () => {
-                    this.storeData('diet', this.state.dietArray);
+                    localController.storeData('diet', this.state.dietArray);
                   }
                 );
               }}
@@ -287,7 +287,7 @@ export default class Preferences extends Component {
                 if (index !== -1) {
                   array.splice(index, 1);
                   this.setState({ dietArray: array }, () => {
-                      this.storeData('diet', this.state.dietArray);
+                      localController.storeData('diet', this.state.dietArray);
                     }
                   );
                 }
@@ -305,7 +305,7 @@ export default class Preferences extends Component {
               onItemSelected={(item) => {
                 const joined = this.state.cuisineArray.concat(item.optionText);
                 this.setState({ cuisineArray: joined }, () => {
-                    this.storeData('cuisine', this.state.cuisineArray);
+                    localController.storeData('cuisine', this.state.cuisineArray);
                   }
                 );
               }}
@@ -315,7 +315,7 @@ export default class Preferences extends Component {
                 if (index !== -1) {
                   array.splice(index, 1);
                   this.setState({ cuisineArray: array }, () => {
-                      this.storeData('cuisine', this.state.cuisineArray);
+                      localController.storeData('cuisine', this.state.cuisineArray);
                     }
                   );
                 }
@@ -333,7 +333,7 @@ export default class Preferences extends Component {
               onItemSelected={(item) => {
                 const joined = this.state.restaurantArray.concat(item.optionText);
                 this.setState({ restaurantArray: joined }, () => {
-                    this.storeData('restaurant', this.state.restaurantArray);
+                    localController.storeData('restaurant', this.state.restaurantArray);
                   }
                 );
               }}
@@ -343,7 +343,7 @@ export default class Preferences extends Component {
                 if (index !== -1) {
                   array.splice(index, 1);
                   this.setState({ restaurantArray: array }, () => {
-                      this.storeData('restaurant', this.state.restaurantArray);
+                      localController.storeData('restaurant', this.state.restaurantArray);
                     }
                   );
                 }

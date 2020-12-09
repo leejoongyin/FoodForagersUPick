@@ -5,7 +5,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner, Constants } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import localController from './controller/localController';
 
 import '../assets/CameraIcon.png'
 import styles, {INNER_MODULE_WIDTH, MODULE_FRAME, MODULE_WIDTH} from '../style/styles';
@@ -24,13 +24,13 @@ class EatingAlone extends Component {
         this.isDarkmode = this.props.isDarkmode;
         this.getStoredData().then(() => console.log(`GroupAccommodationsPage.js: Finished loading data from AsyncStorage.`));
     }
-    
+
     getStoredData = async () => {
-      this.getData('zipcode').then((result) => {
+      localController.getData('zipcode').then((result) => {
           this.setState({zipcode: result});
           console.log(`GroupAccommodationsPage.js: Loaded zipcode with ${this.state.zipcode}.`);
       });
-      this.getData('time').then((result) => {
+      localController.getData('time').then((result) => {
           var monday = new Date();
           monday.setDate(monday.getDate() + (7 - monday.getDay()) % 7 + 1);
           monday.setHours(0, 0, 0, 0);
@@ -38,33 +38,22 @@ class EatingAlone extends Component {
           this.setState({time: fixedTime});
           console.log(`GroupAccommodationsPage.js: Loaded time with ${this.state.time}.`);
       });
-      this.getData('budget').then((result) => {
+      localController.getData('budget').then((result) => {
           this.setState({budgetArray: result });
           console.log(`GroupAccommodationsPage.js: Loaded budgetArray with ${this.state.budgetArray}.`);
       });
-      this.getData('diet').then((result) => {
+      localController.getData('diet').then((result) => {
           this.setState({dietArray: result});
           console.log(`GroupAccommodationsPage.js: Loaded dietArray with ${this.state.dietArray}.`);
       });
-     this.getData('cuisine').then((result) => {
+      localController.getData('cuisine').then((result) => {
           this.setState({cuisineArray: result});
           console.log(`GroupAccommodationsPage.js: Loaded cuisineArray with ${this.state.cuisineArray}.`);
       });
-      this.getData('restaurant').then((result) => {
+      localController.getData('restaurant').then((result) => {
           this.setState({restaurantArray: result});
           console.log(`GroupAccommodationsPage.js: Loaded restaurantArray with ${this.state.restaurantArray}.`);
       });
-  }
-
-  getData = async (key) => {
-    try {
-      const jsonValue = await AsyncStorage.getItem(key).then((key) => {return key;})
-      return jsonValue != null ? JSON.parse(jsonValue) : null
-    } catch(e) {
-      // read error
-      alert('error: ', e);
-    }
-    console.log('Done.')
   }
 
   getRestaurantFromYelp = async () => {
@@ -167,29 +156,20 @@ class EatingAlone extends Component {
         }
     }).then((response) => {
       console.log(response.data.businesses[random].name);
-      this.storeData('restaurant_name', response.data.businesses[random].name);
-      this.storeData('image', response.data.businesses[random].image_url);
-      this.storeData('location', response.data.businesses[random].location.address1 + ". \n" + response.data.businesses[0].location.city +  ", " + response.data.businesses[0].location.state);
-      this.storeData('phone', response.data.businesses[random].display_phone);
-      this.storeData('url', response.data.businesses[random].url);
+      localController.storeData('restaurant_name', response.data.businesses[random].name);
+      localController.storeData('image', response.data.businesses[random].image_url);
+      localController.storeData('location', response.data.businesses[random].location.address1 + ". \n" + response.data.businesses[0].location.city +  ", " + response.data.businesses[0].location.state);
+      localController.storeData('phone', response.data.businesses[random].display_phone);
+      localController.storeData('url', response.data.businesses[random].url);
     });
   }
 
   onGenerateFromListPressed = () => {
-    console.log(this.props.getRestaurantList()); 
-    //console.log(this.props.getRestaurantList()); 
-    this.props.navigation.navigate("Restaurant From List", {restaurantList: this.props.getRestaurantList()}); 
+    console.log(this.props.getRestaurantList());
+    //console.log(this.props.getRestaurantList());
+    this.props.navigation.navigate("Restaurant From List", {restaurantList: this.props.getRestaurantList()});
   }
 
-  storeData = async (key,value) => {
-    try {
-      const jsonValue = JSON.stringify(value)
-      await AsyncStorage.setItem(key,jsonValue)
-    } catch (e) {
-      // saving error
-      alert('error: ', e);
-    }
-  }
     render(props) {
         var mode = (this.props.isDarkmode ? styles.darkmode : styles.lightmode);
         var buttonColor1 = (this.props.isDarkmode ? styles.buttonColor2Dark : styles.buttonColor1);
@@ -262,42 +242,32 @@ class QRScanner extends Component {
             hasCameraPermission: null,
         }
 
-        this.getData('zipcode').then((result) => {
+        localController.getData('zipcode').then((result) => {
             this.setState({zipcode: result});
             console.log('zipcode: ', this.state.zipcode);
         });
-        this.getData('time').then((result) => {
+        localController.getData('time').then((result) => {
             this.setState({time: result});
             console.log('time: ', this.state.time);
         });
-        this.getData('budget').then((result) => {
+        localController.getData('budget').then((result) => {
             this.setState({budgetArray: result });
             console.log('budget: ', this.state.budgetArray);
         });
-        this.getData('diet').then((result) => {
+        localController.getData('diet').then((result) => {
             this.setState({dietArray: result});
             console.log('diet: ', this.state.dietArray);
         });
-        this.getData('cuisine').then((result) => {
+        localController.getData('cuisine').then((result) => {
             this.setState({cuisineArray: result});
             console.log('cuisine: ', this.state.cuisineArray);
         });
-        this.getData('restaurant').then((result) => {
+        localController.getData('restaurant').then((result) => {
             this.setState({restaurantArray: result});
             console.log('restauarnt: ', this.state.restaurantArray);
         });
     }
 
-    getData = async (key) => {
-        try {
-          const jsonValue = await AsyncStorage.getItem(key).then((key) => {return key;})
-          return jsonValue != null ? JSON.parse(jsonValue) : null
-        } catch(e) {
-          // read error
-          alert('error: ', e);
-        }
-        console.log('Done.')
-    }
 
     qrCodeScanned = ({ type, data }) => {
         if( this.state.isVerifying ) {
@@ -585,42 +555,33 @@ class GroupsAccommodationsPage extends Component {
             showState: 1
         }
 
-        this.getData('zipcode').then((result) => {
+        localController.getData('zipcode').then((result) => {
             this.setState({zipcode: result});
             console.log('zipcode: ', this.state.zipcode);
         });
-        this.getData('time').then((result) => {
+        localController.getData('time').then((result) => {
             this.setState({time: result});
             console.log('time: ', this.state.time);
         });
-        this.getData('budget').then((result) => {
+        localController.getData('budget').then((result) => {
             this.setState({budgetArray: result });
             console.log('budget: ', this.state.budgetArray);
         });
-        this.getData('diet').then((result) => {
+        localController.getData('diet').then((result) => {
             this.setState({dietArray: result});
             console.log('diet: ', this.state.dietArray);
         });
-        this.getData('cuisine').then((result) => {
+        localController.getData('cuisine').then((result) => {
             this.setState({cuisineArray: result});
             console.log('cuisine: ', this.state.cuisineArray);
         });
-        this.getData('restaurant').then((result) => {
+        localController.getData('restaurant').then((result) => {
             this.setState({restaurantArray: result});
             console.log('restauarnt: ', this.state.restaurantArray);
         });
     };
 
-    getData = async (key) => {
-        try {
-          const jsonValue = await AsyncStorage.getItem(key).then((key) => {return key;})
-          return jsonValue != null ? JSON.parse(jsonValue) : null
-        } catch(e) {
-          // read error
-          alert('error: ', e);
-        }
-        console.log('Done.')
-    }
+
     showEatingAlone = () => {
         if( this.state.showState != 1 ) {
             return null;
