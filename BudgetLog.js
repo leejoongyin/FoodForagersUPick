@@ -182,7 +182,7 @@ refreshFlatList = (activeKey) => {
 
                 </LogPopup>
                 <View style={[{backgroundColor: '#F2E9E0', 
-                height: (screen.height/2 - 25) 
+                height: (screen.height/1.5) 
                 }, 
                 mode2 ]}>
                     <FlatList
