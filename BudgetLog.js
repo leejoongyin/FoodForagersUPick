@@ -6,6 +6,9 @@ import Swipeout from 'react-native-swipeout';
 import LogPopup from './LogPopup';
 import Button from 'react-native-button';
 
+import styles from '../style/styles';
+import calculateLogTotal from './calculateLogTotal';
+
 var screen = Dimensions.get('window');
 class FlatListItem extends Component {
 constructor(props) {
@@ -17,6 +20,9 @@ constructor(props) {
 }
 
 render() {
+    var isDarkmode = this.props.isDarkmode;
+    var mode =  ( isDarkmode ? styles.darkmode: styles.lightmode );
+    var mode2 = ( isDarkmode ? styles.darkmode2: styles.lightmode2 );
     const swipeSettings = {
         autoClose: true,
         onClose: (secId, rowId, direction) => {
@@ -53,54 +59,53 @@ render() {
 
     return (
         <Swipeout {...swipeSettings}>
-            <View style={{
-                flex: 1,
+            <View style={[{
+                //flex: 1,
                 backgroundColor: '#6B222D',
-                flexDirection: 'column'
-            }}>
-            <View style = {{
-                flex:1,
-                flexDirection: 'column',
-                //height: 100,
-                //alignItems: "stretch",
-                //textAlign: "center",
-                //backgroundColor: this.props.index % 2 == 0 ? 'mediumseagreen': 'tomato'
-                backgroundColor: '#F2E9E0'
-            }}>
-                <Text style={left}>
-                    {this.props.item.date} 
-                </Text>
-                <Text style={middle}>
-                    {this.props.item.description} 
-                </Text>
-                <Text style = {right}>
-                    {this.props.item.amount} 
-                </Text>
+                //flexDirection: "column"
+                
+            }, mode2 ]}>
+                <View style = {[{
+                    //flexDirection: "row",
+                    //alignItems: "stretch",
+                    //textAlign: "center",
+                    //backgroundColor: this.props.index % 2 == 0 ? 'mediumseagreen': 'tomato'
+                    backgroundColor: '#F2E9E0',
+                    margin: 5,
+                }, mode2 ]}>
+                    <Text style={[left, mode2 ]}>
+                        {this.props.item.date}
+                    </Text>
+                    <Text style={[middle, mode2 ]}>
+                        {this.props.item.description}
+                    </Text>
+                    <Text style = {[right, mode2 ]}>
+                        {this.props.item.amount}
+                    </Text>
 
-            </View> 
-            <View style = {{
-                height: 1,
-                backgroundColor: "gray"
-            }}>
-            </View>              
-            </View>               
+                </View>
+                <View style = {[{
+                    height: 1,
+                    backgroundColor: "black"
+                }, mode2 ]}>
+                </View>
+            </View>
         </Swipeout>
 
     );
 }
 }
 
-export default class BudgetLog extends React.Component {
+export default class BudgetLog extends Component {
 constructor(props){
 
     super(props);
 
-    state = {
+    this.state = {
         deletedRowKey: null,
         amount: '',
         description: '',
         date: '',
-        //total: 13
     };
     this.addExp =  this.addExp.bind(this);
 }
@@ -118,89 +123,106 @@ refreshFlatList = (activeKey) => {
     this.refs.flatList.scrollToEnd();
 }
 
-updateTotal (newAmount) {
-    //this.setState({total: (this.state.total) + Number(newAmount)});
-    //console.log(`Total = ${total}`);
-}
+    addExp () {
+        //alert("You add Item")
+        this.refs.logPop.showLogPop();
+    }
 
-addExp () {
-    //alert("You add Item")
-    this.refs.logPop.showLogPop();
+    calculateTotal = () => {
+
     }
 
     render() {
-    //global.total =  0.00;
+        var isDarkmode = this.props.route.params.isDarkmode;
+        var mode =  ( isDarkmode ? styles.darkmode: styles.lightmode );
+        var mode2 = ( isDarkmode ? styles.darkmode2: styles.lightmode2 );
+        var buttonColor =  ( isDarkmode ? styles.buttonColor1Dark: styles.buttonColor1 );
+        var total =  0.00;
         return (
+            <View style={{flex: 1}}>
+                <View>
 
-                <View style={{backgroundColor: '#F2E9E0', height: screen.height}}>
-                <View style={{
-                    backgroundColor: '#F2E9E0', 
-                    //flexDirection: 'row',
-                    //justifyContent:'flex-end',                
-                    //alignItems: 'center',
-                    //height: 400
-                    }}>
-                <Text style={greet}>This month, you've spent:</Text>
-                <Text style={amount}> ${} </Text>
-                <Button 
-                style = {{ 
-                    fontSize: 18, 
-                    color: 'white',
-                }}
-                containerStyle = {{
-                    padding: 8,
-                    marginLeft: 70,
-                    marginRight: 70,
-                    height: 40,
-                    marginTop: 10,
-                    marginBottom: 20,
-                    borderRadius: 6,
-                    backgroundColor: '#6B222D'
-                }}
-                onPress ={this.addExp}
+                </View>
+            <View style={[{
+                backgroundColor: "#F2E9E0",
+                paddingHorizontal: 15,
+                //paddingTop: 40
+             },mode2]}>
+                <Text style={[greet,mode2]}>This month, you've spent:</Text>
+                <Text style={[amount,mode2]}> ${calculateLogTotal()} </Text>
+                <Button
+                    style = {[{
+                        fontSize: 18,
+                        color: buttonColor.color,
+                    }]}
+                    containerStyle = {[{
+                        padding: 8,
+                        marginLeft: 70,
+                        marginRight: 70,
+                        height: 40,
+                        marginTop: 10,
+                        marginBottom: 20,
+                        borderRadius: 6,
+                        backgroundColor: buttonColor.backgroundColor
+                    }]}
+                    onPress ={this.addExp}
                 >
-                    Add new expense
+                    add
                 </Button>
-                <Text style ={tHistory}>
-                    Transction History
+                <Text style ={[tHistory,mode2]}>
+                    Transaction History
                 </Text>
                 <View style = {{
                     height: 1,
-                    backgroundColor: "black"
+                    margin: 2,
+                    backgroundColor: mode2.color
                     }}>
                 </View>
-                </View>
+                <LogPopup ref={'logPop'} parentFlatList={this} isDarkmode={isDarkmode}>
+
+                </LogPopup>
+                <View style={[{backgroundColor: '#F2E9E0', 
+                height: (screen.height/2 - 25) 
+                }, 
+                mode2 ]}>
                     <FlatList
                         ref={"flatList"}
-                        style={{backgroundColor: '#F2E9E0', }}
+                        style={[{backgroundColor: '#F2E9E0',}, mode2]}
                         data={flatListData}
                         renderItem={({item, index}) =>{
-                            //console.log(`Item = ${JSON.stringify(Number(item.amount))}, index = ${index}`)
+                            //console.log(`Item = ${JSON.stringify(item)}, index = ${index}`)
                             return(
-                                <FlatListItem 
-                                    style ={{backgroundColor: '#6B222D',
-                                    //height: 100
-
-                                }}
-                                item={item} 
-                                index={index} 
-                                parentFlatList={this} 
-                                //total= {total+JSON.stringify(Number(item.amount))}
+                                <FlatListItem
+                                    style ={[
+                                        {
+                                            backgroundColor: '#6B222D',
+                                            //height: 100
+                                        }, 
+                                        mode2 
+                                    ]}
+                                    item={item}
+                                    index={index}
+                                    parentFlatList={this} 
+                                    isDarkmode={isDarkmode}
                                 >
-
                                 </FlatListItem>
-                                
                             );
-                            //console.log(`Total = ${total}`)
                         }}>
-                    </FlatList>
-                    <LogPopup ref={'logPop'} parentFlatList={this}>
 
-                    </LogPopup>
+                    </FlatList>
+
                 </View>
+
+            </View>
+            <View
+            //style={{ height: 300}}
+            >
+
+            </View>
+            </View>
         )
 
-    }; 
+    };
 }
 
 
@@ -227,8 +249,8 @@ const greet = {
 
 const amount = {
     textAlign: 'center',
-    fontSize: 35,
-    fontWeight: 'Bold',
+    fontSize: 35, 
+    fontWeight: 'bold',
     marginBottom: 20,
     //left: '50%',
 }
@@ -254,4 +276,3 @@ const button ={
     marginTop: 10,
     marginBottom: 20
 }
-

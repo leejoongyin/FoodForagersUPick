@@ -6,6 +6,7 @@ import {
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
 import flatListData from './flatListData';
+import { filterAmountInput } from './filterInput';
 
 var screen = Dimensions.get('window');
 export default class LogPopup extends Component {
@@ -34,19 +35,25 @@ export default class LogPopup extends Component {
                         borderRadius: 5,
                         shadowRadius: 10,
                         width: screen.width - 80,
-                        height: 300}}
-                        position='center'
+                        height: 300,
+                        //entry: 'bottom',
+                        //keyboardTopOffset = {0},
+                        bottom: Dimensions.get('window').height / 2 - Math.min(300, Dimensions.get('window').height)/2 ,
+                    }}
+                        position= 'bottom'
                         backdrop={true}
+                        //avoidKeyboard={false}
                         onClosed = {() => {
                            // alert("Modal closed");
                         }}
+                        keyboardTopOffset = {200}
                     >
                         <Text style={popUptext}>Add new expense </Text>
                         <TextInput 
                             style={_input} 
                             placeholder= '$ Amount'
                             keyboardType = 'numeric'
-                            onChangeText={(text) => this.setState({newAmount: text})}
+                            onChangeText={(text) => this.setState({newAmount: filterAmountInput(text) })}
                             value={this.state.newAmount}/>
 
                         <TextInput
@@ -57,7 +64,6 @@ export default class LogPopup extends Component {
 
                         <TextInput
                             style={_input}
-                            keyboardType='numbers-and-punctuation'
                             placeholder='Date (MM/DD/YYYY)'
                             onChangeText={(text) => this.setState({newDate: text})}
                             value={this.state.newDate}/>
@@ -85,10 +91,8 @@ export default class LogPopup extends Component {
                                         date: this.state.newDate
                                     };
                                     flatListData.push(newLog);
-                                    //console.log(Number(this.state.newAmount) + );
                                     this.props.parentFlatList.refreshFlatList(newKey);
                                     this.refs.popUp.close();
-                                    this.props.parentFlatList.updateTotal(this.state.newAmount);
                             }}
                         >
                             Add
@@ -104,6 +108,7 @@ const popUptext = {
     textAlign: 'center',
     //marginTop: 10
 }
+
 const _input = {
     height: 40,
     borderBottomColor: 'gray',
