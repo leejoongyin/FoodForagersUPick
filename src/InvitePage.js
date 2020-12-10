@@ -213,35 +213,37 @@ class InvitePage extends Component {
                     console.log("restaurant: " + temp + '\n');
                 }
             }
-            // prioritize diet restrictions since categories is: this,that = "this OR that"
-            if (dietCSV !== '') {
-                filter = dietCSV;
-            } else {
-                filter = cat.join(',');
-            }
-        
+            filter = cat.join(',');  
             console.log(`filter is ${filter}`);
+        });
+
+        await this.firebaseRef.child('Members').once('value').then((snapshot) => {
+            var temp = (parseInt(snapshot.val()) - 1);
+            if (temp === 0) {
+                this.firebaseRef.remove();
+            }
         });
 
         return filter;
     }
 
-    returnRestaurant = async (f) => {
-        await axios.get(`https://api.yelp.com/v3/businesses/search`, {
+    returnRestaurant = async (f) => { 
+        await axios.get(`https://api.yelp.com/v3/businesses/search`, { 
             headers: {'Authorization': `Bearer ${apiKey}`},
             params: {
-                limit: 1,
+                limit: 20,
                 categories: f,
-                //open_at: this.state.time,
+                open_at: this.state.time,
                 location: this.state.zipcode
               }
           }).then((response) => {
-            console.log(response.data.businesses[0].name);
-            this.storeData('restaurant_name', response.data.businesses[0].name);
-            this.storeData('image', response.data.businesses[0].image_url);
-            this.storeData('location', response.data.businesses[0].location.address1 + ". \n" + response.data.businesses[0].location.city +  ", " + response.data.businesses[0].location.state);
-            this.storeData('phone', response.data.businesses[0].display_phone);
-            this.storeData('url', response.data.businesses[0].url);
+            random = Math.floor(Math.random() * 20);  
+            console.log(response.data.businesses[random].name);
+            this.storeData('restaurant_name', response.data.businesses[random].name);
+            this.storeData('image', response.data.businesses[random].image_url);
+            this.storeData('location', response.data.businesses[random].location.address1 + ". \n" + response.data.businesses[0].location.city +  ", " + response.data.businesses[0].location.state);
+            this.storeData('phone', response.data.businesses[random].display_phone);
+            this.storeData('url', response.data.businesses[random].url);
           });
     }
     

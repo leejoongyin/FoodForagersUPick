@@ -289,6 +289,13 @@ class QRScanner extends Component {
         timelocation['Time'] = this.state.time;
         this.firebaseRef.update(timelocation);
 
+        await this.firebaseRef.child('Members').once('value').then((snapshot) => {
+            var updates = {};
+            var temp = parseInt(snapshot.val());
+            updates['Members'] = (temp + 1);
+            this.firebaseRef.update(updates);
+        });
+
         await this.firebaseRef.child('Budget').once('value').then((snapshot) => {
             var updates = {};
             var temp = 0;
@@ -621,6 +628,7 @@ class GroupsAccommodationsPage extends Component {
 
         updates['Zipcode'] = this.state.zipcode;
         updates['Time'] = this.state.time;
+        updates['Members'] = 1;
 
         for (let budget of this.state.budgetArray) {
             if (budget === '$') {updates['/Budget/1/'] = 1;}
@@ -641,7 +649,6 @@ class GroupsAccommodationsPage extends Component {
         }
 
         this.firebaseRef.update(updates);
-        // remove for testing VVV
         this.firebaseRef.off();
 
         this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.route.params.isDarkmode});
