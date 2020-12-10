@@ -216,14 +216,6 @@ class InvitePage extends Component {
             filter = cat.join(',');  
             console.log(`filter is ${filter}`);
         });
-
-        await this.firebaseRef.child('Members').once('value').then((snapshot) => {
-            var temp = (parseInt(snapshot.val()) - 1);
-            if (temp === 0) {
-                this.firebaseRef.remove();
-            }
-        });
-
         return filter;
     }
 
