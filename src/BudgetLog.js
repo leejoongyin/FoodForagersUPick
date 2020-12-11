@@ -9,6 +9,7 @@ import localController from './controller/localController';
 
 import styles from '../style/styles';
 import calculateLogTotal from './calculateLogTotal';
+import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 
 var screen = Dimensions.get('window');
 class FlatListItem extends Component {
@@ -51,8 +52,10 @@ class FlatListItem extends Component {
                                 {text: 'No', onPress: () => console.log('cancel Pressed'), style: 'cancel'},
                                 {text: 'Yes', onPress: () => {
                                     this.state.budgetList.splice(this.props.index, 1);
-                                    localController.storeData('budgetList', this.state.budgetList);
-                                    this.props.parentFlatList.refreshFlatList(deletingRow);
+                                    localController.storeData('budgetList', this.state.budgetList).then(()=>{
+                                        this.props.parentFlatList.refreshFlatList(deletingRow);
+                                    });
+                                    
                                 }},
                             ],
                             {cancelable: true}
@@ -126,6 +129,9 @@ constructor(props){
 
 getStoredData = async () => {
     localController.getData('budgetList').then((result) => {
+        if (result == null ){
+            result = [];
+        }
         this.setState({budgetList: result});
     });
 
@@ -145,6 +151,7 @@ refreshFlatList = (activeKey) => {
         };
     });
     this.refs.flatList.scrollToEnd();
+    this.getStoredData();
     }
 
     addExp () {
@@ -158,7 +165,7 @@ refreshFlatList = (activeKey) => {
         var mode2 = ( isDarkmode ? styles.darkmode2: styles.lightmode2 );
         var buttonColor =  ( isDarkmode ? styles.buttonColor1Dark: styles.buttonColor1 );
         var total =  0.00;
-        localController.storeData('totalExpense', calculateLogTotal());
+        localController.storeData('totalExpense', calculateLogTotal(this.state.budgetList));
         return (
             <View style={[{
                 backgroundColor: "#F2E9E0",
@@ -166,7 +173,7 @@ refreshFlatList = (activeKey) => {
                 //height: screen.height
              },mode2]}>
                 <Text style={[greet,mode2]}>This month, you've spent:</Text>
-                <Text style={[amount,mode2]}> ${calculateLogTotal()} </Text>
+                <Text style={[amount,mode2]}> ${calculateLogTotal(this.state.budgetList)} </Text>
                 <Button
                     style = {[{
                         fontSize: 18,

@@ -24,11 +24,15 @@ export default class LogPopup extends Component {
 
         getStoredData = async () => {
             localController.getData('budgetList').then((result) => {
+                if( result == null ) {
+                    result = []
+                }
                 this.setState({budgetList: result});
             });
         }
 
         showLogPop = () => {
+            this.getStoredData();
             this.refs.popUp.open();
         }
         generateKey = (numberOfCharacters) => {
@@ -87,21 +91,25 @@ export default class LogPopup extends Component {
                                         alert("You must fill in all the fields");
                                         return;
                                     }
-                                    const newKey = this.generateKey(4);
+                                    const newKey = this.generateKey(5);
                                     const newLog = {
                                         key: newKey,
                                         amount: this.state.newAmount,
                                         description: this.state.newDescription,
                                         date: this.state.newDate
                                     };
+                                    console.log(newLog)
                                     this.getStoredData().then(() => {
                                         let budget = this.state.budgetList;
                                         budget.push(newLog);
+                                        console.log(budget);
                                         this.setState({budgetList: budget});
+                                        localController.storeData('budgetList', budget);
+                                        this.props.parentFlatList.refreshFlatList(newKey);
+                                        this.refs.popUp.close();
                                     });
                                     
-                                    this.props.parentFlatList.refreshFlatList(newKey);
-                                    this.refs.popUp.close();
+                                    
                             }}
                         >
                             Add
