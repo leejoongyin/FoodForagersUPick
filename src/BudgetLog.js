@@ -1,99 +1,107 @@
 import React, { Component } from 'react';
 import Modal from 'react-native-modal';
 import { StyleSheet, View, Text, FlatList, Alert, Dimensions} from 'react-native';
-import flatListData from './flatListData';
+// import flatListData from './flatListData';
 import Swipeout from 'react-native-swipeout';
 import LogPopup from './LogPopup';
 import Button from 'react-native-button';
+import localController from './controller/localController';
 
 import styles from '../style/styles';
 import calculateLogTotal from './calculateLogTotal';
 
 var screen = Dimensions.get('window');
 class FlatListItem extends Component {
-constructor(props) {
-    super(props);
-    this.state = {
-        activeRowKey: null
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeRowKey: null,
+            budgetList: []
+        }
+        this.getStoredData().then(() => console.log('budgetList: ', this.state.budgetList));
+
     }
-
-}
-
-render() {
-    var isDarkmode = this.props.isDarkmode;
-    var mode =  ( isDarkmode ? styles.darkmode: styles.lightmode );
-    var mode2 = ( isDarkmode ? styles.darkmode2: styles.lightmode2 );
-    const swipeSettings = {
-        autoClose: true,
-        onClose: (secId, rowId, direction) => {
-            if(this.state.activeRowKey != null) {
-                this.setState({activeRowKey: null});
-            }
-        },
-        onOpen: (secId, rowId, direction) => {
-            this.setState({activeRowKey: this.props.item.key})
-        },
-        right: [
-            {
-                onPress: () => {
-                    const deletingRow = this.state.activeRowKey;
-                    Alert.alert (
-                        'Alert',
-                        'Are you sure you want to delete?',
-                        [
-                            {text: 'No', onPress: () => console.log('cancel Pressed'), style: 'cancel'},
-                            {text: 'Yes', onPress: () => {
-                                flatListData.splice(this.props.index, 1);
-                                this.props.parentFlatList.refreshFlatList(deletingRow);
-                            }},
-                        ],
-                        {cancelable: true}
-                    )
-                },
-                text: 'Delete', type: 'delete'
-            }
-        ],
-        rowId: this.props.index,
-        sectionId: 1
+    getStoredData = async () => {
+        localController.getData('budgetList').then((result) => {
+            this.setState({budgetList: result});
+        });
     }
+    render() {
+        var isDarkmode = this.props.isDarkmode;
+        var mode =  ( isDarkmode ? styles.darkmode: styles.lightmode );
+        var mode2 = ( isDarkmode ? styles.darkmode2: styles.lightmode2 );
+        const swipeSettings = {
+            autoClose: true,
+            onClose: (secId, rowId, direction) => {
+                if(this.state.activeRowKey != null) {
+                    this.setState({activeRowKey: null});
+                }
+            },
+            onOpen: (secId, rowId, direction) => {
+                this.setState({activeRowKey: this.props.item.key})
+            },
+            right: [
+                {
+                    onPress: () => {
+                        const deletingRow = this.state.activeRowKey;
+                        Alert.alert (
+                            'Alert',
+                            'Are you sure you want to delete?',
+                            [
+                                {text: 'No', onPress: () => console.log('cancel Pressed'), style: 'cancel'},
+                                {text: 'Yes', onPress: () => {
+                                    this.state.budgetList.splice(this.props.index, 1);
+                                    localController.storeData('budgetList', this.state.budgetList);
+                                    this.props.parentFlatList.refreshFlatList(deletingRow);
+                                }},
+                            ],
+                            {cancelable: true}
+                        )
+                    },
+                    text: 'Delete', type: 'delete'
+                }
+            ],
+            rowId: this.props.index,
+            sectionId: 1
+        }
 
-    return (
-        <Swipeout {...swipeSettings}>
-            <View style={[{
-                //flex: 1,
-                backgroundColor: '#6B222D',
-                //flexDirection: "column"
-                
-            }, mode2 ]}>
-                <View style = {[{
-                    //flexDirection: "row",
-                    //alignItems: "stretch",
-                    //textAlign: "center",
-                    //backgroundColor: this.props.index % 2 == 0 ? 'mediumseagreen': 'tomato'
-                    backgroundColor: '#F2E9E0',
-                    margin: 5,
+        return (
+            <Swipeout {...swipeSettings}>
+                <View style={[{
+                    //flex: 1,
+                    backgroundColor: '#6B222D',
+                    //flexDirection: "column"
+                    
                 }, mode2 ]}>
-                    <Text style={[left, mode2 ]}>
-                        {this.props.item.date}
-                    </Text>
-                    <Text style={[middle, mode2 ]}>
-                        {this.props.item.description}
-                    </Text>
-                    <Text style = {[right, mode2 ]}>
-                        {this.props.item.amount}
-                    </Text>
+                    <View style = {[{
+                        //flexDirection: "row",
+                        //alignItems: "stretch",
+                        //textAlign: "center",
+                        //backgroundColor: this.props.index % 2 == 0 ? 'mediumseagreen': 'tomato'
+                        backgroundColor: '#F2E9E0',
+                        margin: 5,
+                    }, mode2 ]}>
+                        <Text style={[left, mode2 ]}>
+                            {this.props.item.date}
+                        </Text>
+                        <Text style={[middle, mode2 ]}>
+                            {this.props.item.description}
+                        </Text>
+                        <Text style = {[right, mode2 ]}>
+                            {this.props.item.amount}
+                        </Text>
 
+                    </View>
+                    <View style = {[{
+                        height: 1,
+                        backgroundColor: "gray"
+                    }, mode2 ]}>
+                    </View>
                 </View>
-                <View style = {[{
-                    height: 1,
-                    backgroundColor: "gray"
-                }, mode2 ]}>
-                </View>
-            </View>
-        </Swipeout>
+            </Swipeout>
 
-    );
-}
+        );
+    }
 }
 
 export default class BudgetLog extends Component {
@@ -106,8 +114,24 @@ constructor(props){
         amount: '',
         description: '',
         date: '',
+        budgetList: [],
+        totalExpense: ''
     };
     this.addExp =  this.addExp.bind(this);
+    this.getStoredData().then(() => {
+        console.log('budgetList: ', this.state.budgetList);
+        console.log('totalExpense:', this.state.totalExpense);
+    });
+}
+
+getStoredData = async () => {
+    localController.getData('budgetList').then((result) => {
+        this.setState({budgetList: result});
+    });
+
+    localController.getData('totalExpense').then((result) => {
+        this.setState({totalExpense: result});
+    });
 }
 
 openModal(e) {
@@ -121,15 +145,11 @@ refreshFlatList = (activeKey) => {
         };
     });
     this.refs.flatList.scrollToEnd();
-}
+    }
 
     addExp () {
         //alert("You add Item")
         this.refs.logPop.showLogPop();
-    }
-
-    calculateTotal = () => {
-
     }
 
     render() {
@@ -138,6 +158,7 @@ refreshFlatList = (activeKey) => {
         var mode2 = ( isDarkmode ? styles.darkmode2: styles.lightmode2 );
         var buttonColor =  ( isDarkmode ? styles.buttonColor1Dark: styles.buttonColor1 );
         var total =  0.00;
+        localController.storeData('totalExpense', calculateLogTotal());
         return (
             <View style={[{
                 backgroundColor: "#F2E9E0",
@@ -181,7 +202,7 @@ refreshFlatList = (activeKey) => {
                     <FlatList
                         ref={"flatList"}
                         style={[{backgroundColor: '#F2E9E0',}, mode2]}
-                        data={flatListData}
+                        data={this.state.budgetList}
                         renderItem={({item, index}) =>{
                             //console.log(`Item = ${JSON.stringify(item)}, index = ${index}`)
                             return(

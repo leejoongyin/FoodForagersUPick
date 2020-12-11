@@ -5,8 +5,8 @@ import {
 } from 'react-native'
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
-import flatListData from './flatListData';
 import { filterAmountInput } from './filterInput';
+import localController from './controller/localController';
 
 var screen = Dimensions.get('window');
 export default class LogPopup extends Component {
@@ -17,7 +17,15 @@ export default class LogPopup extends Component {
                 newAmount: '',
                 newDescription: '',
                 newDate: '',
+                budgetList: []
             }
+            this.getStoredData().then(() => {});
+        }
+
+        getStoredData = async () => {
+            localController.getData('budgetList').then((result) => {
+                this.setState({budgetList: result});
+            });
         }
 
         showLogPop = () => {
@@ -86,7 +94,12 @@ export default class LogPopup extends Component {
                                         description: this.state.newDescription,
                                         date: this.state.newDate
                                     };
-                                    flatListData.push(newLog);
+                                    this.getStoredData().then(() => {
+                                        let budget = this.state.budgetList;
+                                        budget.push(newLog);
+                                        this.setState({budgetList: budget});
+                                    });
+                                    
                                     this.props.parentFlatList.refreshFlatList(newKey);
                                     this.refs.popUp.close();
                             }}
