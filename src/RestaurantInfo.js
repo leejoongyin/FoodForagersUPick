@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {Component} from 'react';
-import { Image, StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
+import { Image, StyleSheet, Text, View, TouchableWithoutFeedback, Dimensions } from 'react-native';
 import '../assets/McDonalds.png'//logo from './assets/mcds.jpg'
 import colors from '../style/colors';
 import {SCALING_WIDTH, MODULE_WIDTH, MODULE_RADIUS} from '../style/styles';
@@ -103,23 +103,16 @@ export default class RestaurantInfo extends Component {
         <View style={[styles.paddingLine]}/>
 
         <View style={[styles.infoRow]}>
-            <View>
-              <TouchableOpacity
-                onPress={this.openMenu}
-                style={[styles.button, buttonColor1]}
-              >
+            <View style={[styles.button, buttonColor1]}>
+              <TouchableWithoutFeedback onPress={this.openMenu}>
                 <Text style={[styles.buttonText, buttonColor1]}>View Menu</Text>
-
-              </TouchableOpacity>
+              </TouchableWithoutFeedback>
             </View>
             <View style={[styles.buttonGap]}/>
-            <View>
-              <TouchableOpacity
-                onPress={this.callNumber}
-                style={[styles.button, buttonColor1]}
-              >
+            <View style={[styles.button, buttonColor1]}>
+              <TouchableWithoutFeedback onPress={this.callNumber}>
                 <Text style={[styles.buttonText,buttonColor1]}>Call Now</Text>
-              </TouchableOpacity>
+              </TouchableWithoutFeedback>
             </View>
         </View>
         <View style={[styles.paddingBottom]}/>
