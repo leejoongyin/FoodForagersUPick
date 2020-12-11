@@ -46,15 +46,29 @@ export default class RestaurantInfo extends Component {
         Linking.openURL(this.state.url);
       } else {
         alert(
-          "Cannot open the link!",
-          "The webpage seems to be offline at the moment.",
+          "We couldn't open your web browser!",
+          `${this.state.url}`
           [{ text: "OK" }],
           { cancelable: false }
         );
       }
     });
   }
-  
+
+  callNumber = () => {
+    Linking.canOpenURL(`tel:${this.state.phone}`).then((supported) => {
+      if (supported) {
+        Linking.openURL(`tel:${this.state.phone}`);
+      } else {
+        alert(
+          "We couldn't open your phone application!",
+          [{ text: "OK" }],
+          { cancelable: false }
+        );
+      }
+    });
+  }
+
   render() {
     var isDarkmode = this.props.route.params.isDarkmode;
     var mode = (isDarkmode?styles.darkmode:styles.lightmode);
@@ -101,7 +115,7 @@ export default class RestaurantInfo extends Component {
             <View style={[styles.buttonGap]}/>
             <View>
               <TouchableOpacity
-                onPress={() => alert('Hello, world!')}
+                onPress={this.callNumber}
                 style={[styles.button, buttonColor1]}
               >
                 <Text style={[styles.buttonText,buttonColor1]}>Call Now</Text>
