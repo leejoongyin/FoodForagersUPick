@@ -86,7 +86,11 @@ class FlatListItem extends Component {
                         //textAlign: "center",
                         //backgroundColor: this.props.index % 2 == 0 ? 'mediumseagreen': 'tomato'
                         backgroundColor: '#F2E9E0',
-                        margin: 5
+                        margin: 5,
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        marginTop: 15,
+                        marginBottom: 15
                     }, mode2 ]}>
                         <Text style={[left, mode2 ]}>
                             {this.props.item.date}
@@ -269,14 +273,17 @@ refreshFlatList = (activeKey) => {
 
 const left = {
     textAlign: 'left',
+    width: '33%'
 }
 
 const middle = {
     textAlign: 'center',
+    width: '33%'
 }
 
 const right = {
     textAlign: 'right',
+    width: '33%'
 }
 
 const greet = {
