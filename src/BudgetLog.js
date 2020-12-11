@@ -87,6 +87,7 @@ class FlatListItem extends Component {
                         //backgroundColor: this.props.index % 2 == 0 ? 'mediumseagreen': 'tomato'
                         backgroundColor: '#F2E9E0',
                         margin: 5,
+                        transform :[{scaleY: -1}],
                     }, mode2 ]}>
                         <Text style={[left, mode2 ]}>
                             {this.props.item.date}
@@ -185,9 +186,9 @@ refreshFlatList = (activeKey) => {
         localController.storeData('totalExpense', calculateLogTotal(this.state.budgetList));
         return (
             <View style={[{
+                flex: 1,
                 backgroundColor: "#F2E9E0",
                 paddingHorizontal: 15
-                //height: screen.height
              },mode2]}>
                 <Text style={[greet,mode2]}>This month, you've spent:</Text>
                 <Text style={[amount,mode2]}> ${calculateLogTotal(this.state.budgetList)} </Text>
@@ -219,11 +220,9 @@ refreshFlatList = (activeKey) => {
                     backgroundColor: mode2.color
                     }}>
                 </View>
-
-                <View style={[{backgroundColor: '#F2E9E0', height: (screen.height/1.5), }, mode2 ]}>
                     <FlatList
                         ref={"flatList"}
-                        style={[{backgroundColor: '#F2E9E0',}, mode2]}
+                        style={[{backgroundColor: '#F2E9E0',transform:[{scaleY:-1}]}, mode2]}
                         data={this.state.budgetList}
                         renderItem={({item, index}) =>{
                             //console.log(`Item = ${JSON.stringify(item)}, index = ${index}`)
@@ -246,14 +245,13 @@ refreshFlatList = (activeKey) => {
                                 </FlatListItem>
                             );
                         }}
-                        ListFooterComponent={()=>{return(<View style={{height: 0.15*screen.height}}/>)}}
+                        //ListFooterComponent={()=>{return(<View style={{height: 0.15*screen.height}}/>)}}
                         >
 
 
                     </FlatList>
 
 
-                </View>
                 <LogPopup
                     ref={'logPop'}
                     parentFlatList={this}

@@ -46,6 +46,7 @@ export default class LogPopup extends Component {
                 <Modal
                     ref={"popUp"}
                     style ={{
+                        marginTop: 100,
                         justifyContent: 'center',
                         borderRadius: 5,
                         shadowRadius: 10,
