@@ -22,6 +22,7 @@ class EatingAlone extends Component {
         super(props);
         const {navigation, isDarkmode}= this.props;
         this.isDarkmode = this.props.isDarkmode;
+        this.setState({continue: false});
         this.getStoredData().then(() => console.log(`GroupAccommodationsPage.js: Finished loading data from AsyncStorage.`));
     }
 
@@ -143,6 +144,7 @@ class EatingAlone extends Component {
         }
     }).then((response) => {
       if (response.data.total) {
+        this.setState({continue: true});
         random = Math.floor(Math.random() * Math.min(response.data.total, 20));
         localController.storeData('restaurant_name', response.data.businesses[random].name);
         localController.storeData('image', response.data.businesses[random].image_url);
@@ -150,9 +152,13 @@ class EatingAlone extends Component {
         localController.storeData('phone', response.data.businesses[random].display_phone);
         localController.storeData('url', response.data.businesses[random].url);
       } else {
-        Alert.alert('Error', "Could not find any restaurants!")
+        this.setState({continue: false});
+        Alert.alert('Error', "Could not find any restaurants! Please change your preferences.");
       }
-    }).catch((error) => Alert.alert('Error', 'We encountered an issue contacting the Yelp API. Please try again later.'));
+    }).catch((error) => {
+      this.setState({continue: false});
+      Alert.alert('Error', 'We encountered an issue contacting the Yelp API. Please try again later.');
+    });
   }
 
   onGenerateFromListPressed = () => {
@@ -178,10 +184,12 @@ class EatingAlone extends Component {
                     onPress={
                         ()=>{
                           this.getRestaurantFromYelp().then(() => {
-                            this.props.navigation.navigate(
-                                "Restaurant Info",
-                                {isDarkmode: this.props.isDarkmode}
-                            );
+                            if (this.state.continue) {
+                              this.props.navigation.navigate(
+                                  "Restaurant Info",
+                                  {isDarkmode: this.props.isDarkmode}
+                              );
+                            }
                           });
 
                         }

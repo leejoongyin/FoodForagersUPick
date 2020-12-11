@@ -19,6 +19,7 @@ const apiKey = KEYS.yelp.api_key;
 class InvitePage extends Component {
     constructor(props){
         super(props);
+        this.setState({continue: false});
         this.getStoredData();
     }
 
@@ -202,6 +203,7 @@ class InvitePage extends Component {
         }
       }).then((response) => {
         if (response.data.total) {
+          this.setState({continue: true});
           random = Math.floor(Math.random() * Math.min(response.data.total, 20));
           localController.storeData('restaurant_name', response.data.businesses[random].name);
           localController.storeData('image', response.data.businesses[random].image_url);
@@ -209,9 +211,13 @@ class InvitePage extends Component {
           localController.storeData('phone', response.data.businesses[random].display_phone);
           localController.storeData('url', response.data.businesses[random].url);
         } else {
-          Alert.alert('Error', "Could not find any restaurants!")
+          this.setState({continue: false});
+          Alert.alert('Error', "Could not find any restaurants! Please change your preferences.");
         }
-      }).catch((error) => Alert.alert('Error', 'We encountered an issue contacting the Yelp API. Please try again later.'));
+      }).catch((error) => {
+        this.setState({continue: false});
+        Alert.alert('Error', 'We encountered an issue contacting the Yelp API. Please try again later.')
+      });
     }
 
     render() {
@@ -250,11 +256,13 @@ class InvitePage extends Component {
                     onPress={
                         ()=>{
                           this.getRestaurantFromYelp().then((filter) => {
-                              this.returnRestaurant(filter).then(() => {
+                            this.returnRestaurant(filter).then(() => {
+                              if (this.state.continue) {
                                 this.props.navigation.navigate(
-                                    "Restaurant Info",
-                                    {isDarkmode: isDarkmode}
+                                  "Restaurant Info",
+                                  {isDarkmode: isDarkmode}
                                 );
+                              }
                             });
                           });
 
