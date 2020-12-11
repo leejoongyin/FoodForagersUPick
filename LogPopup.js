@@ -28,6 +28,7 @@ export default class LogPopup extends Component {
         }
         render() {
             return (
+
                 <Modal
                     ref={"popUp"}
                     style ={{    
@@ -46,7 +47,7 @@ export default class LogPopup extends Component {
                         onClosed = {() => {
                            // alert("Modal closed");
                         }}
-                        keyboardTopOffset = {200}
+                        //keyboardTopOffset = {200}
                     >
                         <Text style={popUptext}>Add new expense </Text>
                         <TextInput 

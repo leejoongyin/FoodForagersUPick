@@ -140,51 +140,43 @@ refreshFlatList = (activeKey) => {
         var total =  0.00;
         return (
             <View style={{flex: 1}}>
-                <View>
-
+                <View style={[{
+                    backgroundColor: "#F2E9E0",
+                    paddingHorizontal: 15,
+                    //paddingTop: 40
+                    },mode2]}>
+                    <Text style={[greet,mode2]}>This month, you've spent:</Text>
+                    <Text style={[amount,mode2]}> ${calculateLogTotal()} </Text>
+                    <Button
+                        style = {[{
+                            fontSize: 18,
+                            color: buttonColor.color,
+                        }]}
+                        containerStyle = {[{
+                            padding: 8,
+                            marginLeft: 70,
+                            marginRight: 70,
+                            height: 40,
+                            marginTop: 10,
+                            marginBottom: 20,
+                            borderRadius: 6,
+                            backgroundColor: buttonColor.backgroundColor
+                        }]}
+                        onPress ={this.addExp}
+                    >
+                        add
+                    </Button>
+                    <Text style ={[tHistory,mode2]}>
+                        Transaction History
+                    </Text>
+                    <View style = {{
+                        height: 1,
+                        margin: 2,
+                        backgroundColor: mode2.color
+                        }}>
+                    </View>
+  
                 </View>
-            <View style={[{
-                backgroundColor: "#F2E9E0",
-                paddingHorizontal: 15,
-                //paddingTop: 40
-             },mode2]}>
-                <Text style={[greet,mode2]}>This month, you've spent:</Text>
-                <Text style={[amount,mode2]}> ${calculateLogTotal()} </Text>
-                <Button
-                    style = {[{
-                        fontSize: 18,
-                        color: buttonColor.color,
-                    }]}
-                    containerStyle = {[{
-                        padding: 8,
-                        marginLeft: 70,
-                        marginRight: 70,
-                        height: 40,
-                        marginTop: 10,
-                        marginBottom: 20,
-                        borderRadius: 6,
-                        backgroundColor: buttonColor.backgroundColor
-                    }]}
-                    onPress ={this.addExp}
-                >
-                    add
-                </Button>
-                <Text style ={[tHistory,mode2]}>
-                    Transaction History
-                </Text>
-                <View style = {{
-                    height: 1,
-                    margin: 2,
-                    backgroundColor: mode2.color
-                    }}>
-                </View>
-                <LogPopup ref={'logPop'} parentFlatList={this} isDarkmode={isDarkmode}>
-
-                </LogPopup>
-                <View style={[{backgroundColor: '#F2E9E0', 
-                height: (screen.height/1.5) 
-                }, 
-                mode2 ]}>
                     <FlatList
                         ref={"flatList"}
                         style={[{backgroundColor: '#F2E9E0',}, mode2]}
@@ -209,17 +201,12 @@ refreshFlatList = (activeKey) => {
                             );
                         }}>
 
-                    </FlatList>
+                    </FlatList>                  
+                    <LogPopup ref={'logPop'} parentFlatList={this} isDarkmode={isDarkmode}>
 
-                </View>
+                    </LogPopup>
+            </View>
 
-            </View>
-            <View
-            //style={{ height: 300}}
-            >
-
-            </View>
-            </View>
         )
 
     };
