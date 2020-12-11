@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'rea
 import '../assets/McDonalds.png'//logo from './assets/mcds.jpg'
 import colors from '../style/colors';
 import {SCALING_WIDTH, MODULE_WIDTH, MODULE_RADIUS} from '../style/styles';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import localController from './controller/localController'
 import {Linking} from 'react-native';
 
 const restaurauntImage = '../assets/splash.png';
@@ -21,32 +21,25 @@ export default class RestaurantInfo extends Component {
     this.getStoredData().then(() => this.setState({loading: false}));
 
   }
+
   getStoredData = async () => {
-    await this.getData('restaurant_name').then((result) => {
+    await localController.getData('restaurant_name').then((result) => {
       this.setState({name: result});
     });
-    await this.getData('image').then((result) => {
+    await localController.getData('image').then((result) => {
       this.setState({image: result});
     });
-    await this.getData('location').then((result) => {
+    await localController.getData('location').then((result) => {
       this.setState({location: result});
     });
-    await this.getData('url').then((result) => {
+    await localController.getData('url').then((result) => {
       this.setState({url: result});
     });
-    await this.getData('phone').then((result) => {
+    await localController.getData('phone').then((result) => {
       this.setState({phone: result});
     });
   }
-  getData = async (key) => {
-    try {
-      const jsonValue = await AsyncStorage.getItem(key).then((key) => {return key;})
-      return jsonValue != null ? JSON.parse(jsonValue) : null
-    } catch(e) {
-      // read error
-      alert('error: ', e);
-    }
-  }
+
   openMenu = () => {
     Linking.canOpenURL(this.state.url).then((supported) => {
       if (supported) {
@@ -61,6 +54,7 @@ export default class RestaurantInfo extends Component {
       }
     });
   }
+  
   render() {
     var isDarkmode = this.props.route.params.isDarkmode;
     var mode = (isDarkmode?styles.darkmode:styles.lightmode);

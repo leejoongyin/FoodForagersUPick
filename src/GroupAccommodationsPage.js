@@ -125,7 +125,6 @@ class EatingAlone extends Component {
     // prioritize diet restrictions since categories is: this,that = "this OR that"
 
     filter = cat.join(',');
-    random = Math.floor(Math.random() * 20);
 
     console.log(`GroupAccommodationsPage.js: Searching with \n
       \t categories: ${filter}\n
@@ -143,12 +142,16 @@ class EatingAlone extends Component {
           price: (budget.length ? budget.join(',') : "1,2,3,4"),
         }
     }).then((response) => {
-      console.log(response.data.businesses[random].name);
-      localController.storeData('restaurant_name', response.data.businesses[random].name);
-      localController.storeData('image', response.data.businesses[random].image_url);
-      localController.storeData('location', response.data.businesses[random].location.address1 + ". \n" + response.data.businesses[random].location.city +  ", " + response.data.businesses[random].location.state);
-      localController.storeData('phone', response.data.businesses[random].display_phone);
-      localController.storeData('url', response.data.businesses[random].url);
+      if (response.data.total) {
+        random = Math.floor(Math.random() * Math.min(response.data.total, 20));
+        localController.storeData('restaurant_name', response.data.businesses[random].name);
+        localController.storeData('image', response.data.businesses[random].image_url);
+        localController.storeData('location', response.data.businesses[random].location.address1 + ". \n" + response.data.businesses[random].location.city +  ", " + response.data.businesses[random].location.state);
+        localController.storeData('phone', response.data.businesses[random].display_phone);
+        localController.storeData('url', response.data.businesses[random].url);
+      } else {
+        Alert.alert('Error', "Could not find any restaurants!")
+      }
     });
   }
 
