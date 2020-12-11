@@ -192,7 +192,7 @@ class InvitePage extends Component {
     }
 
     returnRestaurant = async (f) => {
-      console.log(`GroupAccommodationsPage.js: Searching with \n
+      console.log(`InvitePage.js: Searching with \n
         \t categories: ${f}\n
         \t open_at: ${this.state.time}\n
         \t location: ${this.state.zipcode}\n
@@ -217,7 +217,7 @@ class InvitePage extends Component {
         } else {
           Alert.alert('Error', "Could not find any restaurants!")
         }
-      });
+      }).catch((error) => Alert.alert('Error', 'We encountered an issue contacting the Yelp API. Please try again later.'));
     }
 
     render() {

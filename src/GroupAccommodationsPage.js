@@ -152,7 +152,7 @@ class EatingAlone extends Component {
       } else {
         Alert.alert('Error', "Could not find any restaurants!")
       }
-    });
+    }).catch((error) => Alert.alert('Error', 'We encountered an issue contacting the Yelp API. Please try again later.'));
   }
 
   onGenerateFromListPressed = () => {

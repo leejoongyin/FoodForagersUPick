@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import valZip from '../model/validateZip';
 
 export default class localController {
   static async storeData(key,value) {
@@ -20,4 +21,6 @@ export default class localController {
       console.log(`Error reading data!\n${e}`)
     }
   }
+
+  static validateZip(zipcode) { return valZip(zipcode) }
 }

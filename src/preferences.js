@@ -8,7 +8,6 @@ import localController from './controller/localController';
 import { format } from "date-fns";
 
 import colors from '../style/colors';
-import validateZip from '../model/validateZip';
 
 import { ThemeProvider } from '@react-navigation/native';
 
@@ -150,7 +149,7 @@ export default class Preferences extends Component {
 
   // Show an error text when the user inputs an invalid zipcode.
   onZipBlur() {
-    const errorText = !validateZip(this.state.zipcode) ? "Please enter a valid zipcode." : "";
+    const errorText = !localController.validateZip(this.state.zipcode) ? "Please enter a valid zipcode." : "";
     this.setState({zipErrorText: errorText});
   }
 
@@ -168,7 +167,7 @@ export default class Preferences extends Component {
   }
 
   savePreferences = () => {
-    if (this.state.time && validateZip(this.state.zipcode)) {
+    if (this.state.time && localController.validateZip(this.state.zipcode)) {
       this.props.navigation.navigate('Group Accommodations');
     } else {
       Alert.alert('Error','Please enter all required fields.');
