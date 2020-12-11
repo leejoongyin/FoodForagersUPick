@@ -38,10 +38,6 @@ class InvitePage extends Component {
     }
 
     getRestaurantFromYelp = async () => {
-        // parsing for categories parameter
-        var budgetCSV, dietCSV, cuisineCSV, restaurantCSV;
-        budgetCSV = dietCSV = cuisineCSV = restaurantCSV = '';
-
         var numBudget; // numerical value corresponding to each '$...' symbol
         var filter;
         var bnbChosen = false;
@@ -118,7 +114,6 @@ class InvitePage extends Component {
             if (snapshot.exists()) {
                 for (let cuisine of cChoices) {
                     if (snapshot.child(cuisine).exists()) {
-
                         if (parseInt(snapshot.child(cuisine).val()) >= maxVal) {
                             if (parseInt(snapshot.child(cuisine).val()) > maxVal) {
                                 cArray = [];
@@ -163,7 +158,6 @@ class InvitePage extends Component {
                 }
                 // restaurant type
                 for (var i = 0; i < rArray.length; i++) {
-
                     var temp = rArray[i].toLowerCase();
 
                     if ((temp === "breakfast" || temp === "brunch")) {

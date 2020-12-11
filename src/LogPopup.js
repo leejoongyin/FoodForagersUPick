@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import {
     AppRegistry, FlatList, StylSheet, Text, View, Image, Alert,
-    Platform, TouchableHighLight, Dimensions, TextInput
+    Platform, TouchableHighLight, Dimensions, TextInput, TouchableWithoutFeedback
 } from 'react-native'
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { format } from "date-fns";
+
 import { filterAmountInput } from './filterInput';
 import localController from './controller/localController';
 
@@ -17,7 +20,9 @@ export default class LogPopup extends Component {
                 newAmount: '',
                 newDescription: '',
                 newDate: '',
-                budgetList: []
+                budgetList: [],
+                showTimepicker: false,
+
             }
         }
 
@@ -28,17 +33,24 @@ export default class LogPopup extends Component {
         generateKey = (numberOfCharacters) => {
             return require('random-string')({length: numberOfCharacters});
         }
+        handleTimeChange = (event, date) => {
+          if (date) {
+            this.setState({newDate: date, showTimepicker: false});
+          } else {
+            this.setState({showTimepicker: false});
+          }
+        }
         render() {
             return (
                 <Modal
                     ref={"popUp"}
-                    style ={{    
+                    style ={{
                         justifyContent: 'center',
                         borderRadius: 5,
                         shadowRadius: 10,
-                        width: screen.width - 80,
+                        width: '80%',
                         height: 300,
-                        bottom: Dimensions.get('window').height / 2 - Math.min(300, Dimensions.get('window').height)/2 ,
+                        bottom: Dimensions.get('window').height / 2 - Math.min(400, Dimensions.get('window').height)/2 ,
                     }}
                         position='center'
                         backdrop={true}
@@ -47,9 +59,10 @@ export default class LogPopup extends Component {
                         }}
                     >
                         <Text style={popUptext}>Add new expense </Text>
-                        <TextInput 
-                            style={_input} 
+                        <TextInput
+                            style={_input}
                             placeholder= '$ Amount'
+                            placeholderTextColor='lightgray'
                             keyboardType = 'numeric'
                             onChangeText={(text) => this.setState({newAmount: filterAmountInput(text) })}
                             value={this.state.newAmount}/>
@@ -57,14 +70,24 @@ export default class LogPopup extends Component {
                         <TextInput
                             style={_input}
                             placeholder= 'Description'
+                            placeholderTextColor='lightgray'
                             onChangeText={(text) => this.setState({newDescription: text})}
                             value={this.state.newDescription}/>
-
-                        <TextInput
-                            style={_input}
-                            placeholder='Date (MM/DD/YYYY)'
-                            onChangeText={(text) => this.setState({newDate: text})}
-                            value={this.state.newDate}/>
+                        <View style={_input}>
+                        <TouchableWithoutFeedback onPress={() => this.setState({showTimepicker: true})} style={_input}>
+                            <Text style={[{marginTop: 10}, (this.state.newDate ? {color: 'black'} : {color: 'lightgray'})]}>
+                            {this.state.newDate ? format(this.state.newDate, "M/dd/yyyy") : "Date (MM/DD/YYYY)"}
+                            </Text>
+                        </TouchableWithoutFeedback>
+                        </View>
+                        {this.state.showTimepicker && (
+                          <DateTimePicker
+                            value={new Date()}
+                            mode={'date'}
+                            display="default"
+                            onChange={this.handleTimeChange}
+                          />
+                        )}
                         <Button
                             style={{ fontSize: 18, color: 'white'}}
                             containerStyle={{
@@ -86,7 +109,7 @@ export default class LogPopup extends Component {
                                         key: newKey,
                                         amount: this.state.newAmount,
                                         description: this.state.newDescription,
-                                        date: this.state.newDate
+                                        date: format(this.state.newDate, "M/dd/yyyy")
                                     };
                                     console.log(newLog)
                                     this.props.getBudgetList().then((budget)=>{
@@ -96,12 +119,6 @@ export default class LogPopup extends Component {
                                         this.props.setBudgetList(budget)
                                         this.refs.popUp.close();
                                     });
-                                    
-                                    
-                                        
-                                    
-                                    
-                                    
                             }}
                         >
                             Add

@@ -21,12 +21,12 @@ class FlatListItem extends Component {
         }
 
     }
-    
+
     render() {
         var isDarkmode = this.props.isDarkmode;
         var mode =  ( isDarkmode ? styles.darkmode: styles.lightmode );
         var mode2 = ( isDarkmode ? styles.darkmode2: styles.lightmode2 );
-        
+
         const swipeSettings = {
             autoClose: true,
             onClose: (secId, rowId, direction) => {
@@ -52,14 +52,14 @@ class FlatListItem extends Component {
                                         list.splice(this.props.index, 1);
                                         this.props.parentFlatList.setBudgetList(list);
                                     })
-                                    
+
 
                                     /*
                                     localController.storeData('budgetList', this.state.budgetList).then(()=>{
                                         this.props.parentFlatList.refreshFlatList(deletingRow);
                                     });
                                     */
-                                    
+
                                 }},
                             ],
                             {cancelable: true}
@@ -78,7 +78,7 @@ class FlatListItem extends Component {
                     //flex: 1,
                     backgroundColor: '#6B222D',
                     //flexDirection: "column"
-                    
+
                 }, mode2 ]}>
                     <View style = {[{
                         //flexDirection: "row",
@@ -146,7 +146,7 @@ getStoredData = async () => {
 
 getBudgetList = async () => {
     return this.state.budgetList;
-} 
+}
 
 setBudgetList = async ( e ) => {
     localController.storeData('budgetList', e ).then(()=>{
@@ -168,7 +168,7 @@ refreshFlatList = (activeKey) => {
         };
     });
     this.refs.flatList.scrollToEnd();
-    
+
     }
 
     addExp () {
@@ -233,12 +233,12 @@ refreshFlatList = (activeKey) => {
                                         {
                                             backgroundColor: '#6B222D',
                                             //height: 100
-                                        }, 
-                                        mode2 
+                                        },
+                                        mode2
                                     ]}
                                     item={item}
                                     index={index}
-                                    parentFlatList={this} 
+                                    parentFlatList={this}
                                     isDarkmode={isDarkmode}
                                     getBudgetList={this.getBudgetList.bind(this)}
                                     setBudgetList={this.setBudgetList.bind(this)}
@@ -248,21 +248,21 @@ refreshFlatList = (activeKey) => {
                         }}
                         ListFooterComponent={()=>{return(<View style={{height: 0.15*screen.height}}/>)}}
                         >
-                        
+
 
                     </FlatList>
-                    
+
 
                 </View>
-                <LogPopup 
-                    ref={'logPop'} 
-                    parentFlatList={this} 
-                    isDarkmode={isDarkmode} 
+                <LogPopup
+                    ref={'logPop'}
+                    parentFlatList={this}
+                    isDarkmode={isDarkmode}
                     getBudgetList={this.getBudgetList.bind(this)}
                     setBudgetList={this.setBudgetList.bind(this)}
                 ></LogPopup>
-                
-                
+
+
             </View>
         )
 
@@ -293,7 +293,7 @@ const greet = {
 
 const amount = {
     textAlign: 'center',
-    fontSize: 35, 
+    fontSize: 35,
     fontWeight: 'bold',
     marginBottom: 20,
     //left: '50%',
