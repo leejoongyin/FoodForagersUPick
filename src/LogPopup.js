@@ -19,10 +19,9 @@ export default class LogPopup extends Component {
             this.state = {
                 newAmount: '',
                 newDescription: '',
-                newDate: '',
+                newDate: null,
                 budgetList: [],
                 showTimepicker: false,
-
             }
         }
 
@@ -33,6 +32,7 @@ export default class LogPopup extends Component {
         generateKey = (numberOfCharacters) => {
             return require('random-string')({length: numberOfCharacters});
         }
+
         handleTimeChange = (event, date) => {
           if (date) {
             this.setState({newDate: date, showTimepicker: false});
@@ -40,6 +40,7 @@ export default class LogPopup extends Component {
             this.setState({showTimepicker: false});
           }
         }
+
         render() {
             return (
                 <Modal
@@ -66,7 +67,6 @@ export default class LogPopup extends Component {
                             keyboardType = 'numeric'
                             onChangeText={(text) => this.setState({newAmount: filterAmountInput(text) })}
                             value={this.state.newAmount}/>
-
                         <TextInput
                             style={_input}
                             placeholder= 'Description'
@@ -74,11 +74,11 @@ export default class LogPopup extends Component {
                             onChangeText={(text) => this.setState({newDescription: text})}
                             value={this.state.newDescription}/>
                         <View style={_input}>
-                        <TouchableWithoutFeedback onPress={() => this.setState({showTimepicker: true})} style={_input}>
-                            <Text style={[{marginTop: 10}, (this.state.newDate ? {color: 'black'} : {color: 'lightgray'})]}>
-                            {this.state.newDate ? format(this.state.newDate, "M/dd/yyyy") : "Date (MM/DD/YYYY)"}
-                            </Text>
-                        </TouchableWithoutFeedback>
+                          <TouchableWithoutFeedback onPress={() => this.setState({showTimepicker: true})}>
+                              <Text style={[{marginTop: 10}, (this.state.newDate ? {color: 'black'} : {color: 'lightgray'})]}>
+                              {this.state.newDate ? format(this.state.newDate, "M/dd/yyyy") : "Date (MM/DD/YYYY)"}
+                              </Text>
+                          </TouchableWithoutFeedback>
                         </View>
                         {this.state.showTimepicker && (
                           <DateTimePicker
@@ -100,7 +100,7 @@ export default class LogPopup extends Component {
                             }}
                             onPress={() => {
                                 if(this.state.newAmount.length == 0 || this.state.newDescription.length == 0
-                                    || this.state.newDate.length == 0){
+                                    || !this.state.newDate){
                                         alert("You must fill in all the fields");
                                         return;
                                     }
