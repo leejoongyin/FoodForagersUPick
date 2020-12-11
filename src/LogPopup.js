@@ -19,22 +19,12 @@ export default class LogPopup extends Component {
                 newDate: '',
                 budgetList: []
             }
-            this.getStoredData().then(() => {});
-        }
-
-        getStoredData = async () => {
-            localController.getData('budgetList').then((result) => {
-                if( result == null ) {
-                    result = []
-                }
-                this.setState({budgetList: result});
-            });
         }
 
         showLogPop = () => {
-            this.getStoredData();
             this.refs.popUp.open();
         }
+
         generateKey = (numberOfCharacters) => {
             return require('random-string')({length: numberOfCharacters});
         }
@@ -99,15 +89,17 @@ export default class LogPopup extends Component {
                                         date: this.state.newDate
                                     };
                                     console.log(newLog)
-                                    this.getStoredData().then(() => {
-                                        let budget = this.state.budgetList;
+                                    this.props.getBudgetList().then((budget)=>{
+                                        console.log(budget);
                                         budget.push(newLog);
                                         console.log(budget);
-                                        this.setState({budgetList: budget});
-                                        localController.storeData('budgetList', budget);
-                                        this.props.parentFlatList.refreshFlatList(newKey);
+                                        this.props.setBudgetList(budget)
                                         this.refs.popUp.close();
                                     });
+                                    
+                                    
+                                        
+                                    
                                     
                                     
                             }}

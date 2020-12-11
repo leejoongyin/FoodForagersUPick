@@ -19,18 +19,14 @@ class FlatListItem extends Component {
             activeRowKey: null,
             budgetList: []
         }
-        this.getStoredData().then(() => console.log('budgetList: ', this.state.budgetList));
 
     }
-    getStoredData = async () => {
-        localController.getData('budgetList').then((result) => {
-            this.setState({budgetList: result});
-        });
-    }
+    
     render() {
         var isDarkmode = this.props.isDarkmode;
         var mode =  ( isDarkmode ? styles.darkmode: styles.lightmode );
         var mode2 = ( isDarkmode ? styles.darkmode2: styles.lightmode2 );
+        
         const swipeSettings = {
             autoClose: true,
             onClose: (secId, rowId, direction) => {
@@ -51,10 +47,18 @@ class FlatListItem extends Component {
                             [
                                 {text: 'No', onPress: () => console.log('cancel Pressed'), style: 'cancel'},
                                 {text: 'Yes', onPress: () => {
-                                    this.state.budgetList.splice(this.props.index, 1);
+                                    this.props.parentFlatList.getBudgetList().then((list)=>{
+                                        console.log("FlatListItem: budgetList: ", list);
+                                        list.splice(this.props.index, 1);
+                                        this.props.parentFlatList.setBudgetList(list);
+                                    })
+                                    
+
+                                    /*
                                     localController.storeData('budgetList', this.state.budgetList).then(()=>{
                                         this.props.parentFlatList.refreshFlatList(deletingRow);
                                     });
+                                    */
                                     
                                 }},
                             ],
@@ -140,18 +144,31 @@ getStoredData = async () => {
     });
 }
 
+getBudgetList = async () => {
+    return this.state.budgetList;
+} 
+
+setBudgetList = async ( e ) => {
+    localController.storeData('budgetList', e ).then(()=>{
+        this.getStoredData().then(()=>{
+            this.refs.flatList.scrollToEnd();
+        });
+    })
+}
+
 openModal(e) {
     this.setState({isModalVisible: e.target.isModalVisible});
 }
 
 refreshFlatList = (activeKey) => {
+    this.getStoredData();
     this.setState((prevState) => {
         return {
             deletedRowKey: activeKey
         };
     });
     this.refs.flatList.scrollToEnd();
-    this.getStoredData();
+    
     }
 
     addExp () {
@@ -202,10 +219,8 @@ refreshFlatList = (activeKey) => {
                     backgroundColor: mode2.color
                     }}>
                 </View>
-                <LogPopup ref={'logPop'} parentFlatList={this} isDarkmode={isDarkmode}>
 
-                </LogPopup>
-                <View style={[{backgroundColor: '#F2E9E0', height: screen.height }, mode2 ]}>
+                <View style={[{backgroundColor: '#F2E9E0', height: (screen.height/1.5), }, mode2 ]}>
                     <FlatList
                         ref={"flatList"}
                         style={[{backgroundColor: '#F2E9E0',}, mode2]}
@@ -225,14 +240,28 @@ refreshFlatList = (activeKey) => {
                                     index={index}
                                     parentFlatList={this} 
                                     isDarkmode={isDarkmode}
+                                    getBudgetList={this.getBudgetList.bind(this)}
+                                    setBudgetList={this.setBudgetList.bind(this)}
                                 >
                                 </FlatListItem>
                             );
-                        }}>
+                        }}
+                        ListFooterComponent={()=>{return(<View style={{height: 0.15*screen.height}}/>)}}
+                        >
+                        
 
                     </FlatList>
+                    
 
                 </View>
+                <LogPopup 
+                    ref={'logPop'} 
+                    parentFlatList={this} 
+                    isDarkmode={isDarkmode} 
+                    getBudgetList={this.getBudgetList.bind(this)}
+                    setBudgetList={this.setBudgetList.bind(this)}
+                ></LogPopup>
+                
                 
             </View>
         )
