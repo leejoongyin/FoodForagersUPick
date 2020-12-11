@@ -302,7 +302,7 @@ class InvitePage extends Component {
                     </TouchableWithoutFeedback>
 
                     <View style={[styles.paddingManual]}/>
-
+                    {/*
                     <TouchableWithoutFeedback  
                         title = 'Generate' 
                         onPress={()=>{
@@ -317,8 +317,8 @@ class InvitePage extends Component {
                                 Generate recomendation from Restaurant List
                             </Text>
                         </View>
-                    </TouchableWithoutFeedback>
-
+                    </TouchableWithoutFeedback> 
+                    */}
                     <View style={styles.paddingBottom}/>
                 </View>
             </View>
