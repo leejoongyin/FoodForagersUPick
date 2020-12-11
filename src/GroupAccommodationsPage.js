@@ -22,16 +22,18 @@ class EatingAlone extends Component {
         super(props);
         const {navigation, isDarkmode}= this.props;
         this.isDarkmode = this.props.isDarkmode;
-        this.setState({continue: false});
+        this.state = {
+          continue: false
+        }
         this.getStoredData().then(() => console.log(`GroupAccommodationsPage.js: Finished loading data from AsyncStorage.`));
     }
 
     getStoredData = async () => {
-      localController.getData('zipcode').then((result) => {
+      await localController.getData('zipcode').then((result) => {
           this.setState({zipcode: result});
           console.log(`GroupAccommodationsPage.js: Loaded zipcode with ${this.state.zipcode}.`);
       });
-      localController.getData('time').then((result) => {
+      await localController.getData('time').then((result) => {
           var monday = new Date();
           monday.setDate(monday.getDate() + (7 - monday.getDay()) % 7 + 1);
           monday.setHours(0, 0, 0, 0);
@@ -39,19 +41,19 @@ class EatingAlone extends Component {
           this.setState({time: fixedTime});
           console.log(`GroupAccommodationsPage.js: Loaded time with ${this.state.time}.`);
       });
-      localController.getData('budget').then((result) => {
+      await localController.getData('budget').then((result) => {
           this.setState({budgetArray: result });
           console.log(`GroupAccommodationsPage.js: Loaded budgetArray with ${this.state.budgetArray}.`);
       });
-      localController.getData('diet').then((result) => {
+      await localController.getData('diet').then((result) => {
           this.setState({dietArray: result});
           console.log(`GroupAccommodationsPage.js: Loaded dietArray with ${this.state.dietArray}.`);
       });
-      localController.getData('cuisine').then((result) => {
+      await localController.getData('cuisine').then((result) => {
           this.setState({cuisineArray: result});
           console.log(`GroupAccommodationsPage.js: Loaded cuisineArray with ${this.state.cuisineArray}.`);
       });
-      localController.getData('restaurant').then((result) => {
+      await localController.getData('restaurant').then((result) => {
           this.setState({restaurantArray: result});
           console.log(`GroupAccommodationsPage.js: Loaded restaurantArray with ${this.state.restaurantArray}.`);
       });

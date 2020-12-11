@@ -19,7 +19,9 @@ const apiKey = KEYS.yelp.api_key;
 class InvitePage extends Component {
     constructor(props){
         super(props);
-        this.setState({continue: false});
+        this.state = {
+          continue: false
+        }
         this.getStoredData();
     }
 

@@ -140,6 +140,12 @@ export default class Preferences extends Component {
     });
   }
 
+  storeAllData = async () => {
+    await localController.storeData('budget', this.state.budgetArray);
+    await localController.storeData('diet', this.state.dietArray);
+    await localController.storeData('restaurant', this.state.restaurantArray);
+    await localController.storeData('cuisine', this.state.cuisineArray);
+  }
   // If the user somehow inputs non-numeric characters, remove them.
   onZipInput(text) {
     this.setState({zipcode: text.replace(/[^0-9]/g, '')}, () => {
@@ -168,7 +174,8 @@ export default class Preferences extends Component {
 
   savePreferences = () => {
     if (this.state.time && localController.validateZip(this.state.zipcode)) {
-      this.props.navigation.navigate('Group Accommodations');
+      this.storeAllData().then(() => this.props.navigation.navigate('Group Accommodations'));
+
     } else {
       Alert.alert('Error','Please enter all required fields.');
     }
