@@ -115,7 +115,7 @@ export default class LogPopup extends Component {
                                     console.log(newLog)
                                     this.props.getBudgetList().then((budget)=>{
                                         console.log(budget);
-                                        budget.push(newLog);
+                                        budget.unshift(newLog);
                                         console.log(budget);
                                         this.props.setBudgetList(budget)
                                         this.refs.popUp.close();

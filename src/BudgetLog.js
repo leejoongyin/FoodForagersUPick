@@ -86,8 +86,7 @@ class FlatListItem extends Component {
                         //textAlign: "center",
                         //backgroundColor: this.props.index % 2 == 0 ? 'mediumseagreen': 'tomato'
                         backgroundColor: '#F2E9E0',
-                        margin: 5,
-                        transform :[{scaleY: -1}],
+                        margin: 5
                     }, mode2 ]}>
                         <Text style={[left, mode2 ]}>
                             {this.props.item.date}
@@ -222,7 +221,7 @@ refreshFlatList = (activeKey) => {
                 </View>
                     <FlatList
                         ref={"flatList"}
-                        style={[{backgroundColor: '#F2E9E0',transform:[{scaleY:-1}]}, mode2]}
+                        style={[{backgroundColor: '#F2E9E0'}, mode2]}
                         data={this.state.budgetList}
                         renderItem={({item, index}) =>{
                             //console.log(`Item = ${JSON.stringify(item)}, index = ${index}`)
