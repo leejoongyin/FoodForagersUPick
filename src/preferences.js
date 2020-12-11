@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 36,
     marginTop: 5,
-    marginBottom: 200
+    marginBottom: 118
   },
   button: {
       padding: 5,
