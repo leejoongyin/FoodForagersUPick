@@ -27,6 +27,8 @@ import styles from './style/styles';
 import { render } from 'react-dom';
 import { GROUP_CODE_LENGTH, GROUP_CODE_VALID_CHARS } from './src/constants';
 
+import validateGroupCode from './src/model/validateGroupCode';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -84,14 +86,9 @@ class App extends Component {
     this.state.groupCode = this.state.mainCode;
     return true;
   }
-  validateGroupCode( e ) {
-    if ( !e || e.length != GROUP_CODE_LENGTH ) {
-      return false;
-    }
-    return true;
-  }
+  
   setGroupCode( e ) {
-    if ( !this.validateGroupCode( e ) ) {
+    if ( !validateGroupCode.check( e ) ) {
       return false;
     }
 

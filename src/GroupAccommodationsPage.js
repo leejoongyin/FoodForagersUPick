@@ -488,11 +488,11 @@ class QRScanner extends Component {
                     <Camera
                         //type={Camera.Constants.Type.back}
                         style={[ styles.barCodeScanner ]}
-                        onBarCodeScanned={this.qrCodeScanned}
+                        onBarCodeScanned={this.qrCodeScanned}/*
                         barCodeScannerSettings={{
                             barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
                         }}
-                        useCamera2Api={true}
+                        useCamera2Api={true}*/
                         onMountError={(message)=>{Alert.alert("Camera error", JSON.stringify(message) + this.getPermission())}}
                         //ratio={"1:1"}
                     />
