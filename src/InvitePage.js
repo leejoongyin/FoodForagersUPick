@@ -25,6 +25,23 @@ class InvitePage extends Component {
         this.getStoredData();
     }
 
+    componentWillUnmount() {
+        this.firebaseRef = db.database().ref(this.props.route.params.getGroupCode());
+
+        this.firebaseRef.child('Members').once('value').then((snapshot) => {
+            var updates = {};
+            updates['Members'] = (parseInt(snapshot.val()) - 1);
+            this.firebaseRef.update(updates);
+
+            this.firebaseRef.child('Members').once('value').then((snapshot) => {
+                if (parseInt(snapshot.val()) < 1) {
+                    this.firebaseRef.remove();
+                }
+            });
+        });
+        
+    }
+
     getStoredData = async () => {
         localController.getData('zipcode').then((result) => {
             this.setState({zipcode: result});
@@ -272,7 +289,7 @@ class InvitePage extends Component {
                     }>
                         <View style = {[ mode, styles.buttonFocused, (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1)  ]}>
                             <Text style = {[mode, styles.buttonText,  (isDarkmode? styles.buttonColor2Dark: styles.buttonColor1) ]}>
-                                Generate recomendation
+                                Generate recommendation
                             </Text>
                         </View>
                     </TouchableWithoutFeedback>

@@ -301,6 +301,12 @@ class QRScanner extends Component {
         timelocation['Time'] = this.state.time;
         this.firebaseRef.update(timelocation);
 
+        await this.firebaseRef.child('Members').once('value').then((snapshot) => {
+            var updates = {};
+            updates['Members'] = (parseInt(snapshot.val()) + 1);
+            this.firebaseRef.update(updates);
+        })
+
         await this.firebaseRef.child('Budget').once('value').then((snapshot) => {
             var updates = {};
             var temp = 0;
@@ -375,25 +381,39 @@ class QRScanner extends Component {
 
     groupCodeEntered = (input) => {
         var filteredInput = filterGroupCodeInput(input);
+
+        if (filteredInput === "") {
+            this.firebaseRef = db.database().ref("not valid");
+        } else {
+            this.firebaseRef = db.database().ref(filteredInput);
+        }
         this.setState({
             groupCodeIn: filteredInput
         });
-        if( this.props.setGroupCode( filteredInput ) ) {
-            this.setState({
-                showScanner: false,
-                isVerifying: false,
-                inputtingText: false,
-                groupCodeIn: ""
+        
+        this.firebaseRef.child('Members').once('value').then((snapshot) => {
 
-            })
-            this.updateDB(filteredInput);
-            this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.isDarkmode});
-        } else if ( filteredInput.length >= GROUP_CODE_LENGTH ) {
-            Alert.alert(" The code entered: (" + filteredInput + ") is not a valid group code");
-            this.setState({
-                groupCodeIn: ""
-            });
-        }
+            if (snapshot.val()) {
+                if( this.props.setGroupCode( filteredInput ) ) {
+                    this.setState({
+                        showScanner: false,
+                        isVerifying: false,
+                        inputtingText: false,
+                        groupCodeIn: ""
+        
+                    })
+                    this.updateDB(filteredInput);
+                    this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.isDarkmode});
+                } else if ( filteredInput.length >= GROUP_CODE_LENGTH ) {
+                    Alert.alert("The code entered: (" + filteredInput + ") is not a valid group code");
+                }
+            } else if ( filteredInput.length >= GROUP_CODE_LENGTH ) {
+                Alert.alert("The code entered: (" + filteredInput + ") is not a valid group code");
+            }
+
+            this.firebaseRef.off();
+        });
+
     }
 
     codeWarningDismissed = () => {
@@ -454,7 +474,7 @@ class QRScanner extends Component {
         if( !this.state.showScanner ) {
             return(
                 <TouchableWithoutFeedback onPress={this.onShowPressed}>
-                    <View style={[ styles.button, styles.buttonColor1Dark, { flex:1, width: 0.9*MODULE_WIDTH } ]}>
+                    <View style={[ styles.button, styles.buttonColor1Dark, { flex:1, width: '90%' } ]}>
                         <Text style={[styles.buttonText, styles.buttonColor1Dark]}> Start Scanner </Text>
                     </View>
                 </TouchableWithoutFeedback>
@@ -488,11 +508,11 @@ class QRScanner extends Component {
                     <Camera
                         //type={Camera.Constants.Type.back}
                         style={[ styles.barCodeScanner ]}
-                        onBarCodeScanned={this.qrCodeScanned}/*
+                        onBarCodeScanned={this.qrCodeScanned}
                         barCodeScannerSettings={{
                             barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
                         }}
-                        useCamera2Api={true}*/
+                        useCamera2Api={true}
                         onMountError={(message)=>{Alert.alert("Camera error", JSON.stringify(message) + this.getPermission())}}
                         //ratio={"1:1"}
                     />
@@ -577,7 +597,7 @@ class GroupsAccommodationsPage extends Component {
         });
         localController.getData('restaurant').then((result) => {
             this.setState({restaurantArray: result});
-            console.log('restauarnt: ', this.state.restaurantArray);
+            console.log('restaurant: ', this.state.restaurantArray);
         });
     };
 
@@ -631,6 +651,7 @@ class GroupsAccommodationsPage extends Component {
         this.firebaseRef.remove();
         var updates = {};
 
+        updates['Members'] = 1;
         updates['Zipcode'] = this.state.zipcode;
         updates['Time'] = this.state.time;
 
