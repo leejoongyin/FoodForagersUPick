@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
       height: MODULE_FRAME,
       alignContent: 'center',
       alignItems: 'center',
-      width: '100%',
+      width: MODULE_WIDTH,
       flex: -1,
 
     },

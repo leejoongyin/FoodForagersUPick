@@ -454,7 +454,7 @@ class QRScanner extends Component {
         if( !this.state.showScanner ) {
             return(
                 <TouchableWithoutFeedback onPress={this.onShowPressed}>
-                    <View style={[ styles.button, styles.buttonColor1Dark, { flex:1, width: '90%' } ]}>
+                    <View style={[ styles.button, styles.buttonColor1Dark, { flex:1, width: 0.9*MODULE_WIDTH } ]}>
                         <Text style={[styles.buttonText, styles.buttonColor1Dark]}> Start Scanner </Text>
                     </View>
                 </TouchableWithoutFeedback>
