@@ -27,7 +27,8 @@ import styles from './style/styles';
 import { render } from 'react-dom';
 import { GROUP_CODE_LENGTH, GROUP_CODE_VALID_CHARS } from './src/constants';
 
-import validateGroupCode from './src/model/validateGroupCode';
+import groupController from './src/controller/groupController';
+import localController from './src/controller/localController';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -50,22 +51,13 @@ class App extends Component {
 
     this.state = {
       isDarkmode: true,
-      mainCode: this.roomCodeGenerator(GROUP_CODE_LENGTH),
+      mainCode: groupController.generateCode(GROUP_CODE_LENGTH),
       groupCode: "ABCD",
       restaurantList: []
     };
     var mode = (this.getIsDarkmode() ? styles.darkmode : styles.lightmode);
     console.log(mode);
-  }
-
-  roomCodeGenerator = (length) => {
-    var result           = '';
-    var characters       = GROUP_CODE_VALID_CHARS;
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
+    this.getStoredData();
   }
 
   toggleDarkmode() {
@@ -82,13 +74,22 @@ class App extends Component {
   getGroupCode() {
     return this.state.groupCode;
   }
+
+  getStoredData () {
+    localController.getData('myRestaurantList').then((result) => {
+      if( result == null ) {
+        result = [];
+      }
+      this.setState({restaurantList: result});
+    });
+  }
   setCode() {
     this.state.groupCode = this.state.mainCode;
     return true;
   }
   
   setGroupCode( e ) {
-    if ( !validateGroupCode.check( e ) ) {
+    if ( !groupController.checkCode( e ) ) {
       return false;
     }
 
@@ -100,6 +101,7 @@ class App extends Component {
   }
 
   setRestaurantList( e ) {
+    localController.storeData('myRestaurantList', e);
     this.setState(prevState=>({
       restaurantList: e
     }));
