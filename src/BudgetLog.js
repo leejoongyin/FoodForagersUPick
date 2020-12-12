@@ -193,7 +193,7 @@ refreshFlatList = (activeKey) => {
                 backgroundColor: "#F2E9E0",
                 paddingHorizontal: 15
              },mode2]}>
-                <Text style={[greet,mode2]}>This month, you've spent:</Text>
+                <Text style={[greet,mode2]}>In total, you've spent:</Text>
                 <Text style={[amount,mode2]}> ${calculateLogTotal(this.state.budgetList)} </Text>
                 <Button
                     style = {[{
