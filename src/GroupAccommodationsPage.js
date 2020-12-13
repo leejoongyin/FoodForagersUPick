@@ -256,7 +256,7 @@ class QRScanner extends Component {
                         groupCodeIn: ""
                     });
                     if (parseInt(snapshot) > 0) {
-                        dbController.updateDB(filteredInput, this.state.zipcode, this.state.time, this.state.budgetArray, this.state.dietArray, this.state.cuisineArray, this.state.restaurantArray);
+                        dbController.updateDBOnJoin(filteredInput, this.state.zipcode, this.state.time, this.state.budgetArray, this.state.dietArray, this.state.cuisineArray, this.state.restaurantArray);
                         this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.isDarkmode});
                     } else {
                         Alert.alert("The code entered: (" + filteredInput + ") is not a valid group code.");
