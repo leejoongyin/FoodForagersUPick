@@ -402,8 +402,14 @@ class QRScanner extends Component {
                         groupCodeIn: ""
         
                     })
-                    this.updateDB(filteredInput);
-                    this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.isDarkmode});
+                    
+                    if (parseInt(snapshot.val()) > 0) {
+                        this.updateDB(filteredInput);
+                        this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.isDarkmode});
+                    } else {
+                        this.firebaseRef.remove();
+                        Alert.alert("The code entered: (" + filteredInput + ") is not a valid group code");
+                    }
                 } else if ( filteredInput.length >= GROUP_CODE_LENGTH ) {
                     Alert.alert("The code entered: (" + filteredInput + ") is not a valid group code");
                 }

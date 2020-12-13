@@ -25,6 +25,81 @@ class InvitePage extends Component {
         this.getStoredData();
     }
 
+    updateDB = async () => {
+        this.firebaseRef = db.database().ref(this.props.route.params.getGroupCode());
+
+        await this.firebaseRef.child('Budget').once('value').then((snapshot) => {
+            var updates = {};
+            var temp = 0;
+
+                for (let budget of this.state.budgetArray) {
+                    if (budget === '$') {
+                        temp = 0;
+                        if (snapshot.child('1').val()) {
+                            temp = parseInt(snapshot.child('1').val());
+                        }
+                        updates['/Budget/1/'] = (temp - 1);
+                    }
+                    if (budget === '$$') {
+                        temp = 0;
+                        if (snapshot.child('2').val()) {
+                            temp = parseInt(snapshot.child('2').val());
+                        }
+                        updates['/Budget/2/'] = (temp - 1);
+                    }
+                    if (budget === '$$$') {
+                        temp = 0;
+                        if (snapshot.child('3').val()) {
+                            temp = parseInt(snapshot.child('3').val());
+                        }
+                        updates['/Budget/3/'] = (temp - 1);
+                    }
+                this.firebaseRef.update(updates);
+            }
+        });
+        await this.firebaseRef.child('Diet').once('value').then((snapshot) => {
+            var updates = {};
+            var temp = 0;
+                for (let diet of this.state.dietArray) {
+                    temp = 0;
+                    if (snapshot.child(diet).val()) {
+                        temp = parseInt(snapshot.child(diet).val());
+                    }
+                    updates['/Diet/' + diet] = (temp - 1);
+                    //console.log("diet: " + diet + " " + (temp-1) + '\n');
+                }
+                this.firebaseRef.update(updates);
+
+        });
+        await this.firebaseRef.child('Cuisine').once('value').then((snapshot) => {
+            var updates = {};
+            var temp = 0;
+                for (let cuisine of this.state.cuisineArray) {
+                    temp = 0;
+                    if (snapshot.child(cuisine).val()) {
+                        temp = parseInt(snapshot.child(cuisine).val());
+                    }
+                    updates['/Cuisine/' + cuisine] = (temp - 1);
+                    //console.log("cuisine: " + cuisine + " " + (temp-1) + '\n');
+                }
+                this.firebaseRef.update(updates);
+        });
+        await this.firebaseRef.child('Restaurant').once('value').then((snapshot) => {
+            var updates = {};
+            var temp = 0;
+                for (let restaurant of this.state.restaurantArray) {
+                    temp = 0;
+                    if (snapshot.child(restaurant).val()) {
+                        temp = parseInt(snapshot.child(restaurant).val());
+                    }
+                    updates['/Restaurant/' + restaurant] = (temp - 1);
+                    //console.log("restaurant: " + restaurant + " " + (temp-1) + '\n');
+                }
+                this.firebaseRef.update(updates);
+        });
+        this.firebaseRef.off();
+    }
+
     componentWillUnmount() {
         this.firebaseRef = db.database().ref(this.props.route.params.getGroupCode());
 
@@ -34,26 +109,44 @@ class InvitePage extends Component {
             this.firebaseRef.update(updates);
 
             this.firebaseRef.child('Members').once('value').then((snapshot) => {
-                if (parseInt(snapshot.val()) < 1) {
-                    this.firebaseRef.remove();
-                }
+                this.updateDB().then(() => { 
+                    if (parseInt(snapshot.val()) < 1) {
+                        this.firebaseRef.remove();
+                    }
+                });
             });
         });
         
     }
 
     getStoredData = async () => {
-        localController.getData('zipcode').then((result) => {
+        await localController.getData('zipcode').then((result) => {
             this.setState({zipcode: result});
             console.log(`InvitePage.js: Loaded zipcode with ${this.state.zipcode}.`);
         });
-        localController.getData('time').then((result) => {
+        await localController.getData('time').then((result) => {
             var monday = new Date();
             monday.setDate(monday.getDate() + (7 - monday.getDay()) % 7 + 1);
             monday.setHours(0, 0, 0, 0);
             var fixedTime =  (monday < new Date(result)) ? parseInt(new Date(result).getTime() / 1000) - 604800 : parseInt(new Date(result).getTime() / 1000);
             this.setState({time: fixedTime});
             console.log(`InvitePage.js: Loaded time with ${this.state.time}.`);
+        });
+        await localController.getData('budget').then((result) => {
+            this.setState({budgetArray: result });
+            console.log(`GroupAccommodationsPage.js: Loaded budgetArray with ${this.state.budgetArray}.`);
+        });
+        await localController.getData('diet').then((result) => {
+            this.setState({dietArray: result});
+            console.log(`GroupAccommodationsPage.js: Loaded dietArray with ${this.state.dietArray}.`);
+        });
+        await localController.getData('cuisine').then((result) => {
+            this.setState({cuisineArray: result});
+            console.log(`GroupAccommodationsPage.js: Loaded cuisineArray with ${this.state.cuisineArray}.`);
+        });
+        await localController.getData('restaurant').then((result) => {
+            this.setState({restaurantArray: result});
+            console.log(`GroupAccommodationsPage.js: Loaded restaurantArray with ${this.state.restaurantArray}.`);
         });
     }
 
