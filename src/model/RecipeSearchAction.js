@@ -35,7 +35,7 @@ export const getRecipesAction = (query, from, to) => {
         });
     // };
   };
-  
+
   const getRecipes = (searchQuery, from = 0, to = 60) => {
     let query = {
       q: searchQuery,
@@ -53,4 +53,3 @@ export const getRecipesAction = (query, from, to) => {
     // return request
     return ajax.makeRequest("https://api.edamam.com/search", "GET", { ...query }, {});
   };
-  
