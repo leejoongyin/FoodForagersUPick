@@ -1,7 +1,7 @@
 import { filterAmountInput, filterDigits } from './filterInput';
 import flatListData from './flatListData';
 
-calculateLogTotal = (e) =>  {
+function calculateLogTotal(e)  {
     var total = 0;
     if ( e == null ) {
         return "0.00";

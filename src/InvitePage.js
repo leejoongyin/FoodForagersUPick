@@ -178,7 +178,7 @@ class InvitePage extends Component {
             if (snapshot.exists()) {
                 for (let budget of bChoices) {
                     if (snapshot.child(budget).exists()) {
-                        if (parseInt(snapshot.child(budget).val()) >= maxVal && parseInt(snapshot.child(budget).val() != 0)) {
+                        if (parseInt(snapshot.child(budget).val()) >= maxVal && parseInt(snapshot.child(budget).val()) !== 0) {
                             if (parseInt(snapshot.child(budget).val()) > maxVal) {
                                 bArray = [];
                                 index = 0;
@@ -198,7 +198,7 @@ class InvitePage extends Component {
             if (snapshot.exists()) {
                 for (let diet of dChoices) {
                     if (snapshot.child(diet).exists()) {
-                        if (parseInt(snapshot.child(diet).val()) >= maxVal && parseInt(snapshot.child(diet).val() != 0)) {
+                        if (parseInt(snapshot.child(diet).val()) >= maxVal && parseInt(snapshot.child(diet).val()) !== 0) {
                             if (parseInt(snapshot.child(diet).val()) > maxVal) {
                                 dArray = [];
                                 index = 0;
@@ -227,7 +227,7 @@ class InvitePage extends Component {
             if (snapshot.exists()) {
                 for (let cuisine of cChoices) {
                     if (snapshot.child(cuisine).exists()) {
-                        if (parseInt(snapshot.child(cuisine).val()) >= maxVal && parseInt(snapshot.child(cuisine).val() != 0)) {
+                        if (parseInt(snapshot.child(cuisine).val()) >= maxVal && parseInt(snapshot.child(cuisine).val()) !== 0) {
                             if (parseInt(snapshot.child(cuisine).val()) > maxVal) {
                                 cArray = [];
                                 index = 0;
@@ -258,7 +258,7 @@ class InvitePage extends Component {
                 for (let restaurant of rChoices) {
                     if (snapshot.child(restaurant).exists()) {
 
-                        if (parseInt(snapshot.child(restaurant).val()) >= maxVal && parseInt(snapshot.child(restaurant).val() != 0)) {
+                        if (parseInt(snapshot.child(restaurant).val()) >= maxVal && parseInt(snapshot.child(restaurant).val()) !== 0) {
                             if (parseInt(snapshot.child(restaurant).val()) > maxVal) {
                                 cArray = [];
                                 index = 0;
