@@ -186,6 +186,13 @@ class EatingAlone extends Component {
                     title = 'Generate'
                     onPress={
                         ()=>{
+                        if (this.state.zipcode === '' || this.state.time === null) {
+                            this.props.navigation.navigate(
+                                'Preferences',
+                                {isDarkmode: this.props.isDarkmode}
+                            );
+                        }
+                        else {
                           this.getRestaurantFromYelp().then(() => {
                             if (this.state.continue) {
                               this.props.navigation.navigate(
@@ -194,6 +201,7 @@ class EatingAlone extends Component {
                               );
                             }
                           });
+                        }
                         }
                     }
                 >
