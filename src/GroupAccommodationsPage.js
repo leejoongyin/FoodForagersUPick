@@ -15,6 +15,7 @@ import { filterGroupCodeInput } from './filterInput';
 
 import KEYS from "./config/keys.json";
 import axios from 'axios';
+import groupController from './controller/groupController';
 
 const apiKey = KEYS.yelp.api_key;
 class EatingAlone extends Component {
@@ -272,16 +273,7 @@ class QRScanner extends Component {
     qrCodeScanned = ({ type, data }) => {
         if( this.state.isVerifying ) {
             return;
-        } else {
-
-        }
-        //console.log(data, " scanned")
-        if( this.props.setGroupCode(data) ) {
-            this.setState({
-                showScanner: false,
-            })
-            this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.isDarkmode});
-        } else {
+        } else if (!groupController.checkCodeForm(data) ) {
             this.setState({
                 isVerifying: true,
             });
@@ -290,6 +282,9 @@ class QRScanner extends Component {
                 "The code that was scanned is not a group code",
                 [{text: "ok", onPress: ()=>{this.codeWarningDismissed()}}]
             );
+            return;
+        } else {
+            this.groupCodeEntered(data);
         }
 
     };
@@ -379,17 +374,28 @@ class QRScanner extends Component {
         this.firebaseRef.off();
     }
 
-    groupCodeEntered = (input) => {
+    onGroupCodeInput = ( input ) => {
         var filteredInput = filterGroupCodeInput(input);
+        this.setState({
+            groupCodeIn: filteredInput,
+            inputtingText: true
+        });
+        if ( filteredInput.length >= GROUP_CODE_LENGTH ) {
+            this.groupCodeEntered(filteredInput);
+        }
 
+    }
+
+    groupCodeEntered = (filteredInput) => {
         if (filteredInput === "") {
             this.firebaseRef = db.database().ref("not valid");
         } else {
             this.firebaseRef = db.database().ref(filteredInput);
         }
-        this.setState({
-            groupCodeIn: filteredInput
-        });
+
+        if( !groupController.checkCodeForm(filteredInput) ) {
+
+        }
 
         this.firebaseRef.child('Members').once('value').then((snapshot) => {
 
@@ -410,11 +416,16 @@ class QRScanner extends Component {
                         this.firebaseRef.remove();
                         Alert.alert("The code entered: (" + filteredInput + ") is not a valid group code");
                     }
-                } else if ( filteredInput.length >= GROUP_CODE_LENGTH ) {
-                    Alert.alert("The code entered: (" + filteredInput + ") is not a valid group code");
-                }
-            } else if ( filteredInput.length >= GROUP_CODE_LENGTH ) {
-                Alert.alert("The code entered: (" + filteredInput + ") is not a valid group code");
+                } 
+            } else {
+                this.setState({
+                    isVerifying: true,
+                });
+                Alert.alert(
+                    'Invalid Code Entered',
+                    "The code that was entered does not belong to a current group",
+                    [{text: "ok", onPress: ()=>{this.codeWarningDismissed()}}]
+                );
             }
 
             this.firebaseRef.off();
@@ -480,7 +491,7 @@ class QRScanner extends Component {
         if( !this.state.showScanner ) {
             return(
                 <TouchableWithoutFeedback onPress={this.onShowPressed}>
-                    <View style={[ styles.button, styles.buttonColor1Dark, { flex:1 } ]}>
+                    <View style={[ styles.button, styles.buttonColor1Dark, { flex:1, width: 0.9 * MODULE_WIDTH } ]}>
                         <Text style={[styles.buttonText, styles.buttonColor1Dark]}> Start Scanner </Text>
                     </View>
                 </TouchableWithoutFeedback>
@@ -515,10 +526,6 @@ class QRScanner extends Component {
                         //type={Camera.Constants.Type.back}
                         style={[ styles.barCodeScanner ]}
                         onBarCodeScanned={this.qrCodeScanned}
-                        barCodeScannerSettings={{
-                            barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
-                        }}
-                        useCamera2Api={true}
                         onMountError={(message)=>{Alert.alert("Camera error", JSON.stringify(message) + this.getPermission())}}
                         //ratio={"1:1"}
                     />
@@ -558,7 +565,7 @@ class QRScanner extends Component {
                             value={this.state.groupCodeIn}
                             keyboardType='visible-password'
                             placeholder=" Or enter Group Code here"
-                            onChangeText={(groupCodeIn)=>{this.groupCodeEntered(groupCodeIn)}}
+                            onChangeText={(groupCodeIn)=>{this.onGroupCodeInput(groupCodeIn)}}
                             underlineColorAndroid="transparent"
                             onFocus={()=>{this.setState({inputtingText: true})}}
                             onEndEditing={()=>{this.setState({inputtingText: false})}}
