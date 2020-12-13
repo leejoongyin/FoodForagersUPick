@@ -390,7 +390,7 @@ class QRScanner extends Component {
         this.setState({
             groupCodeIn: filteredInput
         });
-        
+
         this.firebaseRef.child('Members').once('value').then((snapshot) => {
 
             if (snapshot.val()) {
@@ -400,7 +400,7 @@ class QRScanner extends Component {
                         isVerifying: false,
                         inputtingText: false,
                         groupCodeIn: ""
-        
+
                     })
                     
                     if (parseInt(snapshot.val()) > 0) {
@@ -480,7 +480,7 @@ class QRScanner extends Component {
         if( !this.state.showScanner ) {
             return(
                 <TouchableWithoutFeedback onPress={this.onShowPressed}>
-                    <View style={[ styles.button, styles.buttonColor1Dark, { flex:1, width: '90%' } ]}>
+                    <View style={[ styles.button, styles.buttonColor1Dark, { flex:1 } ]}>
                         <Text style={[styles.buttonText, styles.buttonColor1Dark]}> Start Scanner </Text>
                     </View>
                 </TouchableWithoutFeedback>
@@ -492,7 +492,7 @@ class QRScanner extends Component {
                         style={[
                             styles.button,
                             (this.props.isDarkmode?styles.buttonColor1Dark: styles.buttonColor1 ),
-                            { flex:1, width: '90%' }
+                            { flex:1 }
                         ]}
                     >
                         <Text

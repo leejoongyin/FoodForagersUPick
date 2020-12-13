@@ -16,12 +16,9 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/LogoDark.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#6B222D"
       },
       "permissions": [
