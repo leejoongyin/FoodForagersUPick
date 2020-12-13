@@ -1,3 +1,4 @@
+import { GROUP_CODE_LENGTH } from '../constants';
 import groupController from '../controller/groupController';
 
 describe('test groupController',()=>{
@@ -7,7 +8,7 @@ describe('test groupController',()=>{
     it('test checkForm()', ()=>{
         expect(groupController.checkCodeForm('a')).toEqual(false);
     })
-    it('test checkForCode: ', ()=>{
-        expect(groupController.checkForCode('a')).toEqual(true);
+    it('test generateCode()',()=>{
+        expect(groupController.checkCodeForm(groupController.generateCode(GROUP_CODE_LENGTH))).toEqual(true);
     })
 })
