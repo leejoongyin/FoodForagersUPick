@@ -1,4 +1,4 @@
-import calculateLogTotal from './calculateLogTotal';
+import calculateLogTotal from '../controller/calculateLogTotal';
 
 describe("test calculateLogTotal", ()=>{
     var budget=[{ amount: '1.00', description: 'A', date: '12/22/2000'},{ amount: '1.00', description: 'A', date: '12/22/2000'}]

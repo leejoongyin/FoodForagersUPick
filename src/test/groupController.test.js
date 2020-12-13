@@ -1,4 +1,4 @@
-import groupController from './groupController';
+import groupController from '../controller/groupController';
 
 describe('test groupController',()=>{
     it('test check()', ()=>{
