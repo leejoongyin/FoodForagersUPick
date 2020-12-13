@@ -109,14 +109,14 @@ class InvitePage extends Component {
             this.firebaseRef.update(updates);
 
             this.firebaseRef.child('Members').once('value').then((snapshot) => {
-                this.updateDB().then(() => { 
+                this.updateDB().then(() => {
                     if (parseInt(snapshot.val()) < 1) {
                         this.firebaseRef.remove();
                     }
                 });
             });
         });
-        
+
     }
 
     getStoredData = async () => {
@@ -298,9 +298,9 @@ class InvitePage extends Component {
         this.setState({budget: bArray})
     }
 
-    returnRestaurant = async (f) => {
+    returnRestaurant = async () => {
       console.log(`InvitePage.js: Searching with \n
-        \t categories: ${f}\n
+        \t categories: ${this.state.filter}\n
         \t open_at: ${this.state.time}\n
         \t location: ${this.state.zipcode}\n
         \t price: ${this.state.budget.length ? this.state.budget.join(',') : "1,2,3,4"}`);
@@ -368,7 +368,7 @@ class InvitePage extends Component {
                     onPress={
                         ()=>{
                           this.getRestaurantFromYelp().then((filter) => {
-                            this.returnRestaurant(filter).then(() => {
+                            this.returnRestaurant().then(() => {
                               if (this.state.continue) {
                                 this.props.navigation.navigate(
                                   "Restaurant Info",

@@ -9,13 +9,13 @@ import localController from './controller/localController';
 
 import '../assets/CameraIcon.png'
 import styles, {INNER_MODULE_WIDTH, MODULE_FRAME, MODULE_WIDTH} from '../style/styles';
-import db from './base';
 import {GROUP_CODE_LENGTH, GROUP_CODE_VALID_CHARS} from './constants';
 import { filterGroupCodeInput } from './filterInput';
 
 import KEYS from "./config/keys.json";
 import axios from 'axios';
 import groupController from './controller/groupController';
+import dbController from './controller/dbController'
 
 const apiKey = KEYS.yelp.api_key;
 class EatingAlone extends Component {
@@ -61,74 +61,9 @@ class EatingAlone extends Component {
   }
 
   getRestaurantFromYelp = async () => {
-    var numBudget; // numerical value corresponding to each '$...' symbol
-    var filter;
-    var bnbChosen = false;
-    let cat = [];
-    let budget = [];
-
-    // budget
-    for (var i = 0; i < this.state.budgetArray.length; i++) {
-        if (this.state.budgetArray[i] == '$') {
-            numBudget = '1';
-        }
-        if (this.state.budgetArray[i] == '$$') {
-            numBudget = '2';
-        }
-        if (this.state.budgetArray[i] == '$$$') {
-            numBudget = '3';
-        }
-        budget.push(numBudget);
-    }
-
-    // diet
-    for (var i = 0; i < this.state.dietArray.length; i++) {
-
-        var temp = this.state.dietArray[i].toLowerCase();
-
-        if (temp === "gluten free") {temp = "gluten_free";}
-
-        cat.push(temp);
-        console.log("diet: " + temp + '\n');
-    }
-
-    // cuisine
-    for (var i = 0; i < this.state.cuisineArray.length; i++) {
-
-        var temp = this.state.cuisineArray[i].toLowerCase();
-
-        if (temp === "indian") {temp = "indpak"}
-        if (temp === "american") {temp = "tradamerican"}
-
-        cat.push(temp);
-        console.log("cuisine: " + temp + '\n');
-    }
-
-    // restaurant type
-    for (var i = 0; i < this.state.restaurantArray.length; i++) {
-
-        var temp = this.state.restaurantArray[i].toLowerCase();
-
-        if ((temp === "breakfast" || temp === "brunch")) {
-            if (!bnbChosen) {
-                temp = "breakfast_brunch";
-                bnbChosen = true;
-            } else {
-                temp = null;
-            }
-        }
-        if (temp === "fast food") {temp = "hotdogs"}
-        if (temp === "dessert") {temp = "desserts"}
-        if (temp === "bubble tea") {temp = "bubbletea"}
-        if (temp === "coffee shops") {temp = "coffee"}
-
-        if (temp) {cat.push(temp);}
-        console.log("restaurant: " + temp + '\n');
-    }
-
-    // prioritize diet restrictions since categories is: this,that = "this OR that"
-
-    filter = cat.join(',');
+    let search = localController.parseSearch(this.state.budgetArray, this.state.dietArray, this.state.cuisineArray, this.state.restaurantArray)
+    let filter = search[0];
+    let budget = search[1];
 
     console.log(`GroupAccommodationsPage.js: Searching with \n
       \t categories: ${filter}\n
@@ -253,27 +188,27 @@ class QRScanner extends Component {
 
         localController.getData('zipcode').then((result) => {
             this.setState({zipcode: result});
-            console.log('zipcode: ', this.state.zipcode);
+            console.log('QRScanner: zipcode: ', this.state.zipcode);
         });
         localController.getData('time').then((result) => {
             this.setState({time: result});
-            console.log('time: ', this.state.time);
+            console.log('QRScanner: time: ', this.state.time);
         });
         localController.getData('budget').then((result) => {
             this.setState({budgetArray: result });
-            console.log('budget: ', this.state.budgetArray);
+            console.log('QRScanner: budget: ', this.state.budgetArray);
         });
         localController.getData('diet').then((result) => {
             this.setState({dietArray: result});
-            console.log('diet: ', this.state.dietArray);
+            console.log('QRScanner: diet: ', this.state.dietArray);
         });
         localController.getData('cuisine').then((result) => {
             this.setState({cuisineArray: result});
-            console.log('cuisine: ', this.state.cuisineArray);
+            console.log('QRScanner: cuisine: ', this.state.cuisineArray);
         });
         localController.getData('restaurant').then((result) => {
             this.setState({restaurantArray: result});
-            console.log('restauarnt: ', this.state.restaurantArray);
+            console.log('QRScanner: restaurant: ', this.state.restaurantArray);
         });
     }
 
@@ -297,91 +232,6 @@ class QRScanner extends Component {
 
     };
 
-    updateDB = async (filteredInput) => {
-        this.firebaseRef = db.database().ref(filteredInput);
-        var timelocation = {};
-        timelocation['Zipcode'] = this.state.zipcode;
-        timelocation['Time'] = this.state.time;
-        this.firebaseRef.update(timelocation);
-
-        await this.firebaseRef.child('Members').once('value').then((snapshot) => {
-            var updates = {};
-            updates['Members'] = (parseInt(snapshot.val()) + 1);
-            this.firebaseRef.update(updates);
-        })
-
-        await this.firebaseRef.child('Budget').once('value').then((snapshot) => {
-            var updates = {};
-            var temp = 0;
-
-                for (let budget of this.state.budgetArray) {
-                    if (budget === '$') {
-                        temp = 0;
-                        if (snapshot.child('1').val()) {
-                            temp = parseInt(snapshot.child('1').val());
-                        }
-                        updates['/Budget/1/'] = (temp + 1);
-                    }
-                    if (budget === '$$') {
-                        temp = 0;
-                        if (snapshot.child('2').val()) {
-                            temp = parseInt(snapshot.child('2').val());
-                        }
-                        updates['/Budget/2/'] = (temp + 1);
-                    }
-                    if (budget === '$$$') {
-                        temp = 0;
-                        if (snapshot.child('3').val()) {
-                            temp = parseInt(snapshot.child('3').val());
-                        }
-                        updates['/Budget/3/'] = (temp + 1);
-                    }
-                this.firebaseRef.update(updates);
-            }
-        });
-        await this.firebaseRef.child('Diet').once('value').then((snapshot) => {
-            var updates = {};
-            var temp = 0;
-                for (let diet of this.state.dietArray) {
-                    temp = 0;
-                    if (snapshot.child(diet).val()) {
-                        temp = parseInt(snapshot.child(diet).val());
-                    }
-                    updates['/Diet/' + diet] = (temp + 1);
-                    //console.log("diet: " + diet + " " + (temp+1) + '\n');
-                }
-                this.firebaseRef.update(updates);
-
-        });
-        await this.firebaseRef.child('Cuisine').once('value').then((snapshot) => {
-            var updates = {};
-            var temp = 0;
-                for (let cuisine of this.state.cuisineArray) {
-                    temp = 0;
-                    if (snapshot.child(cuisine).val()) {
-                        temp = parseInt(snapshot.child(cuisine).val());
-                    }
-                    updates['/Cuisine/' + cuisine] = (temp + 1);
-                    //console.log("cuisine: " + cuisine + " " + (temp+1) + '\n');
-                }
-                this.firebaseRef.update(updates);
-        });
-        await this.firebaseRef.child('Restaurant').once('value').then((snapshot) => {
-            var updates = {};
-            var temp = 0;
-                for (let restaurant of this.state.restaurantArray) {
-                    temp = 0;
-                    if (snapshot.child(restaurant).val()) {
-                        temp = parseInt(snapshot.child(restaurant).val());
-                    }
-                    updates['/Restaurant/' + restaurant] = (temp + 1);
-                    //console.log("restaurant: " + restaurant + " " + (temp+1) + '\n');
-                }
-                this.firebaseRef.update(updates);
-        });
-        this.firebaseRef.off();
-    }
-
     onGroupCodeInput = ( input ) => {
         var filteredInput = filterGroupCodeInput(input);
         this.setState({
@@ -395,48 +245,33 @@ class QRScanner extends Component {
     }
 
     groupCodeEntered = (filteredInput) => {
-        if (filteredInput === "") {
-            this.firebaseRef = db.database().ref("not valid");
-        } else {
-            this.firebaseRef = db.database().ref(filteredInput);
-        }
-
-        if( !groupController.checkCodeForm(filteredInput) ) {
-
-        }
-
-        this.firebaseRef.child('Members').once('value').then((snapshot) => {
-
-            if (snapshot.val()) {
+        dbController.getGroupCode(filteredInput).then((snapshot) => {
+          console.log(`snapshot is ${snapshot}`)
+            if (snapshot) {
                 if( this.props.setGroupCode( filteredInput ) ) {
                     this.setState({
                         showScanner: false,
                         isVerifying: false,
                         inputtingText: false,
                         groupCodeIn: ""
-
-                    })
-                    
-                    if (parseInt(snapshot.val()) > 0) {
-                        this.updateDB(filteredInput);
+                    });
+                    if (parseInt(snapshot) > 0) {
+                        dbController.updateDB(filteredInput, this.state.zipcode, this.state.time, this.state.budgetArray, this.state.dietArray, this.state.cuisineArray, this.state.restaurantArray);
                         this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.isDarkmode});
                     } else {
-                        this.firebaseRef.remove();
-                        Alert.alert("The code entered: (" + filteredInput + ") is not a valid group code");
+                        Alert.alert("The code entered: (" + filteredInput + ") is not a valid group code.");
                     }
-                } 
+                }
             } else {
                 this.setState({
                     isVerifying: true,
                 });
                 Alert.alert(
                     'Invalid Code Entered',
-                    "The code that was entered does not belong to a current group",
+                    "The code that was entered does not belong to a current group.",
                     [{text: "ok", onPress: ()=>{this.codeWarningDismissed()}}]
                 );
             }
-
-            this.firebaseRef.off();
         });
 
     }
@@ -476,9 +311,7 @@ class QRScanner extends Component {
                 hasCameraPermission: status === 'granted'
             });
         }
-
         //console.log(this.state.hasCameraPermission);
-
     }
 
     async getPermission() {
@@ -598,27 +431,27 @@ class GroupsAccommodationsPage extends Component {
 
         localController.getData('zipcode').then((result) => {
             this.setState({zipcode: result});
-            console.log('zipcode: ', this.state.zipcode);
+            console.log('GroupsAccommodationsPage: zipcode: ', this.state.zipcode);
         });
         localController.getData('time').then((result) => {
             this.setState({time: result});
-            console.log('time: ', this.state.time);
+            console.log('GroupsAccommodationsPage: time: ', this.state.time);
         });
         localController.getData('budget').then((result) => {
             this.setState({budgetArray: result });
-            console.log('budget: ', this.state.budgetArray);
+            console.log('GroupsAccommodationsPage: budget: ', this.state.budgetArray);
         });
         localController.getData('diet').then((result) => {
             this.setState({dietArray: result});
-            console.log('diet: ', this.state.dietArray);
+            console.log('GroupsAccommodationsPage: diet: ', this.state.dietArray);
         });
         localController.getData('cuisine').then((result) => {
             this.setState({cuisineArray: result});
-            console.log('cuisine: ', this.state.cuisineArray);
+            console.log('GroupsAccommodationsPage: cuisine: ', this.state.cuisineArray);
         });
         localController.getData('restaurant').then((result) => {
             this.setState({restaurantArray: result});
-            console.log('restaurant: ', this.state.restaurantArray);
+            console.log('GroupsAccommodationsPage: restaurant: ', this.state.restaurantArray);
         });
     };
 
@@ -668,34 +501,7 @@ class GroupsAccommodationsPage extends Component {
 
     onInvitePressed = () => {
         this.props.route.params.setCode();
-        this.firebaseRef = db.database().ref(this.props.route.params.getGroupCode());
-        this.firebaseRef.remove();
-        var updates = {};
-
-        updates['Members'] = 1;
-        updates['Zipcode'] = this.state.zipcode;
-        updates['Time'] = this.state.time;
-
-        for (let budget of this.state.budgetArray) {
-            if (budget === '$') {updates['/Budget/1/'] = 1;}
-            if (budget === '$$') {updates['/Budget/2/'] = 1;}
-            if (budget === '$$$') {updates['/Budget/3/'] = 1;}
-        }
-
-        for (let diet of this.state.dietArray) {
-            updates['/Diet/' + diet] = 1;
-        }
-
-        for (let cuisine of this.state.cuisineArray) {
-            updates['/Cuisine/' + cuisine] = 1;
-        }
-
-        for (let restaurant of this.state.restaurantArray) {
-            updates['/Restaurant/' + restaurant] = 1;
-        }
-
-        this.firebaseRef.update(updates);
-        this.firebaseRef.off();
+        dbController.createDBEntry(this.props.route.params.getGroupCode(), this.state.zipcode, this.state.time, this.state.budgetArray, this.state.dietArray, this.state.cuisineArray, this.state.restaurantArray)
 
         this.props.navigation.navigate("Invite Page", {isDarkmode: this.props.route.params.isDarkmode});
         //Alert.alert( "Group Accomodations render, State: " + this.state.showState);
@@ -703,6 +509,7 @@ class GroupsAccommodationsPage extends Component {
             showState: 1
         }));
     }
+
     render( props ) {
         this.mode  = (this.props.route.params.isDarkmode ? styles.darkmode: styles.lightmode);
         //console.log( this.props.isDarkmode + " : " + this.mode);
