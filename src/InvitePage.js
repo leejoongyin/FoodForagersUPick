@@ -308,7 +308,7 @@ class InvitePage extends Component {
         headers: {'Authorization': `Bearer ${apiKey}`},
         params: {
           limit: 20,
-          categories: f,
+          categories: this.state.filter,
           open_at: this.state.time,
           location: this.state.zipcode,
           price: (this.state.budget.length ? this.state.budget.join(',') : "1,2,3,4"),
