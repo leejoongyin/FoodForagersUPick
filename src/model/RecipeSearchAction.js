@@ -1,5 +1,5 @@
 import KEYS from "../config/keys.json";
-import Ajax from "../ajax";
+import Ajax from "./ajax";
 import React, {Component, useState} from 'react';
 import {Linking} from 'react-native';
 

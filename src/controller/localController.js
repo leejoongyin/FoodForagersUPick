@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import valZip from '../model/validateZip';
+import { getRecipesAction } from '../model/RecipeSearchAction';
 
 export default class localController {
   static async storeData(key,value) {
@@ -23,6 +24,8 @@ export default class localController {
   }
 
   static validateZip(zipcode) { return valZip(zipcode) }
+
+  static searchRecipe(query) { return getRecipesAction(query)}
 
   static parseSearch(budgetArray, dietArray, cuisineArray, restaurantArray) {
     var numBudget; // numerical value corresponding to each '$...' symbol

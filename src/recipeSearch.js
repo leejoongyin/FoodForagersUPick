@@ -6,15 +6,15 @@ import { FlatList, Text, View, TextInput, StyleSheet, TouchableWithoutFeedback, 
 // import myDataset from '../data/RAW_recipes.csv';
 // // import STree from '@jayrbolton/suffix-tree';
 
-import { getRecipesAction } from "./model/RecipeSearchAction";
-import colors from '../style/colors'; 
+import localController from "./controller/localController";
+import colors from '../style/colors';
 
 
 export default class RecipeSearch extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       searchQuery: "",
       isLoading: true,
       recipes: [],
@@ -38,7 +38,7 @@ export default class RecipeSearch extends Component {
         searchQuery: query,
       });
       // console.log(getRecipesAction(query));
-      let link = getRecipesAction(query);
+      let link = localController.searchRecipe(query);
       // console.log(link);
       // return this.gotoSourceWebsite(link);
     } else {
@@ -85,7 +85,7 @@ export default class RecipeSearch extends Component {
           style={styles.inputBox}
         />
         <Text style={[styles.subHeader, mode ]}>Recipe Suggestions:</Text>
-        <TouchableWithoutFeedback 
+        <TouchableWithoutFeedback
           title="foodSuggestion1"
           onPress={(e) => this.getSearchQuery("Baked Potato")}>
             <View style={styles.suggestBtn}><Text style={{color: '#6B222D'}}>Baked Potato</Text></View>
@@ -101,7 +101,7 @@ export default class RecipeSearch extends Component {
             <View style={styles.suggestBtn}><Text style={{color: '#6B222D'}}>Apple Pie</Text></View>
         </TouchableWithoutFeedback>
 
-        
+
       </View>
     );
   }

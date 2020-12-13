@@ -1,5 +1,4 @@
 import { filterAmountInput, filterDigits } from './filterInput';
-import flatListData from './flatListData';
 
 function calculateLogTotal(e)  {
     var total = 0;
