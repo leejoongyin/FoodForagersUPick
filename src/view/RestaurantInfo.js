@@ -1,14 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {Component} from 'react';
 import { Image, StyleSheet, Text, View, TouchableWithoutFeedback, Dimensions } from 'react-native';
-import '../assets/McDonalds.png'//logo from './assets/mcds.jpg'
 import colors from '../style/colors';
 import {SCALING_WIDTH, MODULE_WIDTH, MODULE_RADIUS} from '../style/styles';
-import localController from './controller/localController'
+import localController from '../controller/localController'
 import {Linking} from 'react-native';
-
-const restaurauntImage = '../assets/splash.png';
-
 
 export default class RestaurantInfo extends Component {
   constructor(props) {

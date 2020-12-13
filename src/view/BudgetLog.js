@@ -5,10 +5,10 @@ import { StyleSheet, View, Text, FlatList, Alert, Dimensions} from 'react-native
 import Swipeout from 'react-native-swipeout';
 import LogPopup from './LogPopup';
 import Button from 'react-native-button';
-import localController from './controller/localController';
+import localController from '../controller/localController';
 
 import styles from '../style/styles';
-import calculateLogTotal from './calculateLogTotal';
+import calculateLogTotal from '../controller/calculateLogTotal';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 
 var screen = Dimensions.get('window');

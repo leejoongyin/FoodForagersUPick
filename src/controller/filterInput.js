@@ -1,4 +1,4 @@
-import {GROUP_CODE_VALID_CHARS} from './constants';
+import {GROUP_CODE_VALID_CHARS} from '../constants';
 
 export function filterDigits ( input ) {
     const digits = "0123456789";
@@ -30,7 +30,7 @@ export function getAmountString ( input ) {
         if( i >= numString.length - 3 || nonZeroSeen) {
             output += numString[i];
         }
-        
+
     }
     return output;
 }
@@ -48,7 +48,7 @@ export function getDateString( input ) {
             output += "/";
         }
         output += numString[i];
-        
+
     }
     return output;
 }
@@ -62,6 +62,5 @@ export function filterGroupCodeInput ( input ) {
         }
     }
     //console.log(input, " >filter> ", output );
-    return output; 
+    return output;
 }
-

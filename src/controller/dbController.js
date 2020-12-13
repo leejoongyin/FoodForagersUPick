@@ -1,5 +1,5 @@
 
-import db from '../base';
+import db from '../config/base';
 
 export default class dbController {
   static async updateDBOnJoin(ref, zipcode, time, budgetArray, dietArray, cuisineArray, restaurantArray) {

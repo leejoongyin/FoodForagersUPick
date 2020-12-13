@@ -1,14 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {Component} from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity, Dimensions } from 'react-native';
-import '../assets/McDonalds.png'//logo from './assets/mcds.jpg'
 import colors from '../style/colors';
 import styles, {SCALING_WIDTH, MODULE_WIDTH, MODULE_RADIUS} from '../style/styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Linking} from 'react-native';
 
 class RestaurantFromList extends Component {
-    
+
     generateRecommendatation(e) {
         if( e.length == 0 ) {
             return "";
@@ -17,7 +16,7 @@ class RestaurantFromList extends Component {
         return e[i];
     }
 
-    
+
     constructor(props) {
         super(props);
 
@@ -32,7 +31,7 @@ class RestaurantFromList extends Component {
         var mode = (isDarkmode?styles.darkmode:styles.lightmode);
         var mode2 = (isDarkmode?styles.darkmode2:styles.lightmode2);
         if( this.state.restaurantList.length == 0 ) {
-            
+
             return (
                 <Text style={[ mode2, { fontSize: 25, width: MODULE_WIDTH, textAlign: 'center' }]}>
                     There are no items in your restaurant list!
@@ -49,7 +48,7 @@ class RestaurantFromList extends Component {
     }
 
     render() {
-        
+
         var isDarkmode = this.props.route.params.isDarkmode;
         var mode = (isDarkmode?styles.darkmode:styles.lightmode);
         var mode2 = (isDarkmode?styles.darkmode2:styles.lightmode2);
@@ -60,7 +59,7 @@ class RestaurantFromList extends Component {
                 <this.showRecommendation isDarkmode={isDarkmode}/>
                 <View style={[styles.padding]}/>
                 <Image
-                    source={require('../assets/Picasso.png')}
+                    source={require('../../assets/Picasso.png')}
                     style={[styles.logo, {height: '50%', width: SCALING_WIDTH }]}
                 />
                 <View style={[styles.padding]}/>

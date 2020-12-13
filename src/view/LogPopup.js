@@ -8,8 +8,8 @@ import Button from 'react-native-button';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format } from "date-fns";
 
-import { filterAmountInput } from './filterInput';
-import localController from './controller/localController';
+import { filterAmountInput } from '../controller/filterInput';
+import localController from '../controller/localController';
 
 var screen = Dimensions.get('window');
 export default class LogPopup extends Component {

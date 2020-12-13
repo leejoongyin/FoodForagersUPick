@@ -3,8 +3,8 @@ import { View, Image, StyleSheet, Text, TouchableWithoutFeedback, Switch, Alert 
 
 const { Component } = require("react");
 
-import '../assets/LogoDark.png';
-import '../assets/Logo.png'
+import '../../assets/LogoDark.png';
+import '../../assets/Logo.png'
 import styles, {SCALING_WIDTH} from '../style/styles' ;
 import colors from '../style/colors';
 
@@ -61,7 +61,7 @@ class HomePage extends React.Component {
           <Text style = {[ styles.title, this.mode ]}> UPick </Text>
           <Image
             style = {styles.logo}
-            source = {(isDarkmode?require('../assets/LogoDark.png'): require('../assets/Logo.png'))}
+            source = {(isDarkmode?require('../../assets/LogoDark.png'): require('../../assets/Logo.png'))}
           />
           <View style = {styles.homeGuidanceContainer}>
             <Text style = {[ styles.homeGuidance, this.mode ]}> Let us help you decide where </Text>

@@ -3,16 +3,16 @@ import { View, Image, StyleSheet, Text, TouchableWithoutFeedback, Switch, Alert 
 
 const { Component } = require("react");
 
-import '../assets/LogoDark.png';
-import '../assets/Logo.png'
+import '../../assets/LogoDark.png';
+import '../../assets/Logo.png'
 import './Navbar';
 import Navbar from './Navbar';
 import styles from '../style/styles' ;
 import colors from '../style/colors';
 import QRCode from 'react-native-qrcode-svg';
-import localController from './controller/localController';
-import dbController from './controller/dbController';
-import KEYS from "./config/keys.json";
+import localController from '../controller/localController';
+import dbController from '../controller/dbController';
+import KEYS from "../config/keys.json";
 import axios from 'axios';
 
 const apiKey = KEYS.yelp.api_key;
@@ -119,7 +119,7 @@ class InvitePage extends Component {
                     <View style={[{height: 200, width: 200}]}>
                         <QRCode
                             value ={this.props.route.params.getGroupCode()}
-                            logo={(this.props.route.params.isDarkmode?require('../assets/LogoDark.png'): require('../assets/Logo.png'))}
+                            logo={(this.props.route.params.isDarkmode?require('../../assets/LogoDark.png'): require('../../assets/Logo.png'))}
                             logoBackgroundColor={isDarkmode?colors.darkBG:colors.liteBG}
                             backgroundColor={isDarkmode?colors.darkBG:colors.liteBG}
                             logoSize={50}

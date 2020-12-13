@@ -6,7 +6,7 @@ import { FlatList, Text, View, TextInput, StyleSheet, TouchableWithoutFeedback, 
 // import myDataset from '../data/RAW_recipes.csv';
 // // import STree from '@jayrbolton/suffix-tree';
 
-import localController from "./controller/localController";
+import localController from "../controller/localController";
 import colors from '../style/colors';
 
 

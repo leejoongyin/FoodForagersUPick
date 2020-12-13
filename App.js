@@ -9,21 +9,21 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import * as Permissions from 'expo-permissions';
 
-import './src/HomePage';
-import generateRestaurantScreen from './src/GenerateRestaurant';
-import GroupAccommodationsPage from './src/GroupAccommodationsPage';
-import HomePage from './src/HomePage';
-import InvitePage from './src/InvitePage';
-import Preferences from './src/preferences';
-import RestaurantList from './src/restaurantList';
-import RestaurantInfo from './src/RestaurantInfo';
-import EditPreferences from './src/EditPreferences';
-import BudgetLog from './src/BudgetLog';
-import Navbar from './src/Navbar';
-import RecipeSearch from './src/recipeSearch';
-import RestaurantFromList from './src/RestaurantFromList';
+import './src/view/HomePage';
+import generateRestaurantScreen from './src/view/GenerateRestaurant';
+import GroupAccommodationsPage from './src/view/GroupAccommodationsPage';
+import HomePage from './src/view/HomePage';
+import InvitePage from './src/view/InvitePage';
+import Preferences from './src/view/preferences';
+import RestaurantList from './src/view/restaurantList';
+import RestaurantInfo from './src/view/RestaurantInfo';
+import EditPreferences from './src/view/EditPreferences';
+import BudgetLog from './src/view/BudgetLog';
+import Navbar from './src/view/Navbar';
+import RecipeSearch from './src/view/recipeSearch';
+import RestaurantFromList from './src/view/RestaurantFromList';
 
-import styles from './style/styles';
+import styles from './src/style/styles';
 import { render } from 'react-dom';
 import { GROUP_CODE_LENGTH, GROUP_CODE_VALID_CHARS } from './src/constants';
 
@@ -87,7 +87,7 @@ class App extends Component {
     this.state.groupCode = this.state.mainCode;
     return true;
   }
-  
+
   setGroupCode( e ) {
     if ( !groupController.checkCode( e ) ) {
       return false;

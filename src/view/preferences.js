@@ -4,7 +4,7 @@ import { Alert, Text, View, TextInput, StyleSheet, TouchableOpacity, TouchableWi
 import SelectionGroup, { SelectionHandler } from 'react-native-selection-group';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import localController from './controller/localController';
+import localController from '../controller/localController';
 import { format } from "date-fns";
 
 import colors from '../style/colors';

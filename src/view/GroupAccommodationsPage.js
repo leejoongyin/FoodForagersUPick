@@ -5,17 +5,17 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import * as Permissions from 'expo-permissions';
 import { BarCodeScanner, Constants } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
-import localController from './controller/localController';
+import localController from '../controller/localController';
 
-import '../assets/CameraIcon.png'
+import '../../assets/CameraIcon.png'
 import styles, {INNER_MODULE_WIDTH, MODULE_FRAME, MODULE_WIDTH} from '../style/styles';
-import {GROUP_CODE_LENGTH, GROUP_CODE_VALID_CHARS} from './constants';
-import { filterGroupCodeInput } from './filterInput';
+import {GROUP_CODE_LENGTH, GROUP_CODE_VALID_CHARS} from '../constants';
+import { filterGroupCodeInput } from '../controller/filterInput';
 
-import KEYS from "./config/keys.json";
+import KEYS from "../config/keys.json";
 import axios from 'axios';
-import groupController from './controller/groupController';
-import dbController from './controller/dbController'
+import groupController from '../controller/groupController';
+import dbController from '../controller/dbController';
 
 const apiKey = KEYS.yelp.api_key;
 class EatingAlone extends Component {
@@ -383,7 +383,7 @@ class QRScanner extends Component {
                 <TouchableWithoutFeedback onPress={this.onScannerHeaderPressed.bind(this)}>
                     <View style={[styles.moduleRow]}>
                         <View style={[styles.moduleCorner, {padding:1}]}>
-                            <Image style = {styles.icon} source = {require('../assets/CameraIcon.png')}/>
+                            <Image style = {styles.icon} source = {require('../../assets/CameraIcon.png')}/>
                         </View>
 
                         <View style={styles.container}>
